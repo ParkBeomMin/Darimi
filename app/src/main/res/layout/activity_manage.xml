@@ -79,11 +79,172 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
         </LinearLayout>
+
+        <!--Beom Min-->
+
         <LinearLayout
+            android:padding="15dp"
             android:orientation="vertical"
             android:layout_weight="8.2"
             android:layout_width="match_parent"
-            android:layout_height="0dp"></LinearLayout>
+            android:layout_height="0dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/custom_search_edt"
+                    android:layout_weight="1"
+                    android:hint="고객검색"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:onClick="onClick"
+                    android:id="@+id/add_custom_btn"
+                    android:text="신규등록"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:onClick="search_Click"
+                    android:id="@+id/all_search_btn"
+                    android:text="전체"
+                    android:layout_weight="0.5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:onClick="search_Click"
+                    android:id="@+id/r_search_btn"
+                    android:text="ㄱ"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:onClick="search_Click"
+                    android:id="@+id/s_search_btn"
+                    android:text="ㄴ"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:onClick="search_Click"
+                    android:id="@+id/e_search_btn"
+                    android:text="ㄷ"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:onClick="search_Click"
+                    android:id="@+id/f_search_btn"
+                    android:text="ㄹ"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:onClick="search_Click"
+                    android:id="@+id/a_search_btn"
+                    android:text="ㅁ"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:onClick="search_Click"
+                    android:id="@+id/q_search_btn"
+                    android:text="ㅂ"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:onClick="search_Click"
+                    android:id="@+id/t_search_btn"
+                    android:text="ㅅ"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:onClick="search_Click"
+                    android:id="@+id/d_search_btn"
+                    android:text="ㅇ"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:onClick="search_Click"
+                    android:id="@+id/w_search_btn"
+                    android:text="ㅈ"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:onClick="search_Click"
+                    android:id="@+id/c_search_btn"
+                    android:text="ㅊ"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:onClick="search_Click"
+                    android:id="@+id/z_search_btn"
+                    android:text="ㅋ"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:onClick="search_Click"
+                    android:id="@+id/x_search_btn"
+                    android:text="ㅌ"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:onClick="search_Click"
+                    android:id="@+id/v_search_btn"
+                    android:text="ㅍ"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:onClick="search_Click"
+                    android:id="@+id/g_search_btn"
+                    android:text="ㅎ"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <ListView
+                android:layout_weight="1"
+                android:id="@+id/custom_list"
+                android:divider="#ffffff"
+                android:dividerHeight="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </ListView>
+            <!--<LinearLayout
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <Button
+                    android:text="<"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:text="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:text="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:text=">"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>-->
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
