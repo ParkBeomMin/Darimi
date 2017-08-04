@@ -92,6 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <EditText
+                    android:focusable="false"
                     android:id="@+id/custom_search_edt"
                     android:layout_weight="1"
                     android:hint="고객검색"
@@ -214,12 +215,16 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <ListView
+                android:padding="5dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/border"
+                android:dividerHeight="1dp"
+                android:divider="@color/Black"
                 android:layout_weight="1"
                 android:id="@+id/custom_list"
-                android:divider="#ffffff"
-                android:dividerHeight="1dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
 
             </ListView>
             <!--<LinearLayout
