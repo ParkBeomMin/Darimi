@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.zip.Inflater;
-
+//test
 public class ManageActivity extends AppCompatActivity {
     // basis
     Intent intent;
