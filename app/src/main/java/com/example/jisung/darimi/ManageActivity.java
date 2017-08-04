@@ -117,7 +117,6 @@ public class ManageActivity extends AppCompatActivity {
     }
     //
 
-    //beom
     public void search_Click(View v) {
         switch (v.getId()) {
             case R.id.all_search_btn:
