@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,45 +40,46 @@ public class ManageActivity extends AppCompatActivity {
     }
 
     //basis
-    void init(){
+    void init() {
 
         //basis
         Intent gintent = getIntent();
         time = gintent.getStringExtra("time");
-        time_N = (TextView)findViewById(R.id.time);
+        time_N = (TextView) findViewById(R.id.time);
         time_N.setText(time);
         //
 
-        custom_search_edt = (EditText)findViewById(R.id.custom_search_edt);
-        custom_list = (ListView)findViewById(R.id.custom_list);
+        custom_search_edt = (EditText) findViewById(R.id.custom_search_edt);
+        custom_list = (ListView) findViewById(R.id.custom_list);
         adapter = new CustomAdapter(arrayList, this);
         custom_list.setAdapter(adapter);
 
     }
-    public void onClick(View v){
-        switch (v.getId()){
+
+    public void onClick(View v) {
+        switch (v.getId()) {
             //basis
             case R.id.orderA:
-                intent = new Intent(this,OrderActivity.class);
+                intent = new Intent(this, OrderActivity.class);
                 startActivity(intent);
                 break;
             case R.id.salesA:
-                intent = new Intent(this,SalesActivity.class);
-                intent.putExtra("time",time);
+                intent = new Intent(this, SalesActivity.class);
+                intent.putExtra("time", time);
                 startActivity(intent);
                 break;
             case R.id.settingA:
-                intent = new Intent(this,SettingActivity.class);
-                intent.putExtra("time",time);
+                intent = new Intent(this, SettingActivity.class);
+                intent.putExtra("time", time);
                 startActivity(intent);
                 break;
             //
-            case  R.id.add_custom_btn:
+            case R.id.add_custom_btn:
                 LayoutInflater inflater = getLayoutInflater();
                 final View add_custom = inflater.inflate(R.layout.add_custom, null);
                 final EditText add_custom_name_edt = (EditText) add_custom.findViewById(R.id.add_custom_name_edt);
                 final EditText add_custom_call_edt = (EditText) add_custom.findViewById(R.id.add_custom_call_edt);
-                final Button add_custom_cancel_btn = (Button) add_custom.findViewById(R.id.add_custom_cancel_btn);
+                final ImageButton add_custom_cancel_btn = (ImageButton) add_custom.findViewById(R.id.add_custom_close_btn);
                 final Button add_custom_confirm_btn = (Button) add_custom.findViewById(R.id.add_custom_confirm_btn);
                 final AlertDialog dialog = new AlertDialog.Builder(ManageActivity.this).create();
                 dialog.setView(add_custom);
@@ -92,10 +95,19 @@ public class ManageActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         String custom_name = add_custom_name_edt.getText().toString();
                         String custom_call = add_custom_call_edt.getText().toString();
-                        Custom new_Custom = new Custom("1",custom_name, custom_call);
-                        arrayList.add(new_Custom);
-                        adapter.notifyDataSetChanged();
-                        dialog.dismiss();
+                        int num = arrayList.size() + 1;
+                        if (custom_name.length() != 0 && custom_call.length() != 0) {
+                            if (custom_call.length() > 9) {
+                                Custom new_Custom = new Custom(Integer.toString(num), custom_name, custom_call);
+                                arrayList.add(new_Custom);
+                                adapter.notifyDataSetChanged();
+                                dialog.dismiss();
+                            } else {
+                                Toast.makeText(ManageActivity.this, "전화번호를 제대로 입력해주세요.", Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            Toast.makeText(ManageActivity.this, "모든 항목을 입력해주세요.", Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
             default:
@@ -107,7 +119,7 @@ public class ManageActivity extends AppCompatActivity {
 
     //beom
     public void search_Click(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.all_search_btn:
 
                 break;
