@@ -34,10 +34,12 @@
                 android:weightSum="4"
                 android:orientation="horizontal">
                 <TextView
+                    android:text="이름"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent" />
                 <EditText
+                    android:id="@+id/edit_name"
                     android:layout_width="0dp"
                     android:layout_weight="3"
                     android:layout_height="match_parent" />
@@ -49,15 +51,18 @@
                 android:weightSum="4"
                 android:orientation="horizontal">
                 <TextView
+                    android:text="가격"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent" />
                 <EditText
+                    android:id="@+id/edit_price"
                     android:layout_width="0dp"
                     android:layout_weight="3"
                     android:layout_height="match_parent" />
             </LinearLayout>
             <Button
+                android:id="@+id/change_img"
                 android:text="폴더선택"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -66,6 +71,7 @@
     </LinearLayout>
     <Button
         android:text="완료"
+        android:id="@+id/edit_com"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"/>

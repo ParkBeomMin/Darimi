@@ -9,6 +9,7 @@
     tools:context="com.example.jisung.darimi.OrderActivity">
 
     <LinearLayout
+        android:onClick="EonClick"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -63,6 +64,7 @@
         android:weightSum="9.2">
 
         <LinearLayout
+            android:onClick="EonClick"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -90,6 +92,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:onClick="EonClick"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -101,6 +104,7 @@
                 android:layout_weight="5" />
 
             <Button
+                android:onClick="EonClick"
                 android:id="@+id/item_edit_btn"
                 android:layout_width="50dp"
                 android:layout_height="match_parent" />
@@ -115,20 +119,24 @@
             android:weightSum="10">
 
             <LinearLayout
+                android:id="@+id/edit_area"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="6"
                 android:orientation="vertical"
+                android:onClick="EonClick"
                 android:weightSum="10">
 
-                <com.meetme.android.horizontallistview.HorizontalListView
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:widget="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/HorizontalListView"
+                <it.sephiroth.android.library.widget.HListView
+                    android:id="@+id/cate_list"
                     android:layout_width="fill_parent"
-                    android:layout_height="100dp"
-                    android:divider="#878787" />
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="#ddd"
+                    >
 
+
+            </it.sephiroth.android.library.widget.HListView>
 
                 <GridView
                     android:id="@+id/item_list"
@@ -139,6 +147,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:onClick="EonClick"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="4"
@@ -217,51 +226,59 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:weightSum="10"
-                    android:orientation="vertical"
                     android:layout_height="0dp"
-                    android:layout_weight="1.5">
+                    android:layout_weight="1.5"
+                    android:orientation="vertical"
+                    android:weightSum="10">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="5"
                         android:orientation="horizontal"
                         android:weightSum="10">
+
                         <TextView
-                            android:layout_weight="3"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:layout_weight="3" />
+
                         <View
-                            android:layout_weight="1"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
                         <TextView
                             android:id="@+id/item_total_num"
-                            android:layout_weight="6"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:layout_weight="6" />
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="5"
                         android:orientation="horizontal"
                         android:weightSum="10">
+
                         <TextView
-                            android:text="주문날짜"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
                             android:layout_weight="3"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent" />
+                            android:text="주문날짜" />
+
                         <View
-                            android:layout_weight="1"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
                         <TextView
                             android:id="@+id/item_order_time"
-                            android:layout_weight="6"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:layout_weight="6" />
 
                     </LinearLayout>
 
@@ -282,11 +299,12 @@
 
 
                     <TextView
-                        android:text="0원"
-                        android:gravity="right"
+                        android:id="@+id/selected_total"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="7" />
+                        android:layout_weight="7"
+                        android:gravity="right"
+                        android:text="0원" />
                 </LinearLayout>
 
                 <Button
