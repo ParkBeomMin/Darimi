@@ -57,7 +57,7 @@ public class OrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order);
         init();
         getObjectData();
-
+//
 
         item_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
