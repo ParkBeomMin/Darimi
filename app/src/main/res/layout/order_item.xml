@@ -13,7 +13,8 @@
             android:id="@+id/item_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-        <Button
+        <ImageView
+            android:src="@drawable/item_non_mark"
             android:id="@+id/item_mark"
             android:text="star"
             android:layout_gravity="right"
