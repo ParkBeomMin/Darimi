@@ -148,10 +148,10 @@ public class ManageActivity extends AppCompatActivity {
     public void search_Click(View v) {
         switch (v.getId()) {
             case R.id.all_search_btn:
-
+                adapter.filter("");
                 break;
             case R.id.r_search_btn:
-
+                adapter.filter("ㄱ");
                 break;
             case R.id.s_search_btn:
 
