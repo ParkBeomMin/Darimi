@@ -29,7 +29,7 @@ public class darimiDB extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(sql);
 
         sql = "create table if not exists order(" +
-                "client blob, " +
+                "custom blob, " +
                 "item blob," +
                 "date date," +
                 "state integer)";
@@ -39,7 +39,9 @@ public class darimiDB extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        String sql = "drop table if exists item";
+        String sql = "drop table if exists item;";
+        sql += "drop table if exists custom;";
+         sql += "drop table if exists order;";
         sqLiteDatabase.execSQL(sql);
         onCreate(sqLiteDatabase);
     }
