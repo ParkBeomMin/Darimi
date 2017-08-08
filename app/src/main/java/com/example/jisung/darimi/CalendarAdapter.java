@@ -11,8 +11,10 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by parkbeommin on 2017. 8. 5..
@@ -64,11 +66,12 @@ public class CalendarAdapter extends BaseAdapter {
         Log.d("BEOM", "todays : " + todays);
         Log.d("BEOM", "getItem : " + getItem(i));
         if (todays.equals(getItem(i)) && get_Title_Year.equals(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)))
-                && get_Title_Month.equals(String.valueOf(Calendar.getInstance().get(Calendar.MONTH)))) {
+                && get_Title_Month.equals(String.valueOf(Calendar.getInstance().get(Calendar.MONTH) + 1))) {
             Log.d("BEOM", "TODAY COLOR CHANGE");
             calendar_day.setBackgroundColor(Color.BLUE);
-        }else if(get_Finish_Year.equals(get_Title_Year) && get_Finish_Month.equals(get_Title_Month) && get_Finish_Day.equals(getItem(i))){
-            calendar_day.setBackgroundColor(Color.RED);
+        }
+//        else if (get_Finish_Year.equals(get_Title_Year) && get_Finish_Month.equals(get_Title_Month) && get_Finish_Day.equals(getItem(i))) {
+//            calendar_day.setBackgroundColor(Color.RED);
 //            for(int j = Integer.parseInt(get_Start_Day); j < Integer.parseInt(get_Finish_Day); j++){
 //                Log.d("BEOM1", "j = " + j);
 //                Log.d("BEOM1", "getItem = " + Integer.parseInt((String) getItem(i)));
@@ -77,14 +80,38 @@ public class CalendarAdapter extends BaseAdapter {
 //                }
 //            }
 
-        }
+//        }
         else {
             calendar_day.setBackgroundColor(Color.WHITE);
         }
-        for(int j = Integer.parseInt(get_Start_Day); j < Integer.parseInt(get_Finish_Day); j++) {
+//        try {
+//            long term = diffOfDate(get_Start_Year + get_Start_Month + get_Start_Day, get_Finish_Year + get_Finish_Month + get_Finish_Day);
+//            while (term > 0) {
+//                if ((get_Start_Year.equals(get_Title_Year) && get_Start_Month.equals(get_Title_Month) && get_Start_Day.equals(getItem(i))) ||
+//                        (get_Finish_Year.equals(get_Title_Year) && get_Finish_Month.equals(get_Title_Month) && get_Finish_Day.equals(getItem(i)))) {
+//
+//                    calendar_day.setBackgroundColor(Color.RED);
+//                }
+//                term--;
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        for (int j = Integer.parseInt(get_Start_Day); j <= Integer.parseInt(get_Finish_Day); j++) {
             Log.d("BEOM1", "j = " + j);
-            if (String.valueOf(j).equals(getItem(i))) {
-                calendar_day.setBackgroundColor(Color.RED);
+            Log.d("BEOM1", "get_Title_Year = " + get_Title_Year);
+            Log.d("BEOM1", "get_Title_Month = " + get_Title_Month);
+            Log.d("BEOM1", "get_Start_Year = " + get_Start_Year);
+            Log.d("BEOM1", "get_Start_Month = " + get_Start_Month);
+            Log.d("BEOM1", "get_Finish_Year = " + get_Finish_Year);
+            Log.d("BEOM1", "get_Finish_Month = " + get_Finish_Month);
+
+            if ((get_Title_Year.equals(get_Start_Year) && get_Title_Month.equals(get_Start_Month)) &&
+                    (get_Title_Year.equals(get_Finish_Year) && get_Title_Month.equals(get_Finish_Month))) {
+
+                if (String.valueOf(j).equals(getItem(i))) {
+                    calendar_day.setBackgroundColor(Color.RED);
+                }
             }
         }
 //        if (get_Finish_Year.equals(get_Title_Year) && get_Finish_Month.equals(get_Title_Month) && get_Finish_Day.equals(getItem(i))) {
@@ -100,7 +127,7 @@ public class CalendarAdapter extends BaseAdapter {
     }
 
     public void getTitleMonth(String month) {
-        int temp = Integer.parseInt(month) - 1;
+        int temp = Integer.parseInt(month);
         month = String.valueOf(temp);
         this.get_Title_Month = month;
     }
@@ -110,21 +137,38 @@ public class CalendarAdapter extends BaseAdapter {
     }
 
     public void getFinishMonth(String month) {
+        int temp = Integer.parseInt(month);
+        month = String.valueOf(temp);
         this.get_Finish_Month = month;
     }
 
     public void getFinishDay(String day) {
         this.get_Finish_Day = day;
     }
+
     public void getStartYear(String year) {
         this.get_Start_Year = year;
     }
 
     public void getStartMonth(String month) {
+        int temp = Integer.parseInt(month);
+        month = String.valueOf(temp);
         this.get_Start_Month = month;
     }
 
     public void getStartDay(String day) {
         this.get_Start_Day = day;
+    }
+
+    public static long diffOfDate(String begin, String end) throws Exception {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+
+        Date beginDate = formatter.parse(begin);
+        Date endDate = formatter.parse(end);
+
+        long diff = endDate.getTime() - beginDate.getTime();
+        long diffDays = diff / (24 * 60 * 60 * 1000);
+
+        return diffDays;
     }
 }
