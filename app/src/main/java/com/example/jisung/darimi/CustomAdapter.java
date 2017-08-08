@@ -14,18 +14,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by parkbeommin on 2017. 8. 3..
  */
 
 public class CustomAdapter extends BaseAdapter {
+    ArrayList<Custom> searchList;
     ArrayList<Custom> arrayList;
     Context c;
 
     public CustomAdapter(ArrayList<Custom> arrayList, Context c) {
         this.arrayList = arrayList;
         this.c = c;
+        searchList = new ArrayList<Custom>();
+        searchList.addAll(arrayList);
     }
 
     @Override
@@ -106,31 +110,34 @@ public class CustomAdapter extends BaseAdapter {
                         String origin_call = one.call;
                         String modify_name = modify_custom_name_edt.getText().toString();
                         String modify_call = modify_custom_call_edt.getText().toString();
-                        arrayList.remove(position);
-                        int num = arrayList.size() + 1;
+
                         if (modify_custom_name_edt.length() == 0 && modify_custom_call_edt.length() == 0) {
                             Toast.makeText(c, "변동사항이 없습니다.", Toast.LENGTH_LONG).show();
-                        } else if (modify_custom_name_edt.length() == 0) {
-                            Custom modify_custom = new Custom(Integer.toString(num), origin_name, modify_call);
-                            arrayList.add(modify_custom);
-                            for (int i = 0; i < arrayList.size(); i++) {
-                                arrayList.get(i).num = Integer.toString(i + 1);
+                        }else {
+                            arrayList.remove(position);
+                            int num = arrayList.size() + 1;
+                            if (modify_custom_name_edt.length() == 0) {
+                                Custom modify_custom = new Custom(Integer.toString(num), origin_name, modify_call);
+                                arrayList.add(modify_custom);
+                                for (int i = 0; i < arrayList.size(); i++) {
+                                    arrayList.get(i).num = Integer.toString(i + 1);
+                                }
+                                CustomAdapter.this.notifyDataSetChanged();
+                            } else if (modify_custom_call_edt.length() == 0) {
+                                Custom modify_custom = new Custom(Integer.toString(num), modify_name, origin_call);
+                                arrayList.add(modify_custom);
+                                for (int i = 0; i < arrayList.size(); i++) {
+                                    arrayList.get(i).num = Integer.toString(i + 1);
+                                }
+                                CustomAdapter.this.notifyDataSetChanged();
+                            } else {
+                                Custom modify_custom = new Custom(Integer.toString(num), modify_name, modify_call);
+                                arrayList.add(modify_custom);
+                                for (int i = 0; i < arrayList.size(); i++) {
+                                    arrayList.get(i).num = Integer.toString(i + 1);
+                                }
+                                CustomAdapter.this.notifyDataSetChanged();
                             }
-                            CustomAdapter.this.notifyDataSetChanged();
-                        } else if (modify_custom_call_edt.length() == 0) {
-                            Custom modify_custom = new Custom(Integer.toString(num), modify_name, origin_call);
-                            arrayList.add(modify_custom);
-                            for (int i = 0; i < arrayList.size(); i++) {
-                                arrayList.get(i).num = Integer.toString(i + 1);
-                            }
-                            CustomAdapter.this.notifyDataSetChanged();
-                        } else {
-                            Custom modify_custom = new Custom(Integer.toString(num), modify_name, modify_call);
-                            arrayList.add(modify_custom);
-                            for (int i = 0; i < arrayList.size(); i++) {
-                                arrayList.get(i).num = Integer.toString(i + 1);
-                            }
-                            CustomAdapter.this.notifyDataSetChanged();
                         }
                         dialog.dismiss();
                     }
@@ -139,4 +146,21 @@ public class CustomAdapter extends BaseAdapter {
         });
         return view;
     }
+    public void filter(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        arrayList.clear();
+        if (charText.length() == 0) {
+            arrayList.addAll(searchList);
+        } else {
+            for (Custom custom : searchList) {
+                String name = custom.name;
+                if (name.toLowerCase().contains(charText)) {
+                    arrayList.add(custom);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+
 }

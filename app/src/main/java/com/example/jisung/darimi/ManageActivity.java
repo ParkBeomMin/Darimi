@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.zip.Inflater;
 
 public class ManageActivity extends AppCompatActivity {
@@ -51,8 +53,34 @@ public class ManageActivity extends AppCompatActivity {
 
         custom_search_edt = (EditText) findViewById(R.id.custom_search_edt);
         custom_list = (ListView) findViewById(R.id.custom_list);
+        //test
+        arrayList.add(new Custom("1","박범민","01024347280"));
+        arrayList.add(new Custom("2","정지성","01024347280"));
+        arrayList.add(new Custom("3","문소연","01024347280"));
+        //
         adapter = new CustomAdapter(arrayList, this);
         custom_list.setAdapter(adapter);
+
+        custom_search_edt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String text = custom_search_edt.getText().toString()
+                        .toLowerCase(Locale.getDefault());
+                adapter.filter(text);
+            }
+        });
 
     }
 
