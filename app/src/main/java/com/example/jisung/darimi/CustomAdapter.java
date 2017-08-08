@@ -80,6 +80,8 @@ public class CustomAdapter extends BaseAdapter {
                     arrayList.get(i).num = Integer.toString(i + 1);
                 }
                 CustomAdapter.this.notifyDataSetChanged();
+                searchList.clear();
+                searchList.addAll(arrayList);
                 Toast.makeText(c, "삭제되었습니다.", Toast.LENGTH_LONG).show();
             }
         });
@@ -139,6 +141,8 @@ public class CustomAdapter extends BaseAdapter {
                                 CustomAdapter.this.notifyDataSetChanged();
                             }
                         }
+                        searchList.clear();
+                        searchList.addAll(arrayList);
                         dialog.dismiss();
                     }
                 });
