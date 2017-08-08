@@ -9,45 +9,51 @@
     tools:context="com.example.jisung.darimi.OrderActivity">
 
     <LinearLayout
+        android:onClick="EonClick"
         android:layout_width="0dp"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:weightSum="9"
-        android:layout_height="match_parent">
+        android:orientation="vertical"
+        android:weightSum="9">
+
         <ImageView
             android:id="@+id/logo"
-            android:src="@mipmap/ic_launcher_round"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp" />
+            android:src="@mipmap/ic_launcher_round" />
+
         <TextView
-            android:text="주문"
             android:id="@+id/orderA"
-            android:onClick="onClick"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.2"/>
+            android:layout_weight="1.2"
+            android:onClick="onClick"
+            android:text="주문" />
+
         <TextView
-            android:text="고객관리"
             android:id="@+id/manageA"
-            android:onClick="onClick"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.2"/>
+            android:layout_weight="1.2"
+            android:onClick="onClick"
+            android:text="고객관리" />
+
         <TextView
-            android:text="매출"
             android:id="@+id/salesA"
-            android:onClick="onClick"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.2"/>
+            android:layout_weight="1.2"
+            android:onClick="onClick"
+            android:text="매출" />
+
         <TextView
-            android:text="설정"
             android:id="@+id/settingA"
-            android:onClick="onClick"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.2"/>
+            android:layout_weight="1.2"
+            android:onClick="onClick"
+            android:text="설정" />
     </LinearLayout>
 
     <LinearLayout
@@ -58,33 +64,260 @@
         android:weightSum="9.2">
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:weightSum="15"
+            android:onClick="EonClick"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="15">
+
             <TextView
                 android:id="@+id/calcul"
-                android:text="계산기"
-                android:layout_weight="1.5"
                 android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:text="계산기" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="11.5"/>
+                android:layout_weight="11.5" />
+
             <TextView
-                android:text="시간"
                 android:id="@+id/time"
-                android:layout_weight="2"
                 android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="시간" />
         </LinearLayout>
+
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_weight="8.2"
+            android:onClick="EonClick"
             android:layout_width="match_parent"
-            android:layout_height="0dp"></LinearLayout>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:weightSum="10">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5" />
+
+            <Button
+                android:onClick="EonClick"
+                android:id="@+id/item_edit_btn"
+                android:layout_width="50dp"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <LinearLayout
+                android:id="@+id/edit_area"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:orientation="vertical"
+                android:onClick="EonClick"
+                android:weightSum="10">
+
+                <it.sephiroth.android.library.widget.HListView
+                    android:id="@+id/cate_list"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="#ddd"
+                    >
+
+
+            </it.sephiroth.android.library.widget.HListView>
+
+                <GridView
+                    android:id="@+id/item_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="8.5"
+                    android:numColumns="3"></GridView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:onClick="EonClick"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:orientation="vertical"
+                android:weightSum="10">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:text="고객명 : " />
+
+                    <EditText
+                        android:id="@+id/client_name_E"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:gravity="center_vertical" />
+
+                    <Button
+                        android:id="@+id/client_search"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:text="검색" />
+
+                    <Button
+                        android:id="@+id/client_regit"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:text="등록" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:text="번호 : " />
+
+                    <EditText
+                        android:id="@+id/client_number_E"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:gravity="center_vertical" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="4">
+
+                    <ListView
+                        android:id="@+id/selected_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"></ListView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1.5"
+                    android:orientation="vertical"
+                    android:weightSum="10">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="5"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="3" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:id="@+id/item_total_num"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="6" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="5"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="3"
+                            android:text="주문날짜" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:id="@+id/item_order_time"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="6" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1.5"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:text="합계" />
+
+
+                    <TextView
+                        android:id="@+id/selected_total"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="7"
+                        android:gravity="right"
+                        android:text="0원" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/order_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="주문" />
+
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
+
 
 </LinearLayout>
