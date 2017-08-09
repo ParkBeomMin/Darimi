@@ -3,6 +3,7 @@ package com.example.jisung.darimi;
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,7 @@ public class CustomAdapter extends BaseAdapter {
     ArrayList<Custom> searchList;
     ArrayList<Custom> arrayList;
     Context c;
-
+String charText;
     public CustomAdapter(ArrayList<Custom> arrayList, Context c) {
         this.arrayList = arrayList;
         this.c = c;
@@ -66,22 +67,27 @@ public class CustomAdapter extends BaseAdapter {
         num.setText(one.num);
         name.setText(one.name);
         String call_text = "";
-        if(one.call.length()==11){
-            call_text = one.call.substring(0,3) + "-" + one.call.substring(3,7) + "-" + one.call.substring(7);
-        }else{
-            call_text = one.call.substring(0,3) + "-" + one.call.substring(3,6) + "-" + one.call.substring(6);
+        if (one.call.length() == 11) {
+            call_text = one.call.substring(0, 3) + "-" + one.call.substring(3, 7) + "-" + one.call.substring(7);
+        } else {
+            call_text = one.call.substring(0, 3) + "-" + one.call.substring(3, 6) + "-" + one.call.substring(6);
         }
         call.setText(call_text);
         custom_list_delete_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                searchList.remove(searchList.indexOf(arrayList.get(position)));
                 arrayList.remove(position);
+
                 for (int i = 0; i < arrayList.size(); i++) {
                     arrayList.get(i).num = Integer.toString(i + 1);
                 }
+                for (int i = 0; i < searchList.size(); i++) {
+                    searchList.get(i).num = Integer.toString(i + 1);
+                }
                 CustomAdapter.this.notifyDataSetChanged();
-                searchList.clear();
-                searchList.addAll(arrayList);
+//                searchList.clear();
+//                searchList.addAll(arrayList);
                 Toast.makeText(c, "삭제되었습니다.", Toast.LENGTH_LONG).show();
             }
         });
@@ -115,15 +121,19 @@ public class CustomAdapter extends BaseAdapter {
 
                         if (modify_custom_name_edt.length() == 0 && modify_custom_call_edt.length() == 0) {
                             Toast.makeText(c, "변동사항이 없습니다.", Toast.LENGTH_LONG).show();
-                        }else {
+                        } else {
+//                            arrayList.remove(position);
+                            searchList.remove(searchList.indexOf(arrayList.get(position)));
                             arrayList.remove(position);
-                            int num = arrayList.size() + 1;
+//                            searchList.remove(position);
+                            int num = getCount();//arrayList.size() + 1;
                             if (modify_custom_name_edt.length() == 0) {
                                 Custom modify_custom = new Custom(Integer.toString(num), origin_name, modify_call);
                                 arrayList.add(modify_custom);
                                 for (int i = 0; i < arrayList.size(); i++) {
                                     arrayList.get(i).num = Integer.toString(i + 1);
                                 }
+                                searchList.add(modify_custom);
                                 CustomAdapter.this.notifyDataSetChanged();
                             } else if (modify_custom_call_edt.length() == 0) {
                                 Custom modify_custom = new Custom(Integer.toString(num), modify_name, origin_call);
@@ -131,6 +141,8 @@ public class CustomAdapter extends BaseAdapter {
                                 for (int i = 0; i < arrayList.size(); i++) {
                                     arrayList.get(i).num = Integer.toString(i + 1);
                                 }
+                                searchList.add(modify_custom);
+
                                 CustomAdapter.this.notifyDataSetChanged();
                             } else {
                                 Custom modify_custom = new Custom(Integer.toString(num), modify_name, modify_call);
@@ -138,11 +150,16 @@ public class CustomAdapter extends BaseAdapter {
                                 for (int i = 0; i < arrayList.size(); i++) {
                                     arrayList.get(i).num = Integer.toString(i + 1);
                                 }
+                                searchList.add(modify_custom);
+
                                 CustomAdapter.this.notifyDataSetChanged();
                             }
+                        }for (int i = 0; i < searchList.size(); i++) {
+                            searchList.get(i).num = Integer.toString(i + 1);
                         }
-                        searchList.clear();
-                        searchList.addAll(arrayList);
+//                        searchList.clear();
+//                        searchList.addAll(arrayList);
+                        filter(charText);
                         dialog.dismiss();
                     }
                 });
@@ -150,11 +167,14 @@ public class CustomAdapter extends BaseAdapter {
         });
         return view;
     }
+
     public void filter(String charText) {
+        this.charText = charText;
         charText = charText.toLowerCase(Locale.getDefault());
         arrayList.clear();
         if (charText.length() == 0) {
             arrayList.addAll(searchList);
+
         } else {
             for (Custom custom : searchList) {
                 String name = custom.name;
@@ -162,6 +182,8 @@ public class CustomAdapter extends BaseAdapter {
                     arrayList.add(custom);
                 }
             }
+        }for (int i = 0; i < arrayList.size(); i++){
+            arrayList.get(i).num = String.valueOf(i+1);
         }
         notifyDataSetChanged();
     }

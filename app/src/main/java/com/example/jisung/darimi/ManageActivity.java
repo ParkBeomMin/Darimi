@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -57,6 +58,8 @@ public class ManageActivity extends AppCompatActivity {
         arrayList.add(new Custom("1","박범민","01024347280"));
         arrayList.add(new Custom("2","정지성","01024347280"));
         arrayList.add(new Custom("3","문소연","01024347280"));
+        arrayList.add(new Custom("4","남궁선","01024347280"));
+        arrayList.add(new Custom("5","서수민","01024347280"));
         //
         adapter = new CustomAdapter(arrayList, this);
         custom_list.setAdapter(adapter);
@@ -128,7 +131,10 @@ public class ManageActivity extends AppCompatActivity {
                             if (custom_call.length() > 9) {
                                 Custom new_Custom = new Custom(Integer.toString(num), custom_name, custom_call);
                                 arrayList.add(new_Custom);
+//                                adapter.searchList.clear();
+                                adapter.searchList.add(new_Custom);
                                 adapter.notifyDataSetChanged();
+                                adapter.filter(custom_search_edt.getText().toString());
                                 dialog.dismiss();
                             } else {
                                 Toast.makeText(ManageActivity.this, "전화번호를 제대로 입력해주세요.", Toast.LENGTH_LONG).show();
@@ -136,6 +142,7 @@ public class ManageActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(ManageActivity.this, "모든 항목을 입력해주세요.", Toast.LENGTH_LONG).show();
                         }
+
                     }
                 });
             default:
@@ -145,51 +152,95 @@ public class ManageActivity extends AppCompatActivity {
     }
     //
 
+    private static final char HANGUL_BEGIN_UNICODE = 44032; // 가
+    private static final char HANGUL_LAST_UNICODE = 55203; // 힣
+    private static final char HANGUL_BASE_UNIT = 588;//각자음 마다 가지는 글자수
+    private static final char[] INITIAL_SOUND = { 'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' };
+
+    /**
+     * 해당 문자의 자음을 얻는다.
+     *
+     * @param c 검사할 문자
+     * @return
+     */
+    private static char getInitialSound(char c) {
+        int hanBegin = (c - HANGUL_BEGIN_UNICODE);
+        int index = hanBegin / HANGUL_BASE_UNIT;
+        return INITIAL_SOUND[index];
+    }
+    void Initial_Search(char c){
+        arrayList.clear();
+        for(int i = 0; i < adapter.searchList.size(); i++){
+            Log.d("BEOM5", "initial : " + adapter.searchList.get(i).name.charAt(0));
+//                    arrayList.get(i).name.charAt(0)
+            if(getInitialSound(adapter.searchList.get(i).name.charAt(0)) == c){
+                arrayList.add(adapter.searchList.get(i));
+            }
+        }
+        for(int i = 0; i < arrayList.size(); i++) {
+            arrayList.get(i).num = String.valueOf(i+1);
+        }
+        adapter.notifyDataSetChanged();
+    }
     public void search_Click(View v) {
         switch (v.getId()) {
             case R.id.all_search_btn:
                 adapter.filter("");
                 break;
             case R.id.r_search_btn:
-                adapter.filter("ㄱ");
+                Initial_Search('ㄱ');
+//                adapter.filter("ㄱ");
                 break;
             case R.id.s_search_btn:
+                Initial_Search('ㄴ');
 
                 break;
             case R.id.e_search_btn:
+                Initial_Search('ㄷ');
 
                 break;
             case R.id.f_search_btn:
+                Initial_Search('ㄹ');
 
                 break;
             case R.id.a_search_btn:
+                Initial_Search('ㅁ');
 
                 break;
             case R.id.q_search_btn:
+                Initial_Search('ㅂ');
 
                 break;
             case R.id.t_search_btn:
+                Initial_Search('ㅅ');
 
                 break;
             case R.id.d_search_btn:
+                Initial_Search('ㅇ');
 
                 break;
             case R.id.w_search_btn:
+                Initial_Search('ㅈ');
 
                 break;
             case R.id.c_search_btn:
+                Initial_Search('ㅊ');
 
                 break;
             case R.id.z_search_btn:
+                Initial_Search('ㅋ');
 
                 break;
             case R.id.x_search_btn:
+                Initial_Search('ㅌ');
 
                 break;
             case R.id.v_search_btn:
+                Initial_Search('ㅍ');
 
                 break;
             case R.id.g_search_btn:
+                Initial_Search('ㅎ');
 
                 break;
         }
