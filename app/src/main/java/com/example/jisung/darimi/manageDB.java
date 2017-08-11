@@ -69,4 +69,26 @@ public class manageDB {
         return true;
     }
 
+    public void Insert_Custom(Custom data){
+        String sql = "Insert into custom values('";
+        sql+=data.getName()+"','";
+        sql+=data.getCall()+"')";
+        myDB.execSQL(sql);
+    }public void Get_Custom(){
+        ArrayList<Custom> data = new ArrayList<>();
+        String sql = "Select * from custom";
+        Cursor cursor = myDB.rawQuery(sql,null);
+        if(cursor.moveToFirst()){
+            do{
+                String id = cursor.getString(0);
+                String num= cursor.getString(1);
+                String name = cursor.getString(2);
+                String call = cursor.getString(3);
+                data.add(new Custom(id,num,name,call));
+            }while (cursor.moveToFirst());
+
+        }
+        cursor.close();
+    }
+
 }

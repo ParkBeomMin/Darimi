@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.zip.Inflater;
+
 //test
 public class ManageActivity extends AppCompatActivity {
     // basis
@@ -35,6 +36,11 @@ public class ManageActivity extends AppCompatActivity {
     ArrayList<Custom> arrayList = new ArrayList<Custom>();
     CustomAdapter adapter;
 
+    darimiDB database = new darimiDB(this, "myDB", null, 1);
+    String init="";
+    Button all_, r_, s_, e_, f_, a_, q_, t_, d_, w_, c_, z_, x_, v_, g_;
+    ArrayList<Button> select_btn_array = new ArrayList<Button>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +50,36 @@ public class ManageActivity extends AppCompatActivity {
 
     //basis
     void init() {
+        all_ = (Button) findViewById(R.id.all_search_btn);
+        r_ = (Button) findViewById(R.id.r_search_btn);
+        s_ = (Button) findViewById(R.id.s_search_btn);
+        e_ = (Button) findViewById(R.id.e_search_btn);
+        f_ = (Button) findViewById(R.id.f_search_btn);
+        a_ = (Button) findViewById(R.id.a_search_btn);
+        q_ = (Button) findViewById(R.id.q_search_btn);
+        t_ = (Button) findViewById(R.id.t_search_btn);
+        d_ = (Button) findViewById(R.id.d_search_btn);
+        w_ = (Button) findViewById(R.id.w_search_btn);
+        c_ = (Button) findViewById(R.id.c_search_btn);
+        z_ = (Button) findViewById(R.id.z_search_btn);
+        x_ = (Button) findViewById(R.id.x_search_btn);
+        v_ = (Button) findViewById(R.id.v_search_btn);
+        g_ = (Button) findViewById(R.id.g_search_btn);
+        select_btn_array.add(all_);
+        select_btn_array.add(r_);
+        select_btn_array.add(s_);
+        select_btn_array.add(e_);
+        select_btn_array.add(f_);
+        select_btn_array.add(a_);
+        select_btn_array.add(q_);
+        select_btn_array.add(t_);
+        select_btn_array.add(d_);
+        select_btn_array.add(w_);
+        select_btn_array.add(c_);
+        select_btn_array.add(z_);
+        select_btn_array.add(x_);
+        select_btn_array.add(v_);
+        select_btn_array.add(g_);
 
         //basis
         Intent gintent = getIntent();
@@ -55,19 +91,24 @@ public class ManageActivity extends AppCompatActivity {
         custom_search_edt = (EditText) findViewById(R.id.custom_search_edt);
         custom_list = (ListView) findViewById(R.id.custom_list);
         //test
-        arrayList.add(new Custom("1","박범민","01024347280"));
-        arrayList.add(new Custom("2","정지성","01024347280"));
-        arrayList.add(new Custom("3","문소연","01024347280"));
-        arrayList.add(new Custom("4","남궁선","01024347280"));
-        arrayList.add(new Custom("5","서수민","01024347280"));
+//        database.Insert_Custom(new Custom("1","박범민","01024347280"));
+//        database.Insert_Custom(new Custom("2","정지성","01024347280"));
+//        database.Insert_Custom(new Custom("3","문소연","01024347280"));
+//        database.Insert_Custom(new Custom("4","남궁선","01024347280"));
+//        database.Insert_Custom(new Custom("5","서수민","01024347280"));
+//        arrayList.add(new Custom("1","박범민","01024347280"));
+//        arrayList.add(new Custom("2","정지성","01024347280"));
+//        arrayList.add(new Custom("3","문소연","01024347280"));
+//        arrayList.add(new Custom("4","남궁선","01024347280"));
+//        arrayList.add(new Custom("5","서수민","01024347280"));
         //
-        adapter = new CustomAdapter(arrayList, this);
+        database.Get_Custom(arrayList);
+        adapter = new CustomAdapter(arrayList, this, database);
         custom_list.setAdapter(adapter);
 
         custom_search_edt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
 
 
             }
@@ -82,6 +123,13 @@ public class ManageActivity extends AppCompatActivity {
                 String text = custom_search_edt.getText().toString()
                         .toLowerCase(Locale.getDefault());
                 adapter.filter(text);
+                if (text.length() != 0) {
+                    for (int i = 0; i < select_btn_array.size(); i++) {
+                        Log.d("BEOM7", "arrBtn : " + select_btn_array.get(i).getText())
+                        ;
+                        select_btn_array.get(i).setBackgroundResource(R.drawable.border);
+                    }
+                }
             }
         });
 
@@ -127,17 +175,35 @@ public class ManageActivity extends AppCompatActivity {
                         String custom_name = add_custom_name_edt.getText().toString();
                         String custom_call = add_custom_call_edt.getText().toString();
                         int num = arrayList.size() + 1;
+                        // 현재시간을 msec 으로 구한다.
+                        long now = System.currentTimeMillis();
+                        // 현재시간을 date 변수에 저장한다.
+                        Date date = new Date(now);
+                        // 시간을 나타냇 포맷을 정한다 ( yyyy/MM/dd 같은 형태로 변형 가능 )
+                        SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                        // nowDate 변수에 값을 저장한다.
+                        String id = sdfNow.format(date);
                         if (custom_name.length() != 0 && custom_call.length() != 0) {
-                            if (custom_call.length() > 9) {
-                                Custom new_Custom = new Custom(Integer.toString(num), custom_name, custom_call);
-                                arrayList.add(new_Custom);
+                            if(adapter.isInitialSound(custom_name.charAt(0))){
+                                Toast.makeText(ManageActivity.this, "이름을 제대로 입력해주세요.", Toast.LENGTH_LONG).show();
+                            }
+                            else if (custom_call.length() <= 9) {
+                                Toast.makeText(ManageActivity.this, "전화번호를 제대로 입력해주세요.", Toast.LENGTH_LONG).show();
+                            } else {
+                                Custom new_Custom = new Custom(id, Integer.toString(num), custom_name, custom_call);
+
+                                database.Insert_Custom(arrayList, new_Custom);
+
+//                                arrayList.add(new_Custom);
 //                                adapter.searchList.clear();
                                 adapter.searchList.add(new_Custom);
                                 adapter.notifyDataSetChanged();
                                 adapter.filter(custom_search_edt.getText().toString());
+//                                Initial_Search(init);
+                                adapter.filter(init);
+                                custom_search_edt.setText(custom_name);
+
                                 dialog.dismiss();
-                            } else {
-                                Toast.makeText(ManageActivity.this, "전화번호를 제대로 입력해주세요.", Toast.LENGTH_LONG).show();
                             }
                         } else {
                             Toast.makeText(ManageActivity.this, "모든 항목을 입력해주세요.", Toast.LENGTH_LONG).show();
@@ -151,100 +217,161 @@ public class ManageActivity extends AppCompatActivity {
         }
     }
     //
+//
+//    private static final char HANGUL_BEGIN_UNICODE = 44032; // 가
+//    private static final char HANGUL_LAST_UNICODE = 55203; // 힣
+//    private static final char HANGUL_BASE_UNIT = 588;//각자음 마다 가지는 글자수
+//    private static final char[] INITIAL_SOUND = {'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'};
+//
+//    /**
+//     * 해당 문자의 자음을 얻는다.
+//     *
+//     * @param c 검사할 문자
+//     * @return
+//     */
+//    private static char getInitialSound(char c) {
+//        int hanBegin = (c - HANGUL_BEGIN_UNICODE);
+//        int index = hanBegin / HANGUL_BASE_UNIT;
+//        return INITIAL_SOUND[index];
+//    }
+//
+//    void Initial_Search(char c) {
+//        custom_search_edt.setText("");
+//        arrayList.clear();
+//        for (int i = 0; i < adapter.searchList.size(); i++) {
+//            Log.d("BEOM5", "initial : " + adapter.searchList.get(i).name.charAt(0));
+////                    arrayList.get(i).name.charAt(0)
+//            if (getInitialSound(adapter.searchList.get(i).name.charAt(0)) == c) {
+//                arrayList.add(adapter.searchList.get(i));
+//            }
+//        }
+//        for (int i = 0; i < arrayList.size(); i++) {
+//            arrayList.get(i).num = String.valueOf(i + 1);
+//        }
+//        adapter.notifyDataSetChanged();
+//        this.init = c;
+//
+//    }
 
-    private static final char HANGUL_BEGIN_UNICODE = 44032; // 가
-    private static final char HANGUL_LAST_UNICODE = 55203; // 힣
-    private static final char HANGUL_BASE_UNIT = 588;//각자음 마다 가지는 글자수
-    private static final char[] INITIAL_SOUND = { 'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' };
 
-    /**
-     * 해당 문자의 자음을 얻는다.
-     *
-     * @param c 검사할 문자
-     * @return
-     */
-    private static char getInitialSound(char c) {
-        int hanBegin = (c - HANGUL_BEGIN_UNICODE);
-        int index = hanBegin / HANGUL_BASE_UNIT;
-        return INITIAL_SOUND[index];
-    }
-    void Initial_Search(char c){
-        arrayList.clear();
-        for(int i = 0; i < adapter.searchList.size(); i++){
-            Log.d("BEOM5", "initial : " + adapter.searchList.get(i).name.charAt(0));
-//                    arrayList.get(i).name.charAt(0)
-            if(getInitialSound(adapter.searchList.get(i).name.charAt(0)) == c){
-                arrayList.add(adapter.searchList.get(i));
-            }
-        }
-        for(int i = 0; i < arrayList.size(); i++) {
-            arrayList.get(i).num = String.valueOf(i+1);
-        }
-        adapter.notifyDataSetChanged();
-    }
     public void search_Click(View v) {
         switch (v.getId()) {
             case R.id.all_search_btn:
                 adapter.filter("");
+                select_btn(all_);
                 break;
             case R.id.r_search_btn:
-                Initial_Search('ㄱ');
-//                adapter.filter("ㄱ");
+//                Initial_Search('ㄱ');
+                adapter.filter("ㄱ");
+                select_btn(r_);
                 break;
             case R.id.s_search_btn:
-                Initial_Search('ㄴ');
+                select_btn(s_);
+//                Initial_Search('ㄴ');
+                adapter.filter("ㄴ");
 
                 break;
             case R.id.e_search_btn:
-                Initial_Search('ㄷ');
+                select_btn(e_);
+//                Initial_Search('ㄷ');
+                adapter.filter("ㄷ");
 
                 break;
             case R.id.f_search_btn:
-                Initial_Search('ㄹ');
+                select_btn(f_);
+//                Initial_Search('ㄹ');
+                adapter.filter("ㄹ");
 
                 break;
             case R.id.a_search_btn:
-                Initial_Search('ㅁ');
+                select_btn(a_);
+//                Initial_Search('ㅁ');
+                adapter.filter("ㅁ");
 
                 break;
             case R.id.q_search_btn:
-                Initial_Search('ㅂ');
+                select_btn(q_);
+//                Initial_Search('ㅂ');
+                adapter.filter("ㅂ");
 
                 break;
             case R.id.t_search_btn:
-                Initial_Search('ㅅ');
+                select_btn(t_);
+//                Initial_Search('ㅅ');
+                adapter.filter("ㅅ");
 
                 break;
             case R.id.d_search_btn:
-                Initial_Search('ㅇ');
+                select_btn(d_);
+//                Initial_Search('ㅇ');
+                adapter.filter("ㅇ");
 
                 break;
             case R.id.w_search_btn:
-                Initial_Search('ㅈ');
+                select_btn(w_);
+//                Initial_Search('ㅈ');
+                adapter.filter("ㅈ");
 
                 break;
             case R.id.c_search_btn:
-                Initial_Search('ㅊ');
+                select_btn(c_);
+//                Initial_Search('ㅊ');
+                adapter.filter("ㅊ");
 
                 break;
             case R.id.z_search_btn:
-                Initial_Search('ㅋ');
+                select_btn(z_);
+//                Initial_Search('ㅋ');
+                adapter.filter("ㅋ");
 
                 break;
             case R.id.x_search_btn:
-                Initial_Search('ㅌ');
+                select_btn(x_);
+//                Initial_Search('ㅌ');
+                adapter.filter("ㅌ");
 
                 break;
             case R.id.v_search_btn:
-                Initial_Search('ㅍ');
+                select_btn(v_);
+//                Initial_Search('ㅍ');
+                adapter.filter("ㅍ");
 
                 break;
             case R.id.g_search_btn:
-                Initial_Search('ㅎ');
+                select_btn(g_);
+//                Initial_Search('ㅎ');
+                adapter.filter("ㅎ");
 
                 break;
         }
 
+    }
+
+    void select_btn(Button selec) {
+        custom_search_edt.setText("");
+        Log.d("BEOM6", "Btn : " + selec.getText());
+        selec.setBackgroundResource(R.drawable.select_border);
+        select_btn_array.remove(selec);
+        for (int i = 0; i < select_btn_array.size(); i++) {
+            Log.d("BEOM6", "arrBtn : " + select_btn_array.get(i).getText());
+            select_btn_array.get(i).setBackgroundResource(R.drawable.border);
+        }
+        select_btn_array.clear();
+        select_btn_array.add(all_);
+        select_btn_array.add(r_);
+        select_btn_array.add(s_);
+        select_btn_array.add(e_);
+        select_btn_array.add(f_);
+        select_btn_array.add(a_);
+        select_btn_array.add(q_);
+        select_btn_array.add(t_);
+        select_btn_array.add(d_);
+        select_btn_array.add(w_);
+        select_btn_array.add(c_);
+        select_btn_array.add(z_);
+        select_btn_array.add(x_);
+        select_btn_array.add(v_);
+        select_btn_array.add(g_);
     }
 
 }
