@@ -103,8 +103,10 @@ public class CalendarAdapter extends BaseAdapter {
             Log.d("BEOM1", "get_Title_Month = " + get_Title_Month);
             Log.d("BEOM1", "get_Start_Year = " + get_Start_Year);
             Log.d("BEOM1", "get_Start_Month = " + get_Start_Month);
+            Log.d("BEOM1", "get_Start_Day = " + get_Start_Day);
             Log.d("BEOM1", "get_Finish_Year = " + get_Finish_Year);
             Log.d("BEOM1", "get_Finish_Month = " + get_Finish_Month);
+            Log.d("BEOM1", "get_Finish_Day = " + get_Finish_Day);
 
             if ((get_Title_Year.equals(get_Start_Year) && get_Title_Month.equals(get_Start_Month)) &&
                     (get_Title_Year.equals(get_Finish_Year) && get_Title_Month.equals(get_Finish_Month))) {
