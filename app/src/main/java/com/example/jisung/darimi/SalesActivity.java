@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
@@ -31,11 +32,13 @@ public class SalesActivity extends AppCompatActivity {
     CalendarAdapter adapter;
     Calendar my_calendar;
 
-    ExpandableListView sales_listview;
+        ExpandableListView sales_listview;
     private ArrayList<Sales> mGroupList = new ArrayList<Sales>();
-    private ArrayList<ArrayList<Sales>> mChildList = new ArrayList<ArrayList<Sales>>();
-    private ArrayList<Sales> mChildListContent = new ArrayList<Sales>();
+//    private ArrayList<ArrayList<Sales>> mChildList = new ArrayList<ArrayList<Sales>>();
+//    private ArrayList<Sales> mChildListContent = new ArrayList<Sales>();
     SalesAdpater sales_adpater;
+//
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,22 +93,42 @@ public class SalesActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
 
         sales_listview = (ExpandableListView) findViewById(R.id.sales_list);
-        //test
-        mGroupList.add(new Sales("1", 1));
-        mGroupList.add(new Sales("2", 2));
-        mChildListContent.add(new Sales("z", 1));
-        mChildListContent.add(new Sales("ed", 2));
-        mChildList.add(mChildListContent);
-        mChildList.add(mChildListContent);
-        //
-        sales_adpater = new SalesAdpater(mGroupList, mChildList, this);
+        Sales s1 = new Sales("main",1);
+        Sales s2 = new Sales("main2",2);
+        s1.sublist.add(new Sales("sub1",1));
+        s2.sublist.add(new Sales("sub2",2));
+        mGroupList.add(s1);
+        mGroupList.add(s2);
+//        mGroupList.add(new Sales("main",1));
+//        mGroupList.add(new Sales("main2",2));
+        sales_adpater = new SalesAdpater(mGroupList, this);
         sales_listview.setAdapter(sales_adpater);
-        sales_listview.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
-                return false;
-            }
-        });
+//        LayoutInflater inflater = getLayoutInflater();
+//        View v = inflater.inflate(R.layout.sublist, null);
+//        sub_sales_listview = (ExpandableListView)v.findViewById(R.id.sales_subsublist);
+//        //test
+//        mGroupList.add(new Sales("1", 1));
+//        mGroupList.add(new Sales("2", 2));
+//        mChildListContent.add(new Sales("main", 1));
+////        mChildListContent.add(new Sales("ed", 2));
+//        mChildList.add(mChildListContent);
+//        mChildList.add(mChildListContent);
+//
+//        sub_mChildListContent.add(new Sales("sub", 1));
+//        sub_mChildList.add(sub_mChildListContent);
+//        //
+//        sales_adpater = new SalesAdpater(mGroupList, mChildList, this);
+//        sub_sales_adpater = new SalesSubAdapter(mChildListContent, sub_mChildList, this);
+//        sales_listview.setAdapter(sales_adpater);
+//        sub_sales_listview.setAdapter(sub_sales_adpater);
+//        sales_listview.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+//            @Override
+//            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
+//                return false;
+//            }
+//        });
+
+
     }
 
     private void setCalendarDate(int year, int month) {
@@ -359,8 +382,8 @@ public class SalesActivity extends AppCompatActivity {
     }
 
 
-    public void sales_list_filter_Click(View v){
-        switch (v.getId()){
+    public void sales_list_filter_Click(View v) {
+        switch (v.getId()) {
             case R.id.sales_list_day_btn:
 
                 break;
