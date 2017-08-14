@@ -22,11 +22,14 @@ import java.util.Locale;
  */
 
 public class CustomAdapter extends BaseAdapter {
-    ArrayList<Custom> searchList;
-    ArrayList<Custom> arrayList;
+    darimiDB database;
+    ArrayList<Custom> searchList; //원본 리스트
+    ArrayList<Custom> arrayList; //검색된 결과가 들어있는 리스트
     Context c;
-String charText;
-    public CustomAdapter(ArrayList<Custom> arrayList, Context c) {
+    String charText = "";
+
+    public CustomAdapter(ArrayList<Custom> arrayList, Context c, darimiDB database) {
+        this.database = database;
         this.arrayList = arrayList;
         this.c = c;
         searchList = new ArrayList<Custom>();
@@ -77,15 +80,15 @@ String charText;
             @Override
             public void onClick(View view) {
                 searchList.remove(searchList.indexOf(arrayList.get(position)));
-                arrayList.remove(position);
+//                arrayList.remove(position);
+                database.Delete_Custom(arrayList.get(position).getId());
+                database.Get_Custom(arrayList);
 
-                for (int i = 0; i < arrayList.size(); i++) {
-                    arrayList.get(i).num = Integer.toString(i + 1);
-                }
                 for (int i = 0; i < searchList.size(); i++) {
                     searchList.get(i).num = Integer.toString(i + 1);
                 }
                 CustomAdapter.this.notifyDataSetChanged();
+                filter(charText);
 //                searchList.clear();
 //                searchList.addAll(arrayList);
                 Toast.makeText(c, "삭제되었습니다.", Toast.LENGTH_LONG).show();
@@ -124,37 +127,44 @@ String charText;
                         } else {
 //                            arrayList.remove(position);
                             searchList.remove(searchList.indexOf(arrayList.get(position)));
-                            arrayList.remove(position);
+//                            arrayList.remove(position);
 //                            searchList.remove(position);
                             int num = getCount();//arrayList.size() + 1;
                             if (modify_custom_name_edt.length() == 0) {
-                                Custom modify_custom = new Custom(Integer.toString(num), origin_name, modify_call);
-                                arrayList.add(modify_custom);
-                                for (int i = 0; i < arrayList.size(); i++) {
-                                    arrayList.get(i).num = Integer.toString(i + 1);
-                                }
+                                Custom modify_custom = new Custom(one.id, Integer.toString(num), origin_name, modify_call);
+                                database.Update_Custom(one.id, origin_name, modify_call);
+                                database.Get_Custom(arrayList);
+//                                arrayList.add(modify_custom);
+//                                for (int i = 0; i < arrayList.size(); i++) {
+//                                    arrayList.get(i).num = Integer.toString(i + 1);
+//                                }
                                 searchList.add(modify_custom);
                                 CustomAdapter.this.notifyDataSetChanged();
                             } else if (modify_custom_call_edt.length() == 0) {
-                                Custom modify_custom = new Custom(Integer.toString(num), modify_name, origin_call);
-                                arrayList.add(modify_custom);
-                                for (int i = 0; i < arrayList.size(); i++) {
-                                    arrayList.get(i).num = Integer.toString(i + 1);
-                                }
+                                Custom modify_custom = new Custom(one.id, Integer.toString(num), modify_name, origin_call);
+                                database.Update_Custom(one.id, modify_name, origin_call);
+                                database.Get_Custom(arrayList);
+//                                arrayList.add(modify_custom);
+//                                for (int i = 0; i < arrayList.size(); i++) {
+//                                    arrayList.get(i).num = Integer.toString(i + 1);
+//                                }
                                 searchList.add(modify_custom);
 
                                 CustomAdapter.this.notifyDataSetChanged();
                             } else {
-                                Custom modify_custom = new Custom(Integer.toString(num), modify_name, modify_call);
-                                arrayList.add(modify_custom);
-                                for (int i = 0; i < arrayList.size(); i++) {
-                                    arrayList.get(i).num = Integer.toString(i + 1);
-                                }
+                                Custom modify_custom = new Custom(one.id, Integer.toString(num), modify_name, modify_call);
+                                database.Update_Custom(one.id, modify_name, modify_call);
+                                database.Get_Custom(arrayList);
+//                                arrayList.add(modify_custom);
+//                                for (int i = 0; i < arrayList.size(); i++) {
+//                                    arrayList.get(i).num = Integer.toString(i + 1);
+//                                }
                                 searchList.add(modify_custom);
 
                                 CustomAdapter.this.notifyDataSetChanged();
                             }
-                        }for (int i = 0; i < searchList.size(); i++) {
+                        }
+                        for (int i = 0; i < searchList.size(); i++) {
                             searchList.get(i).num = Integer.toString(i + 1);
                         }
 //                        searchList.clear();
@@ -170,23 +180,75 @@ String charText;
 
     public void filter(String charText) {
         this.charText = charText;
-        charText = charText.toLowerCase(Locale.getDefault());
         arrayList.clear();
         if (charText.length() == 0) {
             arrayList.addAll(searchList);
 
         } else {
-            for (Custom custom : searchList) {
-                String name = custom.name;
-                if (name.toLowerCase().contains(charText)) {
-                    arrayList.add(custom);
+            if(isInitialSound(charText.charAt(0))){
+Initial_Search(charText.charAt(0));
+            }else{
+                charText = charText.toLowerCase(Locale.getDefault());
+
+                for (Custom custom : searchList) {
+                    String name = custom.name;
+                    if (name.toLowerCase().contains(charText)) {
+                        arrayList.add(custom);
+                    }
                 }
             }
-        }for (int i = 0; i < arrayList.size(); i++){
-            arrayList.get(i).num = String.valueOf(i+1);
+        }
+        for (int i = 0; i < arrayList.size(); i++) {
+            arrayList.get(i).num = String.valueOf(i + 1);
         }
         notifyDataSetChanged();
     }
+    private static final char HANGUL_BEGIN_UNICODE = 44032; // 가
+    private static final char HANGUL_LAST_UNICODE = 55203; // 힣
+    private static final char HANGUL_BASE_UNIT = 588;//각자음 마다 가지는 글자수
+    private static final char[] INITIAL_SOUND = {'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'};
 
+    /**
+     * 해당 문자의 자음을 얻는다.
+     *
+     * @param c 검사할 문자
+     * @return
+     */
+    private static char getInitialSound(char c) {
+        int hanBegin = (c - HANGUL_BEGIN_UNICODE);
+        int index = hanBegin / HANGUL_BASE_UNIT;
+        return INITIAL_SOUND[index];
+    }
 
+    void Initial_Search(char c) {
+//        custom_search_edt.setText("");
+        arrayList.clear();
+        for (int i = 0; i < searchList.size(); i++) {
+            Log.d("BEOM5", "initial : " + searchList.get(i).name.charAt(0));
+//                    arrayList.get(i).name.charAt(0)
+            if (getInitialSound(searchList.get(i).name.charAt(0)) == c) {
+                arrayList.add(searchList.get(i));
+            }
+        }
+        for (int i = 0; i < arrayList.size(); i++) {
+            arrayList.get(i).num = String.valueOf(i + 1);
+        }
+        notifyDataSetChanged();
+        ManageActivity manageActivity = new ManageActivity();
+        manageActivity.init = c+"";
+//        this.init = c;
+    }
+    /**
+     * 해당 문자가 INITIAL_SOUND인지 검사.
+     * @param searchar
+     * @return
+     */
+    public static boolean isInitialSound(char searchar){
+        for(char c:INITIAL_SOUND){
+            if(c == searchar){
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -308,14 +308,20 @@
         android:layout_height="wrap_content"
         android:text="매출내역" />
     <Button
+        android:onClick="sales_list_filter_Click"
+        android:id="@+id/sales_list_day_btn"
         android:text="일"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <Button
+    <Button        android:onClick="sales_list_filter_Click"
+
+        android:id="@+id/sales_list_month_btn"
         android:text="월"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <Button
+    <Button        android:onClick="sales_list_filter_Click"
+
+        android:id="@+id/sales_list_year_btn"
         android:text="년"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

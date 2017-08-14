@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -14,7 +16,7 @@ import java.util.ArrayList;
  * Created by parkbeommin on 2017. 8. 8..
  */
 
-public class SalesSubAdapter extends BaseAdapter {
+public class SalesSubAdapter extends BaseExpandableListAdapter {
     ArrayList<Sales> arrayList;
     Context c;
 
@@ -24,34 +26,70 @@ public class SalesSubAdapter extends BaseAdapter {
     }
 
     @Override
-    public int getCount() {
+    public int getGroupCount() {
         return arrayList.size();
     }
 
     @Override
-    public Object getItem(int i) {
+    public int getChildrenCount(int i) {
+        return arrayList.get(i).sublist.size();
+    }
+
+    @Override
+    public Object getGroup(int i) {
         return arrayList.get(i);
     }
 
     @Override
-    public long getItemId(int i) {
-        return i;
+    public Object getChild(int i, int i1) {
+        return arrayList.get(i).sublist.get(i1);
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public long getGroupId(int i) {
+        return 0;
+    }
+
+    @Override
+    public long getChildId(int i, int i1) {
+        return 0;
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return false;
+    }
+
+    @Override
+    public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = LayoutInflater.from(c);
-        if(view == null) {
-            view = inflater.inflate(R.layout.sublist, null);
+        if(view == null){
+            view = inflater.inflate(R.layout.sales_list_item,null);
         }
-        TextView name = (TextView)view.findViewById(R.id.sublist_name_tv);
-        TextView sale = (TextView)view.findViewById(R.id.sublist_sale_tv);
-        Log.d("BEOM3", "size = " + getCount());
-        Sales one;
-        one = arrayList.get(i);
-        Log.d("BEOM3", "date = " + getItem(i).toString());
-        name.setText(one.date);
-        sale.setText(""+one.sale);
-        return view;
+        TextView t1 = (TextView)view.findViewById(R.id.sales_list_item_name_tv);
+        TextView t2 = (TextView)view.findViewById(R.id.sales_list_item_sale_tv);
+        Sales one = (Sales)getGroup(i);
+        t1.setText(one.date);
+        t2.setText(one.sale+"");
+        Log.d("BEOM9", "sub child : " + one.sublist.get(0).date);
+        return view;        }
+
+    @Override
+    public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
+        LayoutInflater inflater = LayoutInflater.from(c);
+        if(view == null){
+            view = inflater.inflate(R.layout.sales_list_item,null);
+        }
+        TextView t1 = (TextView)view.findViewById(R.id.sales_list_item_name_tv);
+        TextView t2 = (TextView)view.findViewById(R.id.sales_list_item_sale_tv);
+        Sales one = (Sales)getChild(i,i1);
+        Log.d("BEOM9", "child : "+ one.date);
+        t1.setText(one.date);
+        t2.setText(one.sale+"");
+        return view;        }
+
+    @Override
+    public boolean isChildSelectable(int i, int i1) {
+        return true;
     }
 }

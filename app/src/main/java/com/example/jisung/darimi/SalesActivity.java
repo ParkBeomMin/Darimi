@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
@@ -31,11 +32,13 @@ public class SalesActivity extends AppCompatActivity {
     CalendarAdapter adapter;
     Calendar my_calendar;
 
-    ExpandableListView sales_listview;
+        ExpandableListView sales_listview;
     private ArrayList<Sales> mGroupList = new ArrayList<Sales>();
-    private ArrayList<ArrayList<Sales>> mChildList = new ArrayList<ArrayList<Sales>>();
-    private ArrayList<Sales> mChildListContent = new ArrayList<Sales>();
+//    private ArrayList<ArrayList<Sales>> mChildList = new ArrayList<ArrayList<Sales>>();
+//    private ArrayList<Sales> mChildListContent = new ArrayList<Sales>();
     SalesAdpater sales_adpater;
+//
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,21 +93,42 @@ public class SalesActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
 
         sales_listview = (ExpandableListView) findViewById(R.id.sales_list);
-        //test
-        mGroupList.add(new Sales("1", 1));
-        mGroupList.add(new Sales("2", 2));
-        mChildListContent.add(new Sales("z", 1));
-        mChildListContent.add(new Sales("ed",2));
-        mChildList.add(mChildListContent);mChildList.add(mChildListContent);
-        //
-        sales_adpater = new SalesAdpater(mGroupList, mChildList, this);
+        Sales s1 = new Sales("main",1);
+        Sales s2 = new Sales("main2",2);
+        s1.sublist.add(new Sales("sub1",1));
+        s2.sublist.add(new Sales("sub2",2));
+        mGroupList.add(s1);
+        mGroupList.add(s2);
+//        mGroupList.add(new Sales("main",1));
+//        mGroupList.add(new Sales("main2",2));
+        sales_adpater = new SalesAdpater(mGroupList, this);
         sales_listview.setAdapter(sales_adpater);
-        sales_listview.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
-                return false;
-            }
-        });
+//        LayoutInflater inflater = getLayoutInflater();
+//        View v = inflater.inflate(R.layout.sublist, null);
+//        sub_sales_listview = (ExpandableListView)v.findViewById(R.id.sales_subsublist);
+//        //test
+//        mGroupList.add(new Sales("1", 1));
+//        mGroupList.add(new Sales("2", 2));
+//        mChildListContent.add(new Sales("main", 1));
+////        mChildListContent.add(new Sales("ed", 2));
+//        mChildList.add(mChildListContent);
+//        mChildList.add(mChildListContent);
+//
+//        sub_mChildListContent.add(new Sales("sub", 1));
+//        sub_mChildList.add(sub_mChildListContent);
+//        //
+//        sales_adpater = new SalesAdpater(mGroupList, mChildList, this);
+//        sub_sales_adpater = new SalesSubAdapter(mChildListContent, sub_mChildList, this);
+//        sales_listview.setAdapter(sales_adpater);
+//        sub_sales_listview.setAdapter(sub_sales_adpater);
+//        sales_listview.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+//            @Override
+//            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
+//                return false;
+//            }
+//        });
+
+
     }
 
     private void setCalendarDate(int year, int month) {
@@ -170,11 +194,12 @@ public class SalesActivity extends AppCompatActivity {
                 }
             }
             adapter.getStartYear(String.valueOf(i));
-            adapter.getStartMonth(String.valueOf(i1+1));
+            adapter.getStartMonth(String.valueOf(i1 + 1));
             adapter.getStartDay(String.valueOf(i2));
             adapter.notifyDataSetChanged();
         }
-    };DatePickerDialog.OnDateSetListener listener2 = new DatePickerDialog.OnDateSetListener() {
+    };
+    DatePickerDialog.OnDateSetListener listener2 = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
             if (i < Integer.parseInt(start_tv.getText().toString().substring(0, 4)) || i1 + 1 > Integer.parseInt(start_tv.getText().toString().substring(5, 7))) {
@@ -199,7 +224,7 @@ public class SalesActivity extends AppCompatActivity {
                 }
             }
             adapter.getFinishYear(String.valueOf(i));
-            adapter.getFinishMonth(String.valueOf(i1+1));
+            adapter.getFinishMonth(String.valueOf(i1 + 1));
             adapter.getFinishDay(String.valueOf(i2));
             adapter.notifyDataSetChanged();
         }
@@ -228,67 +253,17 @@ public class SalesActivity extends AppCompatActivity {
                 String start_year = start_day.substring(0, 4);
                 String start_month = start_day.substring(5, 7);
                 String start_day_of_month = start_day.substring(8);
-                int start_prev_year = Integer.parseInt(start_year);
-                int start_prev_month = Integer.parseInt(start_month);
-                int start_prev_day = Integer.parseInt(start_day_of_month) - 1;
-                my_calendar.set(Calendar.MONTH, start_prev_day - 1);
-                if (start_prev_day < 1) {
-                    start_prev_day = my_calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-                    start_prev_month -= 1;
-                }
-                if (start_prev_month < 1) {
-                    start_prev_year -= 1;
-                    start_prev_month = 12;
-                }
-                if (start_prev_day < 10 && start_prev_month < 10) {
-                    start_tv.setText(start_prev_year + ".0" + start_prev_month + ".0" + start_prev_day);
-                } else if (start_prev_day < 10) {
-                    start_tv.setText(start_prev_year + "." + start_prev_month + ".0" + start_prev_day);
-
-                } else if (start_prev_month < 10) {
-                    start_tv.setText(start_prev_year + ".0" + start_prev_month + "." + start_prev_day);
-                } else {
-                    start_tv.setText(start_prev_year + "." + start_prev_month + "." + start_prev_day);
-                }
-                adapter.getStartYear(String.valueOf(start_prev_year));
-                adapter.getStartMonth(String.valueOf(start_prev_month));
-                adapter.getStartDay(String.valueOf(start_prev_day));
-                adapter.notifyDataSetChanged();
+                set_calendar_term(start_year, start_month, start_day_of_month, start_tv, 0, 1);
                 break;
             case R.id.sales_start_right_btn:
                 String start_day_ = start_tv.getText().toString();
                 String start_year_ = start_day_.substring(0, 4);
                 String start_month_ = start_day_.substring(5, 7);
                 String start_day_of_month_ = start_day_.substring(8);
-                int start_next_year = Integer.parseInt(start_year_);
-                int start_next_month = Integer.parseInt(start_month_);
-                int start_next_day = Integer.parseInt(start_day_of_month_) + 1;
                 if (start_day_.equals(finish_tv.getText().toString())) {
                     Toast.makeText(this, "시작 날짜가 끝나는 날짜보다 클 수는 없습니다", Toast.LENGTH_LONG).show();
                 } else {
-                    my_calendar.set(Calendar.MONTH, start_next_day - 1);
-                    if (start_next_day > my_calendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
-                        start_next_day = 1;
-                        start_next_month += 1;
-                    }
-                    if (start_next_month > 12) {
-                        start_next_year += 1;
-                        start_next_month = 1;
-                    }
-                    if (start_next_day < 10 && start_next_month < 10) {
-                        start_tv.setText(start_next_year + ".0" + start_next_month + ".0" + start_next_day);
-                    } else if (start_next_day < 10) {
-                        start_tv.setText(start_next_year + "." + start_next_month + ".0" + start_next_day);
-
-                    } else if (start_next_month < 10) {
-                        start_tv.setText(start_next_year + ".0" + start_next_month + "." + start_next_day);
-                    } else {
-                        start_tv.setText(start_next_year + "." + start_next_month + "." + start_next_day);
-                    }
-                    adapter.getStartYear(String.valueOf(start_next_year));
-                    adapter.getStartMonth(String.valueOf(start_next_month));
-                    adapter.getStartDay(String.valueOf(start_next_day));
-                    adapter.notifyDataSetChanged();
+                    set_calendar_term(start_year_, start_month_, start_day_of_month_, start_tv, 1, 1);
                 }
                 break;
 
@@ -297,73 +272,18 @@ public class SalesActivity extends AppCompatActivity {
                 String finish_year = finish_day.substring(0, 4);
                 String finish_month = finish_day.substring(5, 7);
                 String finish_day_of_month = finish_day.substring(8);
-                int finish_prev_year = Integer.parseInt(finish_year);
-                int finish_prev_month = Integer.parseInt(finish_month);
-                int finish_prev_day = Integer.parseInt(finish_day_of_month) - 1;
                 if (finish_day.equals(start_tv.getText().toString())) {
                     Toast.makeText(this, "끝나는 날짜가 시작 날짜보다 작을 수 없습니다.", Toast.LENGTH_LONG).show();
                 } else {
-                    my_calendar.set(Calendar.MONTH, finish_prev_month - 1);
-                    if (finish_prev_day < 1) {
-                        finish_prev_day = my_calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-                        finish_prev_month -= 1;
-                    }
-                    if (finish_prev_month < 1) {
-                        finish_prev_year -= 1;
-                        finish_prev_month = 12;
-                    }
-                    if (finish_prev_day < 10 && finish_prev_month < 10) {
-                        finish_tv.setText(finish_prev_year + ".0" + finish_prev_month + ".0" + finish_prev_day);
-                    } else if (finish_prev_day < 10) {
-                        finish_tv.setText(finish_prev_year + "." + finish_prev_month + ".0" + finish_prev_day);
-
-                    } else if (finish_prev_month < 10) {
-                        finish_tv.setText(finish_prev_year + ".0" + finish_prev_month + "." + finish_prev_day);
-                    } else {
-                        finish_tv.setText(finish_prev_year + "." + finish_prev_month + "." + finish_prev_day);
-                    }
-                    adapter.getFinishYear(String.valueOf(finish_prev_year));
-                    adapter.getFinishMonth(String.valueOf(finish_prev_month));
-                    adapter.getFinishDay(String.valueOf(finish_prev_day));
-                    adapter.notifyDataSetChanged();
+                    set_calendar_term(finish_year, finish_month, finish_day_of_month, finish_tv, 0, 2);
                 }
                 break;
             case R.id.sales_finish_right_btn:
-//                String[] finish_day = finish_tv.getText().toString().split(".");
-//                String finish_year = finish_day[0];
-//                String finish_month = finish_day[1];
-//                String finish_day_of_month = finish_day[2];
                 String finish_day_ = finish_tv.getText().toString();
                 String finish_year_ = finish_day_.substring(0, 4);
                 String finish_month_ = finish_day_.substring(5, 7);
                 String finish_day_of_month_ = finish_day_.substring(8);
-                int finish_next_year = Integer.parseInt(finish_year_);
-                int finish_next_month = Integer.parseInt(finish_month_);
-                int finish_next_day = Integer.parseInt(finish_day_of_month_) + 1;
-                my_calendar.set(Calendar.MONTH, finish_next_month - 1);
-                if (finish_next_day > my_calendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
-                    finish_next_day = 1;
-                    finish_next_month += 1;
-                }
-                if (finish_next_month > 12) {
-                    finish_next_year += 1;
-                    finish_next_month = 1;
-                }
-                if (finish_next_day < 10 && finish_next_month < 10) {
-                    finish_tv.setText(finish_next_year + ".0" + finish_next_month + ".0" + finish_next_day);
-                } else if (finish_next_day < 10) {
-                    finish_tv.setText(finish_next_year + "." + finish_next_month + ".0" + finish_next_day);
-
-                } else if (finish_next_month < 10) {
-                    finish_tv.setText(finish_next_year + ".0" + finish_next_month + "." + finish_next_day);
-                } else {
-
-                    finish_tv.setText(finish_next_year + "." + finish_next_month + "." + finish_next_day);
-                }
-                adapter.getFinishYear(String.valueOf(finish_next_year));
-                adapter.getFinishMonth(String.valueOf(finish_next_month));
-                adapter.getFinishDay(String.valueOf(finish_next_day));
-                adapter.notifyDataSetChanged();
+                set_calendar_term(finish_year_, finish_month_, finish_day_of_month_, finish_tv, 1, 2);
                 break;
 
             case R.id.sales_calendar_left_btn:
@@ -398,6 +318,80 @@ public class SalesActivity extends AppCompatActivity {
                 break;
 
             default:
+                break;
+        }
+    }
+
+    void set_calendar_term(String year, String month, String day, TextView set_tv, int flag, int flag2) {
+        int year_ = Integer.parseInt(year);
+        int month_ = Integer.parseInt(month);
+        int day_ = 0;
+        my_calendar.set(Calendar.MONTH, month_ - 1);
+        if (flag == 1) {//right btn
+            day_ = Integer.parseInt(day) + 1;
+            if (day_ > my_calendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+                day_ = 1;
+                month_ += 1;
+            }
+            if (month_ > 12) {
+                year_ += 1;
+                month_ = 1;
+            }
+            if (day_ < 10 && month_ < 10) {
+                set_tv.setText(year_ + ".0" + month_ + ".0" + day_);
+            } else if (day_ < 10) {
+                set_tv.setText(year_ + "." + month_ + ".0" + day_);
+
+            } else if (month_ < 10) {
+                set_tv.setText(year_ + ".0" + month_ + "." + day_);
+            } else {
+
+                set_tv.setText(year_ + "." + month_ + "." + day_);
+            }
+        } else if (flag == 0) {//left btn
+            day_ = Integer.parseInt(day) - 1;
+            if (day_ < 1) {
+                day_ = my_calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+                month_ -= 1;
+            }
+            if (month_ < 1) {
+                year_ -= 1;
+                month_ = 12;
+            }
+            if (day_ < 10 && month_ < 10) {
+                set_tv.setText(year_ + ".0" + month_ + ".0" + day_);
+            } else if (day_ < 10) {
+                set_tv.setText(year_ + "." + month_ + ".0" + day_);
+
+            } else if (month_ < 10) {
+                set_tv.setText(year_ + ".0" + month_ + "." + day_);
+            } else {
+                set_tv.setText(year_ + "." + month_ + "." + day_);
+            }
+        }
+        if (flag2 == 1) {
+            adapter.getStartYear(String.valueOf(year_));
+            adapter.getStartMonth(String.valueOf(month_));
+            adapter.getStartDay(String.valueOf(day_));
+        } else if (flag2 == 2) {
+            adapter.getFinishYear(String.valueOf(year_));
+            adapter.getFinishMonth(String.valueOf(month_));
+            adapter.getFinishDay(String.valueOf(day_));
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+
+    public void sales_list_filter_Click(View v) {
+        switch (v.getId()) {
+            case R.id.sales_list_day_btn:
+
+                break;
+            case R.id.sales_list_month_btn:
+
+                break;
+            case R.id.sales_list_year_btn:
+
                 break;
         }
     }
