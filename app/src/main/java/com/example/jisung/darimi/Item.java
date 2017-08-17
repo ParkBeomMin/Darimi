@@ -7,12 +7,23 @@ package com.example.jisung.darimi;
 public class Item {
     private String name;
     private String price;
+    private long seq;
     private int img;
     private boolean mark;
 
-    public Item(String name, String price, int img, boolean mark) {
+    public long getSeq() {
+        return seq;
+    }
+
+    public void setSeq(long seq) {
+        this.seq = seq;
+    }
+
+
+    public Item(String name, String price, long seq,int img, boolean mark) {
         this.name = name;
         this.price = price;
+        this.seq = seq;
         this.img = img;
         this.mark = mark;
     }
