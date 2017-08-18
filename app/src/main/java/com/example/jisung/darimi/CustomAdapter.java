@@ -183,13 +183,13 @@ public class CustomAdapter extends BaseAdapter {
         arrayList.clear();
         if (charText.length() == 0) {
             arrayList.addAll(searchList);
-
         } else {
-            if(isInitialSound(charText.charAt(0))){
-Initial_Search(charText.charAt(0));
-            }else{
+            if (isInitialSound(charText.charAt(0))) {
+                Log.d("BEOM", "initial : " + charText);
+                Initial_Search(charText.charAt(0));
+            } else {
+                Log.d("BEOM", "not initial : " + charText);
                 charText = charText.toLowerCase(Locale.getDefault());
-
                 for (Custom custom : searchList) {
                     String name = custom.name;
                     if (name.toLowerCase().contains(charText)) {
@@ -203,6 +203,7 @@ Initial_Search(charText.charAt(0));
         }
         notifyDataSetChanged();
     }
+
     private static final char HANGUL_BEGIN_UNICODE = 44032; // 가
     private static final char HANGUL_LAST_UNICODE = 55203; // 힣
     private static final char HANGUL_BASE_UNIT = 588;//각자음 마다 가지는 글자수
@@ -235,17 +236,19 @@ Initial_Search(charText.charAt(0));
         }
         notifyDataSetChanged();
         ManageActivity manageActivity = new ManageActivity();
-        manageActivity.init = c+"";
+        manageActivity.init = c + "";
 //        this.init = c;
     }
+
     /**
      * 해당 문자가 INITIAL_SOUND인지 검사.
+     *
      * @param searchar
      * @return
      */
-    public static boolean isInitialSound(char searchar){
-        for(char c:INITIAL_SOUND){
-            if(c == searchar){
+    public static boolean isInitialSound(char searchar) {
+        for (char c : INITIAL_SOUND) {
+            if (c == searchar) {
                 return true;
             }
         }

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.ExpandableListView;
@@ -13,6 +14,9 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.unnamed.b.atv.model.TreeNode;
+import com.unnamed.b.atv.view.AndroidTreeView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,12 +36,7 @@ public class SalesActivity extends AppCompatActivity {
     CalendarAdapter adapter;
     Calendar my_calendar;
 
-        ExpandableListView sales_listview;
-    private ArrayList<Sales> mGroupList = new ArrayList<Sales>();
-//    private ArrayList<ArrayList<Sales>> mChildList = new ArrayList<ArrayList<Sales>>();
-//    private ArrayList<Sales> mChildListContent = new ArrayList<Sales>();
-    SalesAdpater sales_adpater;
-//
+    TreeNode root;
 
 
     @Override
@@ -46,6 +45,16 @@ public class SalesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sales);
         init();
         open_calendar();
+        root = TreeNode.root();
+        TreeNode parent = new TreeNode("MyParentNode");
+        TreeNode child0 = new TreeNode("ChildNode0");
+        TreeNode child1 = new TreeNode("ChildNode1");
+        parent.addChildren(child0);
+        child0.addChild(child1);
+        root.addChild(parent);
+        AndroidTreeView tView = new AndroidTreeView(this, root);
+        ViewGroup containerView = (ViewGroup)findViewById(R.id.sales_list);
+        containerView.addView(tView.getView());
     }
 
     void init() {
@@ -91,42 +100,6 @@ public class SalesActivity extends AppCompatActivity {
         adapter.getFinishMonth(finish_tv.getText().toString().substring(5, 7));
         adapter.getFinishDay(finish_tv.getText().toString().substring(8));
         adapter.notifyDataSetChanged();
-
-        sales_listview = (ExpandableListView) findViewById(R.id.sales_list);
-        Sales s1 = new Sales("main",1);
-        Sales s2 = new Sales("main2",2);
-        s1.sublist.add(new Sales("sub1",1));
-        s2.sublist.add(new Sales("sub2",2));
-        mGroupList.add(s1);
-        mGroupList.add(s2);
-//        mGroupList.add(new Sales("main",1));
-//        mGroupList.add(new Sales("main2",2));
-        sales_adpater = new SalesAdpater(mGroupList, this);
-        sales_listview.setAdapter(sales_adpater);
-//        LayoutInflater inflater = getLayoutInflater();
-//        View v = inflater.inflate(R.layout.sublist, null);
-//        sub_sales_listview = (ExpandableListView)v.findViewById(R.id.sales_subsublist);
-//        //test
-//        mGroupList.add(new Sales("1", 1));
-//        mGroupList.add(new Sales("2", 2));
-//        mChildListContent.add(new Sales("main", 1));
-////        mChildListContent.add(new Sales("ed", 2));
-//        mChildList.add(mChildListContent);
-//        mChildList.add(mChildListContent);
-//
-//        sub_mChildListContent.add(new Sales("sub", 1));
-//        sub_mChildList.add(sub_mChildListContent);
-//        //
-//        sales_adpater = new SalesAdpater(mGroupList, mChildList, this);
-//        sub_sales_adpater = new SalesSubAdapter(mChildListContent, sub_mChildList, this);
-//        sales_listview.setAdapter(sales_adpater);
-//        sub_sales_listview.setAdapter(sub_sales_adpater);
-//        sales_listview.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-//            @Override
-//            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
-//                return false;
-//            }
-//        });
 
 
     }
