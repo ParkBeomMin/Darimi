@@ -55,6 +55,7 @@ public class SalesActivity extends AppCompatActivity {
         AndroidTreeView tView = new AndroidTreeView(this, root);
         ViewGroup containerView = (ViewGroup)findViewById(R.id.sales_list);
         containerView.addView(tView.getView());
+        //test
     }
 
     void init() {
