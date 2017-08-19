@@ -35,17 +35,24 @@ public class SalesAdpater extends TreeNode.BaseNodeViewHolder<SalesAdpater.TreeI
         View view = inflater.inflate(R.layout.sales_list_item, null);
         TextView t1 = (TextView)view.findViewById(R.id.sales_list_item_name_tv);
         TextView t2 = (TextView)view.findViewById(R.id.sales_list_item_sale_tv);
+        TextView v1 = (TextView)view.findViewById(R.id.beom);
         t1.setText(value.s1);
         t2.setText(value.s2);
 
+        if(node.getLevel()==1){
+            v1.setPadding(550,0,0,0);
+        }
         if(node.getLevel()==2){
             t1.setPadding(50,0,0,0);
+            v1.setPadding(500,0,0,0);
         }
         if(node.getLevel()==3){
             t1.setPadding(100,0,0,0);
+            v1.setPadding(450,0,0,0);
         }
         if(node.getLevel()==4){
             t1.setPadding(150,0,0,0);
+            v1.setPadding(400,0,0,0);
         }
 //
 //        View set_term = inflater.inflate(R.layout.activity_sales, null);
