@@ -350,11 +350,11 @@ public class ManageActivity extends AppCompatActivity {
     void select_btn(Button selec) {
         custom_search_edt.setText("");
         Log.d("BEOM6", "Btn : " + selec.getText());
-        selec.setBackgroundResource(R.drawable.select_border);
+//        selec.setBackgroundResource(R.drawable.select_border);
         select_btn_array.remove(selec);
         for (int i = 0; i < select_btn_array.size(); i++) {
             Log.d("BEOM6", "arrBtn : " + select_btn_array.get(i).getText());
-            select_btn_array.get(i).setBackgroundResource(R.drawable.border);
+//            select_btn_array.get(i).setBackgroundResource(R.drawable.border);
         }
         select_btn_array.clear();
         select_btn_array.add(all_);
