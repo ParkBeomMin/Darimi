@@ -32,6 +32,7 @@ public class darimiDB extends SQLiteOpenHelper {
                 "call varchar(15))";
         sqLiteDatabase.execSQL(sql);
 
+
 //        sql = "create table if not exists order(" +
 //                "custom blob, " +
 //                "item blob," +

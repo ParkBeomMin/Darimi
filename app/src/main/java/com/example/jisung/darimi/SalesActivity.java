@@ -4,6 +4,9 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +40,12 @@ public class SalesActivity extends AppCompatActivity {
     Calendar my_calendar;
 
     TreeNode root;
+    AndroidTreeView tView;
+    ViewGroup containerView;
+    TreeNode defalt_node;
+    ArrayList<TreeNode> node_list = new ArrayList<TreeNode>();
 
+    int FILTER = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,17 +53,7 @@ public class SalesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sales);
         init();
         open_calendar();
-        root = TreeNode.root();
-        TreeNode parent = new TreeNode("MyParentNode");
-        TreeNode child0 = new TreeNode("ChildNode0");
-        TreeNode child1 = new TreeNode("ChildNode1");
-        parent.addChildren(child0);
-        child0.addChild(child1);
-        root.addChild(parent);
-        AndroidTreeView tView = new AndroidTreeView(this, root);
-        ViewGroup containerView = (ViewGroup)findViewById(R.id.sales_list);
-        containerView.addView(tView.getView());
-        //test
+
     }
 
     void init() {
@@ -102,7 +100,54 @@ public class SalesActivity extends AppCompatActivity {
         adapter.getFinishDay(finish_tv.getText().toString().substring(8));
         adapter.notifyDataSetChanged();
 
+        root = TreeNode.root();
+        defalt_node = new TreeNode(new SalesAdpater.TreeItem(curDayFormat.format(date) + "일", "400,000원")).setViewHolder(new SalesAdpater(this));
+        TreeNode child0 = new TreeNode(new SalesAdpater.TreeItem("박범민", "400,000원")).setViewHolder(new SalesAdpater(this));
+        TreeNode child1 = new TreeNode(new SalesAdpater.TreeItem("child1", "child1")).setViewHolder(new SalesAdpater(this));
+//        TreeNode child2 = new TreeNode(new SalesAdpater.TreeItem("child2","child2")).setViewHolder(new SalesAdpater(this));
+        defalt_node.addChildren(child0);
+//        child0.addChild(child1);
+//        child1.addChild(child2);
+        root.addChild(defalt_node);
+//        root.addChild(child1);
+        tView = new AndroidTreeView(this, root);
+//        tView.addNode(root, child1);
+        containerView = (ViewGroup) findViewById(R.id.sales_list);
+        containerView.addView(tView.getView());
+        node_list.add(defalt_node);
+        start_tv.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                set_list(start_tv, finish_tv, FILTER);
+            }
+        });
+
+        finish_tv.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                set_list(start_tv, finish_tv, FILTER);
+            }
+        });
     }
 
     private void setCalendarDate(int year, int month) {
@@ -176,13 +221,14 @@ public class SalesActivity extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener listener2 = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-            if (i < Integer.parseInt(start_tv.getText().toString().substring(0, 4)) || i1 + 1 > Integer.parseInt(start_tv.getText().toString().substring(5, 7))) {
+            if ((i < Integer.parseInt(start_tv.getText().toString().substring(0, 4))) || (i1 + 1 < Integer.parseInt(start_tv.getText().toString().substring(5, 7)))) {
+Log.d("BEOM14", "i : " + i);
+                Log.d("BEOM14", "i1 : " + i1);
+                Toast.makeText(SalesActivity.this, "끝나는 날짜가 시작 날짜보다 작을 수는 없습니다1", Toast.LENGTH_LONG).show();
+            } else if ((i == Integer.parseInt(start_tv.getText().toString().substring(0, 4))) && (i1 + 1 == Integer.parseInt(start_tv.getText().toString().substring(5, 7)))
+                    && (i2 < Integer.parseInt(start_tv.getText().toString().substring(8)))) {
 
-                Toast.makeText(SalesActivity.this, "끝나는 날짜가 시작 날짜보다 작을 수는 없습니다", Toast.LENGTH_LONG).show();
-            } else if (i == Integer.parseInt(start_tv.getText().toString().substring(0, 4)) && i1 + 1 == Integer.parseInt(start_tv.getText().toString().substring(5, 7))
-                    && i2 < Integer.parseInt(start_tv.getText().toString().substring(8))) {
-
-                Toast.makeText(SalesActivity.this, "끝나는 날짜가 시작 날짜보다 작을 수는 없습니다", Toast.LENGTH_LONG).show();
+                Toast.makeText(SalesActivity.this, "끝나는 날짜가 시작 날짜보다 작을 수는 없습니다2", Toast.LENGTH_LONG).show();
             } else {
                 if (i1 + 1 < 10 && i2 < 10) {
                     finish_tv.setText(i + ".0" + (i1 + 1) + ".0" + i2);
@@ -204,7 +250,9 @@ public class SalesActivity extends AppCompatActivity {
         }
     };
 
+
     public void onClick(View v) {
+
         switch (v.getId()) {
             case R.id.manageA:
                 intent = new Intent(this, ManageActivity.class);
@@ -239,6 +287,8 @@ public class SalesActivity extends AppCompatActivity {
                 } else {
                     set_calendar_term(start_year_, start_month_, start_day_of_month_, start_tv, 1, 1);
                 }
+
+
                 break;
 
             case R.id.sales_finish_left_btn:
@@ -359,14 +409,91 @@ public class SalesActivity extends AppCompatActivity {
     public void sales_list_filter_Click(View v) {
         switch (v.getId()) {
             case R.id.sales_list_day_btn:
-
+                set_list(start_tv,finish_tv,0);
+                FILTER = 0;
                 break;
             case R.id.sales_list_month_btn:
-
+                set_list(start_tv,finish_tv,1);
+                FILTER = 1;
                 break;
             case R.id.sales_list_year_btn:
-
+                set_list(start_tv,finish_tv,2);
+                FILTER = 2;
                 break;
         }
+    }
+
+    void set_list(TextView t1, TextView t2, int op) {
+        int size_ = node_list.size();
+        if (node_list.get(0) == defalt_node) {
+            tView.removeNode(defalt_node);
+            node_list.clear();
+        } else {
+            for (int i = 0; i < size_; i++) {
+                tView.removeNode(node_list.get(i));
+            }
+        }
+        node_list.clear();
+        if (op == 2) {
+            for (int i = Integer.parseInt(t1.getText().toString().substring(0, 4)); i <= Integer.parseInt(t2.getText().toString().substring(0, 4)); i++) {
+                node_list.add(new TreeNode(new SalesAdpater.TreeItem(i + "년", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+            }
+            for (int i = 0; i < node_list.size(); i++) {
+                for (int j = Integer.parseInt(t1.getText().toString().substring(5, 7)); j <= Integer.parseInt(t2.getText().toString().substring(5, 7)); j++) {
+                    node_list.get(i).addChild(new TreeNode(new SalesAdpater.TreeItem(j + "월", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                }
+            }
+            for (int i = 0; i < node_list.size(); i++) {
+                for (int j = 0; j <= Integer.parseInt(t2.getText().toString().substring(5, 7)) - Integer.parseInt(t1.getText().toString().substring(5, 7)); j++) {
+                    for (int k = Integer.parseInt(t1.getText().toString().substring(8)); k <= Integer.parseInt(t2.getText().toString().substring(8)); k++) {
+                        node_list.get(i).getChildren().get(j).addChild((new TreeNode(new SalesAdpater.TreeItem(k + "일", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this))));
+                    }
+                }
+            }
+            for (int i = 0; i < node_list.size(); i++) {
+                for (int j = 0; j <= Integer.parseInt(t2.getText().toString().substring(5, 7)) - Integer.parseInt(t1.getText().toString().substring(5, 7)); j++) {
+                    for (int k = 0; k <= Integer.parseInt(t2.getText().toString().substring(8))-Integer.parseInt(t1.getText().toString().substring(8)); k++) {
+                        node_list.get(i).getChildren().get(j).getChildren().get(k).addChild(new TreeNode(new SalesAdpater.TreeItem("박범민", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                    }
+                }
+            }
+//            for (int i = 0; i < node_list.size(); i++) {
+//                node_list.get(i).getChildren().add(new TreeNode(new SalesAdpater.TreeItem("박범민", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+//            }
+        } else if (op == 1) {
+            for (int i = Integer.parseInt(t1.getText().toString().substring(5, 7)); i <= Integer.parseInt(t2.getText().toString().substring(5, 7)); i++) {
+                node_list.add(new TreeNode(new SalesAdpater.TreeItem(i + "월", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+            }
+            for (int i = 0; i < node_list.size(); i++) {
+                for (int j = Integer.parseInt(t1.getText().toString().substring(8)); j <= Integer.parseInt(t2.getText().toString().substring(8)); j++) {
+                    node_list.get(i).addChild((new TreeNode(new SalesAdpater.TreeItem(j + "일", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this))));
+                }
+            }
+
+            for (int i = 0; i < node_list.size(); i++) {
+                for (int j = 0; j <= Integer.parseInt(t2.getText().toString().substring(8)) - Integer.parseInt(t1.getText().toString().substring(8)); j++) {
+                    node_list.get(i).getChildren().get(j).addChild(new TreeNode(new SalesAdpater.TreeItem("박범민", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                }
+            }
+        } else if (op == 0) {
+            for (int i = Integer.parseInt(t1.getText().toString().substring(8)); i <= Integer.parseInt(t2.getText().toString().substring(8)); i++) {
+                node_list.add(new TreeNode(new SalesAdpater.TreeItem(i + "일", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+            }
+            for (int i = 0; i < node_list.size(); i++) {
+                node_list.get(i).addChild(new TreeNode(new SalesAdpater.TreeItem("박범민", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+            }
+        }
+//        for (int i = Integer.parseInt(t1.getText().toString().substring(8)); i <= Integer.parseInt(t2.getText().toString().substring(8)); i++) {
+//            node_list.add(new TreeNode(new SalesAdpater.TreeItem(i + "일", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+//        }
+//        for (int i = 0; i < node_list.size(); i++) {
+//            node_list.get(i).addChild(new TreeNode(new SalesAdpater.TreeItem("박범민", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+//        }
+        for (int i = 0; i < node_list.size(); i++) {
+            if (node_list.get(i).getParent() == null) {
+                tView.addNode(root, node_list.get(i));
+            }
+        }
+
     }
 }
