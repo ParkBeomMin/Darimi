@@ -10,4 +10,5 @@
     <color name="Key2">#e6b543</color>
     <color name="Red">#ff0000</color>
     <color name="DeepGray">#65686f</color>
+    <color name="MidGray">#dddddd</color>
 </resources>
