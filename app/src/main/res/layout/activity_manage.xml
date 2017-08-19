@@ -4,52 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:weightSum="14"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:orientation="horizontal"
+    android:weightSum="14"
 
     tools:context="com.example.jisung.darimi.ManageActivity">
+
     <LinearLayout
         android:layout_width="0dp"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:weightSum="9"
-        android:layout_height="match_parent">
+        android:orientation="vertical"
+        android:weightSum="9">
+
         <ImageView
             android:id="@+id/logo"
-            android:src="@mipmap/ic_launcher_round"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp" />
+            android:src="@mipmap/ic_launcher_round" />
+
         <TextView
-            android:text="주문"
             android:id="@+id/orderA"
-            android:onClick="onClick"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.2"/>
+            android:layout_weight="1.2"
+            android:onClick="onClick"
+            android:text="주문" />
+
         <TextView
-            android:text="고객관리"
             android:id="@+id/manageA"
-            android:onClick="onClick"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.2"/>
+            android:layout_weight="1.2"
+            android:onClick="onClick"
+            android:text="고객관리" />
+
         <TextView
-            android:text="매출"
             android:id="@+id/salesA"
-            android:onClick="onClick"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.2"/>
+            android:layout_weight="1.2"
+            android:onClick="onClick"
+            android:text="매출" />
+
         <TextView
-            android:text="설정"
             android:id="@+id/settingA"
-            android:onClick="onClick"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.2"/>
+            android:layout_weight="1.2"
+            android:onClick="onClick"
+            android:text="설정" />
     </LinearLayout>
 
     <LinearLayout
@@ -58,190 +64,283 @@
         android:layout_weight="13"
         android:orientation="vertical"
         android:weightSum="9.2">
-        
+
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:weightSum="15"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="15">
+
             <TextView
                 android:id="@+id/calcul"
-                android:text="계산기"
-                android:layout_weight="1.5"
                 android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:text="계산기" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="11.5"/>
+                android:layout_weight="11.5" />
+
             <TextView
-                android:text="시간"
                 android:id="@+id/time"
-                android:layout_weight="2"
                 android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="시간" />
         </LinearLayout>
 
         <!--Beom Min-->
 
         <LinearLayout
-            android:padding="15dp"
-            android:orientation="vertical"
-            android:layout_weight="8.2"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:layout_weight="8.2"
+            android:background="@color/Gray"
+            android:orientation="vertical"
+            android:padding="15dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.12"
+                    android:background="@color/Key"
+                    android:gravity="center"
+                    android:text="고객검색"
+                    android:textColor="@color/White" />
+
                 <EditText
                     android:id="@+id/custom_search_edt"
-                    android:layout_weight="1"
-                    android:hint="고객검색"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
                 <Button
-                    android:onClick="onClick"
                     android:id="@+id/add_custom_btn"
-                    android:text="신규등록"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent"
+                    android:background="@color/Key2"
+                    android:onClick="onClick"
+                    android:text="신규등록"
+                    android:textColor="@color/White" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@color/Gray">
+
                 <Button
-                    android:background="@drawable/select_border"
-                    android:onClick="search_Click"
                     android:id="@+id/all_search_btn"
-                    android:text="전체"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="0.5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <Button                    android:background="@drawable/border"
-
+                    android:background="@drawable/rounded_btn"
                     android:onClick="search_Click"
+                    android:text="전체"
+                    android:textColor="@color/White" />
+
+                <Button
                     android:id="@+id/r_search_btn"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+
+                    android:background="@drawable/rounded_btn"
+                    android:onClick="search_Click"
                     android:text="ㄱ"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <Button                    android:background="@drawable/border"
+                    android:textColor="@color/White" />
 
-                    android:onClick="search_Click"
+                <Button
                     android:id="@+id/s_search_btn"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+
+                    android:background="@drawable/rounded_btn"
+                    android:onClick="search_Click"
                     android:text="ㄴ"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <Button                    android:background="@drawable/border"
+                    android:textColor="@color/White" />
 
-                    android:onClick="search_Click"
+                <Button
                     android:id="@+id/e_search_btn"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+
+                    android:background="@drawable/rounded_btn"
+                    android:onClick="search_Click"
                     android:text="ㄷ"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <Button                    android:background="@drawable/border"
+                    android:textColor="@color/White" />
 
-                    android:onClick="search_Click"
+                <Button
                     android:id="@+id/f_search_btn"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+
+                    android:background="@drawable/rounded_btn"
+                    android:onClick="search_Click"
                     android:text="ㄹ"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <Button                    android:background="@drawable/border"
+                    android:textColor="@color/White" />
 
-                    android:onClick="search_Click"
+                <Button
                     android:id="@+id/a_search_btn"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+
+                    android:background="@drawable/rounded_btn"
+                    android:onClick="search_Click"
                     android:text="ㅁ"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <Button                    android:background="@drawable/border"
+                    android:textColor="@color/White" />
 
-                    android:onClick="search_Click"
+                <Button
                     android:id="@+id/q_search_btn"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+
+                    android:background="@drawable/rounded_btn"
+                    android:onClick="search_Click"
                     android:text="ㅂ"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <Button                    android:background="@drawable/border"
+                    android:textColor="@color/White" />
 
-                    android:onClick="search_Click"
+                <Button
                     android:id="@+id/t_search_btn"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_btn"
+                    android:onClick="search_Click"
                     android:text="ㅅ"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <Button                    android:background="@drawable/border"
+                    android:textColor="@color/White" />
 
-                    android:onClick="search_Click"
+                <Button
                     android:id="@+id/d_search_btn"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+
+                    android:background="@drawable/rounded_btn"
+                    android:onClick="search_Click"
                     android:text="ㅇ"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <Button                    android:background="@drawable/border"
+                    android:textColor="@color/White" />
 
-                    android:onClick="search_Click"
+                <Button
                     android:id="@+id/w_search_btn"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+
+                    android:background="@drawable/rounded_btn"
+                    android:onClick="search_Click"
                     android:text="ㅈ"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <Button                    android:background="@drawable/border"
+                    android:textColor="@color/White" />
 
-                    android:onClick="search_Click"
+                <Button
                     android:id="@+id/c_search_btn"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_btn"
+                    android:onClick="search_Click"
                     android:text="ㅊ"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <Button                    android:background="@drawable/border"
+                    android:textColor="@color/White" />
 
-                    android:onClick="search_Click"
+                <Button
                     android:id="@+id/z_search_btn"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+
+                    android:background="@drawable/rounded_btn"
+                    android:onClick="search_Click"
                     android:text="ㅋ"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <Button                    android:background="@drawable/border"
+                    android:textColor="@color/White" />
 
-                    android:onClick="search_Click"
+                <Button
                     android:id="@+id/x_search_btn"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+
+                    android:background="@drawable/rounded_btn"
+                    android:onClick="search_Click"
                     android:text="ㅌ"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <Button                    android:background="@drawable/border"
+                    android:textColor="@color/White" />
 
-                    android:onClick="search_Click"
+                <Button
                     android:id="@+id/v_search_btn"
-                    android:text="ㅍ"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <Button                    android:background="@drawable/border"
 
-                    android:onClick="search_Click"
-                    android:id="@+id/g_search_btn"
-                    android:text="ㅎ"
-                    android:layout_weight="1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+
+                    android:background="@drawable/rounded_btn"
+                    android:onClick="search_Click"
+                    android:text="ㅍ"
+                    android:textColor="@color/White" />
+
+                <Button
+                    android:id="@+id/g_search_btn"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    android:background="@drawable/rounded_btn"
+                    android:onClick="search_Click"
+                    android:text="ㅎ"
+                    android:textColor="@color/White" />
             </LinearLayout>
+
             <ListView
-                android:padding="5dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/border"
-                android:dividerHeight="1dp"
-                android:divider="@color/Black"
-                android:layout_weight="1"
                 android:id="@+id/custom_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp">
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/border"
+                android:divider="@color/Gray"
+                android:dividerHeight="1dp"
+                android:padding="1dp">
 
             </ListView>
             <!--<LinearLayout

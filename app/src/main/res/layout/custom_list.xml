@@ -13,7 +13,7 @@
     <View
         android:layout_width="1dp"
         android:layout_height="match_parent"
-        android:background="@color/Black"/>
+        android:background="@color/Gray"/>
     <TextView
         android:id="@+id/custom_list_name_tv"
         android:layout_weight="0.85"
@@ -24,7 +24,7 @@
     <View
         android:layout_width="1dp"
         android:layout_height="match_parent"
-        android:background="@color/Black"/>
+        android:background="@color/Gray"/>
     <TextView
         android:id="@+id/custom_list_call_tv"
         android:layout_weight="0.4"
@@ -36,10 +36,12 @@
         android:layout_weight="1"
         android:background="@color/White"
         android:id="@+id/custom_list_modify_btn"
+        android:textColor="@color/DeepGray"
         android:text="수정"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <Button
+        android:textColor="@color/Red"
         android:layout_weight="1"
         android:background="@color/White"
         android:id="@+id/custom_list_delete_btn"
