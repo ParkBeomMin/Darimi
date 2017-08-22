@@ -8,9 +8,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.unnamed.b.atv.model.TreeNode;
 
 import java.util.ArrayList;
 
@@ -18,99 +21,59 @@ import java.util.ArrayList;
  * Created by parkbeommin on 2017. 8. 8..
  */
 
-public class SalesAdpater extends BaseExpandableListAdapter {
-ArrayList<Sales> arrayList;
-    Context c;
-
-    public SalesAdpater(ArrayList<Sales> arrayList, Context c) {
-        this.arrayList = arrayList;
-        this.c = c;
+public class SalesAdpater extends TreeNode.BaseNodeViewHolder<SalesAdpater.TreeItem> {
+//ArrayList<Sales> arrayList;
+//    Context c;
+    public SalesAdpater(Context context) {
+        super(context);
+//        this.c = c;
     }
 
     @Override
-    public int getGroupCount() {
-        return arrayList.size();
-    }
-
-    @Override
-    public int getChildrenCount(int i) {
-        return arrayList.get(i).sublist.size();
-    }
-
-    @Override
-    public Object getGroup(int i) {
-        return arrayList.get(i);
-    }
-
-    @Override
-    public Object getChild(int i, int i1) {
-        return arrayList.get(i).sublist.get(i1);
-    }
-
-    @Override
-    public long getGroupId(int i) {
-        return 0;
-    }
-
-    @Override
-    public long getChildId(int i, int i1) {
-        return 0;
-    }
-
-    @Override
-    public boolean hasStableIds() {
-        return false;
-    }
-
-    @Override
-    public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
-        LayoutInflater inflater = LayoutInflater.from(c);
-        if(view == null){
-            view = inflater.inflate(R.layout.sales_list_item,null);
-        }
+    public View createNodeView(final TreeNode node, TreeItem value) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.sales_list_item, null);
         TextView t1 = (TextView)view.findViewById(R.id.sales_list_item_name_tv);
         TextView t2 = (TextView)view.findViewById(R.id.sales_list_item_sale_tv);
-        Sales one = (Sales)getGroup(i);
-        t1.setText(one.date);
-        t2.setText(one.sale+"");
-        return view;    }
+        TextView v1 = (TextView)view.findViewById(R.id.beom);
+        t1.setText(value.s1);
+        t2.setText(value.s2);
 
-    @Override
-    public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
-        LayoutInflater inflater = LayoutInflater.from(c);
-        if(view == null){
-            view = inflater.inflate(R.layout.sublist,null);
+        if(node.getLevel()==1){
+            v1.setPadding(550,0,0,0);
         }
-        ExpandableListView listView = (ExpandableListView)view.findViewById(R.id.sales_sublist);
-        ArrayList<Sales> sub = new ArrayList<Sales>();
-//        sub.addAll(arrayList.get(i).sublist);
-//        Sales s1 = (Sales)getChild(i,i1);
-        Sales s1 = new Sales("sub1",1);
-//        sub.add(s1);
-        s1.sublist.add(new Sales("subsub",1));
-        sub.add(s1);
-//        Log.d("BEOM9", "sub_size : " + sub.size());
-//        Log.d("BEOM9", "sub_0 : " + sub.get(0).date);
-//        Log.d("BEOM9", "subsub_0 : " + sub.get(0).sublist.get(0).date);
-        SalesSubAdapter adapter = new SalesSubAdapter(sub,c);
-        listView.setAdapter(adapter);
-//        TextView t1 = (TextView)view.findViewById(R.id.sales_list_item_name_tv);
-//        TextView t2 = (TextView)view.findViewById(R.id.sales_list_item_sale_tv);
-//        Sales one = (Sales)getChild(i,i1);
-//        t1.setText(one.date);
-//        t2.setText(one.sale+"");
-        listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
-                Toast.makeText(c, "hi",Toast.LENGTH_LONG).show();
-                return false;
-            }
-        });
+        if(node.getLevel()==2){
+            t1.setPadding(50,0,0,0);
+            v1.setPadding(500,0,0,0);
+        }
+        if(node.getLevel()==3){
+            t1.setPadding(100,0,0,0);
+            v1.setPadding(450,0,0,0);
+        }
+        if(node.getLevel()==4){
+            t1.setPadding(150,0,0,0);
+            v1.setPadding(400,0,0,0);
+        }
+//
+//        View set_term = inflater.inflate(R.layout.activity_sales, null);
+//        ImageButton start_left = (ImageButton)set_term.findViewById(R.id.sales_start_left_btn);
+//        start_left.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                getTreeView().removeNode(node);
+//                getTreeView().addNode(node, new TreeNode(new SalesAdpater.TreeItem( "일", "400,000원")).setViewHolder(new SalesAdpater(context)));
+//            }
+//        });
         return view;
     }
 
-    @Override
-    public boolean isChildSelectable(int i, int i1) {
-        return false;
+    public static class TreeItem{
+        public String s1;
+        public String s2;
+        public TreeItem(String s1, String s2){
+            this.s1 = s1;
+            this.s2 = s2;
+        }
     }
+
 }

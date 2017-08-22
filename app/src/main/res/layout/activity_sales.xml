@@ -93,35 +93,42 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="8.2"
-            android:orientation="vertical">
+            android:background="@color/Gray"
+            android:orientation="vertical"
+            android:padding="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/Gray"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="시작" />
+                        android:layout_height="wrap_content"
+                        android:text="시작"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <ImageButton
-                            android:onClick="onClick"
                             android:id="@+id/sales_start_left_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="onClick"
                             android:src="@drawable/ic_chevron_left_black_24dp" />
 
                         <TextView
@@ -129,13 +136,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="2017.08.04" />
+                            android:text="2017.08.04"
+                            android:textSize="15sp" />
 
                         <ImageButton
-                            android:onClick="onClick"
                             android:id="@+id/sales_start_right_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="onClick"
                             android:src="@drawable/ic_chevron_right_black_24dp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -143,25 +151,29 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="끝" />
+                        android:layout_height="wrap_content"
+                        android:text="끝"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <ImageButton
-                            android:onClick="onClick"
                             android:id="@+id/sales_finish_left_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="onClick"
                             android:src="@drawable/ic_chevron_left_black_24dp" />
 
                         <TextView
@@ -169,13 +181,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="2017.08.04" />
+                            android:text="2017.08.04"
+                            android:textSize="15sp" />
 
                         <ImageButton
-                            android:onClick="onClick"
                             android:id="@+id/sales_finish_right_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="onClick"
                             android:src="@drawable/ic_chevron_right_black_24dp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -184,20 +197,28 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@color/Key2"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="총매출" />
+                        android:background="@color/Key2"
+                        android:text="총매출"
+                        android:textColor="@color/White"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="100,000원" />
+                        android:layout_height="wrap_content"
+                        android:background="@color/Key2"
+                        android:text="100,000원"
+                        android:textColor="@color/White"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -207,12 +228,13 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:orientation="horizontal"
-                android:padding="10dp">
+                android:background="@color/Gray"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1">
 
                     <LinearLayout
@@ -221,63 +243,73 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/border"
-                            android:gravity="center"
-                            android:text="날짜선택" />
-
                         <LinearLayout
-                            android:padding="1dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/border"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/border"
                             android:gravity="center"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:padding="1dp">
 
                             <TextView
                                 android:id="@+id/sales_year_tv"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="center"
+                                android:gravity="left"
                                 android:text="2017" />
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
 
-                                <ImageButton
-                                    android:onClick="onClick"
+                                <LinearLayout
+                                    android:layout_weight="1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent">
+
+                                    <TextView
+                                        android:gravity="bottom"
+                                        android:textStyle="bold"
+                                        android:textSize="20sp"
+                                        android:id="@+id/sales_month_tv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:text="8" /><TextView
+                                        android:gravity="bottom"
+                                        android:text="August"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent" />
+
+                                </LinearLayout>
+                                 <ImageButton
+                                     android:background="@drawable/border"
                                     android:id="@+id/sales_calendar_left_btn"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:onClick="onClick"
                                     android:src="@drawable/ic_chevron_left_black_24dp" />
 
-                                <TextView
-                                    android:id="@+id/sales_month_tv"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:gravity="center"
-                                    android:text="8" />
+
 
                                 <ImageButton
-                                    android:onClick="onClick"
+                                    android:background="@drawable/border"
                                     android:id="@+id/sales_calendar_right_btn"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:onClick="onClick"
                                     android:src="@drawable/ic_chevron_right_black_24dp" />
                             </LinearLayout>
 
                             <GridView
-                                android:layout_weight="1"
+                                android:overScrollMode="never"
                                 android:id="@+id/sales_calendar"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:numColumns="7"
-                                android:listSelector="@color/Gray">
+                                android:layout_weight="1"
+                                android:listSelector="@color/Gray"
+                                android:numColumns="7">
 
                             </GridView>
                         </LinearLayout>
@@ -286,56 +318,63 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/border">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:orientation="vertical">
-<LinearLayout
-    android:background="@drawable/border"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_weight="1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="매출내역" />
-    <Button
-        android:onClick="sales_list_filter_Click"
-        android:id="@+id/sales_list_day_btn"
-        android:text="일"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <Button        android:onClick="sales_list_filter_Click"
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/MidGray"
+                            android:orientation="horizontal">
 
-        android:id="@+id/sales_list_month_btn"
-        android:text="월"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <Button        android:onClick="sales_list_filter_Click"
+                            <TextView
+                                android:textColor="@color/DeepGray"
+                                android:background="@color/MidGray"
+                                android:layout_marginLeft="10dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="매출내역" />
 
-        android:id="@+id/sales_list_year_btn"
-        android:text="년"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+                            <Button
+                                android:id="@+id/sales_list_day_btn"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:onClick="sales_list_filter_Click"
+                                android:text="일" />
 
-                        <ExpandableListView
+                            <Button
+                                android:id="@+id/sales_list_month_btn"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:onClick="sales_list_filter_Click"
+                                android:text="월" />
+
+                            <Button
+                                android:id="@+id/sales_list_year_btn"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:onClick="sales_list_filter_Click"
+                                android:text="년" />
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:id="@+id/sales_list"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
                             android:background="@drawable/border"
-                            android:padding="1dp">
+                            android:orientation="vertical">
 
-                        </ExpandableListView>
+                        </LinearLayout>
                     </LinearLayout>
 
                 </LinearLayout>

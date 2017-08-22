@@ -32,6 +32,14 @@ public class darimiDB extends SQLiteOpenHelper {
                 "call varchar(15))";
         sqLiteDatabase.execSQL(sql);
 
+        sql = "create table if not exists sales(" +
+                "id number not null, " +
+                "name varchar(12)," +
+                "item varchar(100)," +
+                "charge number not null," +
+                "date varchar(12))";
+        sqLiteDatabase.execSQL(sql);
+
 //        sql = "create table if not exists order(" +
 //                "custom blob, " +
 //                "item blob," +
@@ -46,13 +54,13 @@ public class darimiDB extends SQLiteOpenHelper {
         String sql = "drop table if exists item;";
         sql += "drop table if exists custom;";
         sql += "drop table if exists order;";
+        sql += "drop table if exists sales;";
         sqLiteDatabase.execSQL(sql);
         onCreate(sqLiteDatabase);
     }
 
     public void Insert_Custom(ArrayList<Custom> arrayList, Custom data) {
         SQLiteDatabase myDB = getWritableDatabase();
-
         String sql = "Insert into custom values('";
         sql += data.getId() + "',";
         sql += "null,'";
@@ -105,5 +113,31 @@ public class darimiDB extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void Insert_Sales(Sales data){
+        SQLiteDatabase myDB = getWritableDatabase();
+        String sql = "Insert into sales values('";
+        sql += data.getId() + "','";
+        sql += data.getName() + "','";
+        sql += data.getItem() + "','";
+        sql += data.getSale() + "','";
+        sql += data.getDate() + "')";
+        myDB.execSQL(sql);
+    }
+    public void Select_Sales(ArrayList<Sales> arrayList){
+        arrayList.clear();
+        SQLiteDatabase myDB = getWritableDatabase();
+        String sql = "Select * from sales";
+        Cursor cursor = myDB.rawQuery(sql, null);
+
+        while (cursor.moveToNext()) {
+            String id = cursor.getString(0);
+            String name = cursor.getString(1);
+            String item = cursor.getString(2);
+            String charge = cursor.getString(3);
+            String date = cursor.getString(4);
+            arrayList.add(new Sales(id, name, item, date, Integer.parseInt(charge)));
+        }
+        cursor.close();
+    }
 
 }

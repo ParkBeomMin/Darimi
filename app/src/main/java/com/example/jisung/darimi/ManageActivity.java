@@ -1,5 +1,6 @@
 package com.example.jisung.darimi;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
@@ -16,6 +17,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.tsengvn.typekit.Typekit;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,7 +41,7 @@ public class ManageActivity extends AppCompatActivity {
     CustomAdapter adapter;
 
     darimiDB database = new darimiDB(this, "myDB", null, 1);
-    String init="";
+    String init = "";
     Button all_, r_, s_, e_, f_, a_, q_, t_, d_, w_, c_, z_, x_, v_, g_;
     ArrayList<Button> select_btn_array = new ArrayList<Button>();
 
@@ -45,9 +49,15 @@ public class ManageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage);
+        Typekit.getInstance()
+                .addNormal(Typekit.createFromAsset(this, "rix.ttf"))
+                .addBold(Typekit.createFromAsset(this, "rixb.TTF"));
         init();
     }
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
     //basis
     void init() {
         all_ = (Button) findViewById(R.id.all_search_btn);
@@ -184,10 +194,9 @@ public class ManageActivity extends AppCompatActivity {
                         // nowDate 변수에 값을 저장한다.
                         String id = sdfNow.format(date);
                         if (custom_name.length() != 0 && custom_call.length() != 0) {
-                            if(adapter.isInitialSound(custom_name.charAt(0))){
+                            if (adapter.isInitialSound(custom_name.charAt(0))) {
                                 Toast.makeText(ManageActivity.this, "이름을 제대로 입력해주세요.", Toast.LENGTH_LONG).show();
-                            }
-                            else if (custom_call.length() <= 9) {
+                            } else if (custom_call.length() <= 9) {
                                 Toast.makeText(ManageActivity.this, "전화번호를 제대로 입력해주세요.", Toast.LENGTH_LONG).show();
                             } else {
                                 Custom new_Custom = new Custom(id, Integer.toString(num), custom_name, custom_call);
@@ -262,8 +271,9 @@ public class ManageActivity extends AppCompatActivity {
                 break;
             case R.id.r_search_btn:
 //                Initial_Search('ㄱ');
-                adapter.filter("ㄱ");
                 select_btn(r_);
+                adapter.filter("ㄱ");
+
                 break;
             case R.id.s_search_btn:
                 select_btn(s_);
@@ -350,11 +360,11 @@ public class ManageActivity extends AppCompatActivity {
     void select_btn(Button selec) {
         custom_search_edt.setText("");
         Log.d("BEOM6", "Btn : " + selec.getText());
-        selec.setBackgroundResource(R.drawable.select_border);
+//        selec.setBackgroundResource(R.drawable.select_border);
         select_btn_array.remove(selec);
         for (int i = 0; i < select_btn_array.size(); i++) {
             Log.d("BEOM6", "arrBtn : " + select_btn_array.get(i).getText());
-            select_btn_array.get(i).setBackgroundResource(R.drawable.border);
+//            select_btn_array.get(i).setBackgroundResource(R.drawable.border);
         }
         select_btn_array.clear();
         select_btn_array.add(all_);
