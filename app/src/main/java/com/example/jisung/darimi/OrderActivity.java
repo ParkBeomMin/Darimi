@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,11 @@ import android.widget.ExpandableListView;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.woxthebox.draglistview.DragListView;
+import com.woxthebox.draglistview.swipe.ListSwipeHelper;
+import com.woxthebox.draglistview.swipe.ListSwipeItem;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -40,14 +47,17 @@ public class OrderActivity extends AppCompatActivity {
     private ArrayList<SelectItem> selectItems_list;
     private ArrayList<Categol> cate_list;
 
-    private ItemAdapter item_adapter;
     private SelectItemAdapter selected_adapter;
     private CateAdapter cate_adapter;
+    private ItemBaseAdapter item_adapter;
 
     private GridView item_view;
     private ListView sele_view;
     private HListView cate_view;
     private Display display;
+
+    private ArrayList<Item> mItemArray;
+    private DragListView mDragListView;
 
 
 
@@ -56,80 +66,97 @@ public class OrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         init();
+
+        item_list.add(new Item("jisung","100000",1,R.drawable.item_marked,true));
+        item_list.add(new Item("jisung","100000",2,R.drawable.item_marked,false));
+        item_list.add(new Item("B","100000",3,R.drawable.item_marked,true));
+        item_list.add(new Item("C","100000",4,R.drawable.item_marked,false));
+        item_list.add(new Item("D","100000",5,R.drawable.item_marked,true));
+        item_adapter.notifyDataSetChanged();
+
+//        mDragListView.setDragEnabled(false);
         getObjectData();
+
 //
+
 
         item_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
-                if(edit_act){//편집 활성화 시
-                    View e_view = View.inflate(view.getContext(), R.layout.item_setting, null);   //뷰 가져오기
-
-                    final Dialog dialog = new Dialog(view.getContext()); //대화상자 생성
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog.setContentView(e_view); //대화상자 뷰 설정
-                    WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
-                    params.width = (int) (display.getWidth() * 0.8);
-                    params.height = (int) (display.getHeight() * 0.6);
-                    dialog.getWindow().setAttributes(params);//대화상자 크기 설정
-
-                    final EditText eitem_name = (EditText)e_view.findViewById(R.id.item_name);
-                    final EditText eitem_price = (EditText)e_view.findViewById(R.id.item_price);
-                    Button selcet_img = (Button)e_view.findViewById(R.id.change_img);
-                    Button comple = (Button)e_view.findViewById(R.id.edit_com);
-                    //대화상자 초기화
-
-                    eitem_name.setText(item_list.get(i).getName());
-                    eitem_price.setText(item_list.get(i).getPrice());
-
-                    selcet_img.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            /*
-                            이미지 선택 및 저장
-                            */
-
-                        }
-                    });//파일 선택
-                    comple.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            item_list.get(i).setName(eitem_name.toString());
-                            item_list.get(i).setPrice(eitem_price.toString());
-                            //클릭시 아이템 변경
-                            /*
-                            데이터 베이스 전송
-                             */
-
-                        }
-                    });
-
-
-                    dialog.show();
-                }
-
-                else {
+//                if(edit_act){//편집 활성화 시
+//                    View e_view = View.inflate(view.getContext(), R.layout.item_setting, null);   //뷰 가져오기
+//
+//                    final Dialog dialog = new Dialog(view.getContext()); //대화상자 생성
+//                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//                    dialog.setContentView(e_view); //대화상자 뷰 설정
+//                    WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+//                    params.width = (int) (display.getWidth() * 0.8);
+//                    params.height = (int) (display.getHeight() * 0.6);
+//                    dialog.getWindow().setAttributes(params);//대화상자 크기 설정
+//
+//                    final EditText eitem_name = (EditText)e_view.findViewById(R.id.item_name);
+//                    final EditText eitem_price = (EditText)e_view.findViewById(R.id.item_price);
+//                    Button selcet_img = (Button)e_view.findViewById(R.id.change_img);
+//                    Button comple = (Button)e_view.findViewById(R.id.edit_com);
+//                    //대화상자 초기화
+//
+//                    eitem_name.setText(item_list.get(i).getName());
+//                    eitem_price.setText(item_list.get(i).getPrice());
+//
+//                    selcet_img.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            /*
+//                            이미지 선택 및 저장
+//                            */
+//
+//                        }
+//                    });//파일 선택
+//                    comple.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            item_list.get(i).setName(eitem_name.toString());
+//                            item_list.get(i).setPrice(eitem_price.toString());
+//                            //클릭시 아이템 변경
+//                            /*
+//                            데이터 베이스 전송
+//                             */
+//
+//                        }
+//                    });
+//
+//
+//                    dialog.show();
+//                }
                     nowTime();
-                    order_time.setText(today_date + today_date);
+                    order_time.setText(today_date);
                     total_Price += Integer.parseInt(item_list.get(i).getPrice());
                     total.setText(total_Price + "원");
 
+                    Log.d("testset","1");
                     for (int j = 0; j < selectItems_list.size(); j++) {
+                        Log.d("testset","2");
                         if (selectItems_list.get(j).getItem().getName().equals(item_list.get(i).getName())) {
                             selectItems_list.get(j).setNum(selectItems_list.get(j).getNum() + 1);
                             selected_adapter.notifyDataSetChanged();//변동사항 보여줌
-
+                            Log.d("testset","3");
                             return;//주문 품목에 동일한 아이템이 있는 경우 숫자를 하나 증가한다
                         }
                     }
+                Log.d("testset","4");
                     selectItems_list.add(new SelectItem(item_list.get(i), 1));//없는 경우 새로추가한다
                     selected_adapter.notifyDataSetChanged();//변동사항 보여줌
+                Log.d("testset","5");
                 }
-            }
+
         });
 
-
     }
+
+
+
+
+
     void init(){
 
         display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
@@ -146,17 +173,20 @@ public class OrderActivity extends AppCompatActivity {
         cate_list.add(new Categol("1번"));
         cate_list.add(new Categol("2번"));
 
-        item_adapter = new ItemAdapter(item_list,this);
         selected_adapter = new SelectItemAdapter(selectItems_list,this);
         cate_adapter =  new CateAdapter(cate_list,this);
+        item_adapter = new ItemBaseAdapter(item_list,this);
 
-        item_view = (GridView)findViewById(R.id.item_list);
         sele_view = (ListView)findViewById(R.id.selected_list);
         cate_view = (HListView)findViewById(R.id.cate_list);
+        item_view = (GridView)findViewById(R.id.item_list);
 
-        item_view.setAdapter(item_adapter);
         sele_view.setAdapter(selected_adapter);
         cate_view.setAdapter(cate_adapter);
+        item_view.setAdapter(item_adapter);
+
+        mDragListView = (DragListView)findViewById(R.id.drag_list_view);
+
 
         //리스트 뷰 설정
 
@@ -170,7 +200,40 @@ public class OrderActivity extends AppCompatActivity {
 
     }
 
+    void DragListSetting(){
+        mDragListView.setVisibility(View.VISIBLE);
+        mDragListView.getRecyclerView().setVerticalScrollBarEnabled(true);
+        Log.d("test11","2");
+        mDragListView.setDragListListener(new DragListView.DragListListenerAdapter() {
+            @Override
+            public void onItemDragStarted(int position) {
+                Log.d("test11","8");
 
+                Log.d("test11","9");
+
+                Toast.makeText(OrderActivity.this, "Start - position: " + position, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onItemDragEnded(int fromPosition, int toPosition) {
+                Log.d("test11","9");
+
+                if (fromPosition != toPosition) {
+                    Toast.makeText(OrderActivity.this, "End - position: " + toPosition, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        setupGridVerticalRecyclerView();
+    }
+
+    private void setupGridVerticalRecyclerView() {
+        mDragListView.setLayoutManager(new GridLayoutManager(this, 3));
+        ItemAdapter listAdapter = new ItemAdapter(item_list, R.layout.order_item, R.id.item_layout, true);
+        mDragListView.setAdapter(listAdapter, true);
+        mDragListView.setCanDragHorizontally(true);
+        mDragListView.setCustomDragItem(null);
+
+    }
 
     void timesetM(){
         nowTime();

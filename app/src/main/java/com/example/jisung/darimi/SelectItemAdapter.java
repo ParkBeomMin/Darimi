@@ -52,7 +52,7 @@ public class SelectItemAdapter extends BaseAdapter {
 
         name.setText(list.get(i).getItem().getName());
         price.setText(list.get(i).getItem().getPrice());
-        num.setText(list.get(i).getNum());
+        num.setText(list.get(i).getNum()+"");
         total_price.setText((list.get(i).getNum() *(Integer.parseInt(list.get(i).getItem().getPrice())))+"");
 
         return view;

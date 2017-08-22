@@ -34,9 +34,10 @@ public class manageDB {
             do{
                 String name = cursor.getString(0);
                 String price= cursor.getString(1);
-                int img = cursor.getInt(2);
-                boolean mark=cursor.getInt(3)>0;
-                data.add(new Item(name,price,img,mark));
+                long seq = cursor.getInt(2);
+                int img = cursor.getInt(3);
+                boolean mark=cursor.getInt(4)>0;
+                data.add(new Item(name,price,seq,img,mark));
             }while (cursor.moveToFirst());
 
         }
@@ -47,6 +48,7 @@ public class manageDB {
         String sql = "Insert into item values('";
         sql+=data.getName()+"','";
         sql+=data.getPrice()+"','";
+        sql+=data.getSeq()+"','";
         sql+=data.getImg()+"','";
         sql+=data.isMark()+"')";
         myDB.execSQL(sql);
@@ -56,6 +58,7 @@ public class manageDB {
         String sql="Update item Set ";
         sql+="name='"+data.getName();
         sql+="',price='"+data.getPrice();
+        sql+="',seq='"+data.getSeq();
         sql+="',img='"+data.getImg();
         sql+="',mark='"+data.isMark();
 

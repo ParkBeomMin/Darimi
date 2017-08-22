@@ -1,12 +1,16 @@
 package com.example.jisung.darimi;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.woxthebox.draglistview.DragItemAdapter;
 
 import java.util.ArrayList;
 
@@ -14,50 +18,67 @@ import java.util.ArrayList;
  * Created by jeongjiseong on 2017. 8. 5..
  */
 
-public class ItemAdapter extends BaseAdapter {
+public class ItemAdapter extends DragItemAdapter<Item, ItemAdapter.ViewHolder> {
 
-    ArrayList<Item> list;
-    Context context;
+    private int mLayoutId;
+    private int mGrabHandleId;
+    private boolean mDragOnLongPress;
 
-    public ItemAdapter(ArrayList<Item> list, Context context) {
-        this.list = list;
-        this.context = context;
+    ItemAdapter(ArrayList<Item> list, int layoutId, int grabHandleId, boolean dragOnLongPress) {
+        mLayoutId = layoutId;
+        mGrabHandleId = grabHandleId;
+        mDragOnLongPress = dragOnLongPress;
+        setHasStableIds(true);
+        setItemList(list);
     }
 
     @Override
-    public int getCount() {
-        return list.size();
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(mLayoutId, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public Object getItem(int i) {
-        return list.get(i);
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        String text = mItemList.get(position).getName();
+        holder.name.setText(text);
+        holder.price.setText(mItemList.get(position).getPrice());
+        holder.img.setImageResource(mItemList.get(position).getImg());
+        holder.itemView.setTag(mItemList.get(position));
+        if(mItemList.get(position).isMark())
+            holder.mark.setImageResource(R.drawable.item_marked);
     }
 
     @Override
-    public long getItemId(int i) {
-        return i;
+    public long getItemId(int position) {
+        return mItemList.get(position).getSeq();
     }
 
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        final LayoutInflater inflater = LayoutInflater.from(context);
-        if (view == null)
-            view = inflater.inflate(R.layout.order_item, null);
+    class ViewHolder extends DragItemAdapter.ViewHolder {
+        TextView name,price;
+        ImageView img,mark;
 
 
-        TextView name =(TextView)view.findViewById(R.id.item_name);
-        TextView price = (TextView)view.findViewById(R.id.item_price);
-        ImageView img = (ImageView)view.findViewById(R.id.item_img);
-        ImageView mark = (ImageView)view.findViewById(R.id.item_mark);
 
-        name.setText(list.get(i).getName());
-        price.setText(list.get(i).getPrice());
-        img.setImageResource(list.get(i).getImg());
-        if(list.get(i).isMark())
-            mark.setImageResource(R.drawable.item_marked);
+        ViewHolder(final View itemView) {
+            super(itemView, mGrabHandleId, mDragOnLongPress);
+            name =(TextView)itemView.findViewById(R.id.item_name);
+            price = (TextView)itemView.findViewById(R.id.item_price);
+            img = (ImageView)itemView.findViewById(R.id.item_img);
+            mark = (ImageView)itemView.findViewById(R.id.item_mark);
 
+        }
 
-        return view;
+        @Override
+        public void onItemClicked(View view) {
+                Log.d("test1",getPosition()+"");
+        }
+
+        @Override
+        public boolean onItemLongClicked(View view) {
+            Toast.makeText(view.getContext(), "Item long clicked", Toast.LENGTH_SHORT).show();
+            return true;
+        }
     }
 }
