@@ -7,13 +7,37 @@ import java.util.ArrayList;
  */
 
 public class Sales {
+    String id;
+    String name;
+    String item;
     String date;
     int sale;
-    ArrayList<Sales> sublist = new ArrayList<Sales>();
-    ArrayList<ArrayList<Sales>> subsublist = new ArrayList<ArrayList<Sales>>();
 
-    public Sales(String date, int sale) {
+    public Sales(String id, String name, String item, String date, int sale) {
+        this.id = id;
+        this.name = name;
+        this.item = item;
         this.date = date;
         this.sale = sale;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getItem() {
+        return item;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public int getSale() {
+        return sale;
     }
 }

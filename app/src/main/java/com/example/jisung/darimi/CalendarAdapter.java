@@ -57,6 +57,9 @@ public class CalendarAdapter extends BaseAdapter {
         String day = arrayList.get(i);
         calendar_day.setText(day);
         calendar_day.setTextColor(Color.BLACK);
+        if(i==0 || i==7 || i==14 || i==21 || i==28 || i==35 || i==42){
+            calendar_day.setTextColor(Color.RED);
+        }
         Integer today = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
         String todays = String.valueOf(today);
         Log.d("BEOM", "getYear : " + get_Title_Year);

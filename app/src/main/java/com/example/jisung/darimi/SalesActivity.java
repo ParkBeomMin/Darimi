@@ -1,6 +1,7 @@
 package com.example.jisung.darimi;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tsengvn.typekit.Typekit;
+import com.tsengvn.typekit.TypekitContextWrapper;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
 
@@ -29,6 +32,8 @@ import java.util.Date;
 import java.util.Locale;
 
 public class SalesActivity extends AppCompatActivity {
+    darimiDB database = new darimiDB(this, "myDB", null, 1);
+
     Intent intent;
     TextView time_N;
     String time;
@@ -46,6 +51,7 @@ public class SalesActivity extends AppCompatActivity {
     TreeNode defalt_node;
     ArrayList<TreeNode> node_list = new ArrayList<TreeNode>();
 
+    ArrayList<Sales> sales_list = new ArrayList<Sales>();
     int FILTER = 0;
 
     @Override
@@ -56,8 +62,20 @@ public class SalesActivity extends AppCompatActivity {
         open_calendar();
 
     }
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
     void init() {
+        database.Insert_Sales(new Sales("1","박범민","셔츠","2017-08-31",50000));
+        database.Insert_Sales(new Sales("2","정지성","남방","2017-09-11",30000));
+        database.Insert_Sales(new Sales("3","박범민","셔츠","2017-09-21",60000));
+        database.Insert_Sales(new Sales("3","박범민","셔츠","2017-08-22",60000));
+        database.Select_Sales(sales_list);
+
+        Typekit.getInstance()
+                .addNormal(Typekit.createFromAsset(this, "rix.ttf"))
+                .addBold(Typekit.createFromAsset(this, "rixb.TTF"));
         Intent gintent = getIntent();
         time = gintent.getStringExtra("time");
         time_N = (TextView) findViewById(R.id.time);
@@ -111,21 +129,25 @@ public class SalesActivity extends AppCompatActivity {
         adapter.getFinishDay(finish_tv.getText().toString().substring(8));
         adapter.notifyDataSetChanged();
 
+
         root = TreeNode.root();
-        defalt_node = new TreeNode(new SalesAdpater.TreeItem(curDayFormat.format(date) + "일", "400,000원")).setViewHolder(new SalesAdpater(this));
-        TreeNode child0 = new TreeNode(new SalesAdpater.TreeItem("박범민", "400,000원")).setViewHolder(new SalesAdpater(this));
-        TreeNode child1 = new TreeNode(new SalesAdpater.TreeItem("child1", "child1")).setViewHolder(new SalesAdpater(this));
-//        TreeNode child2 = new TreeNode(new SalesAdpater.TreeItem("child2","child2")).setViewHolder(new SalesAdpater(this));
-        defalt_node.addChildren(child0);
-//        child0.addChild(child1);
-//        child1.addChild(child2);
-        root.addChild(defalt_node);
-//        root.addChild(child1);
+        for (int i = 0; i < sales_list.size(); i++){
+            if(sales_list.get(i).getDate().substring(8).equals(curDayFormat.format(date))){
+                defalt_node = new TreeNode(new SalesAdpater.TreeItem(curDayFormat.format(date) + "일", sales_list.get(i).getSale()+"")).setViewHolder(new SalesAdpater(this));
+                TreeNode child0 = new TreeNode(new SalesAdpater.TreeItem(sales_list.get(i).getName(), sales_list.get(i).getSale()+"")).setViewHolder(new SalesAdpater(this));
+                TreeNode child1 = new TreeNode(new SalesAdpater.TreeItem(sales_list.get(i).getItem(), sales_list.get(i).getSale()+"")).setViewHolder(new SalesAdpater(this));
+                defalt_node.addChildren(child0);
+                child0.addChild(child1);
+
+            }else{
+                defalt_node = new TreeNode(new SalesAdpater.TreeItem("내역이 없습니다.", "")).setViewHolder(new SalesAdpater(this));
+            }
+        }root.addChild(defalt_node);
         tView = new AndroidTreeView(this, root);
-//        tView.addNode(root, child1);
         containerView = (ViewGroup) findViewById(R.id.sales_list);
         containerView.addView(tView.getView());
         node_list.add(defalt_node);
+
         start_tv.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -213,7 +235,7 @@ public class SalesActivity extends AppCompatActivity {
                 if (i1 + 1 < 10 && i2 < 10) {
                     start_tv.setText(i + ".0" + (i1 + 1) + ".0" + i2);
 
-                } else if (i1 - 1 < 10) {
+                } else if (i1 + 1 < 10) {
                     start_tv.setText(i + ".0" + (i1 + 1) + "." + i2);
 
                 } else if (i2 < 10) {
@@ -244,7 +266,7 @@ Log.d("BEOM14", "i : " + i);
                 if (i1 + 1 < 10 && i2 < 10) {
                     finish_tv.setText(i + ".0" + (i1 + 1) + ".0" + i2);
 
-                } else if (i1 - 1 < 10) {
+                } else if (i1 + 1  < 10) {
                     finish_tv.setText(i + ".0" + (i1 + 1) + "." + i2);
 
                 } else if (i2 < 10) {
@@ -445,7 +467,7 @@ Log.d("BEOM14", "i : " + i);
             }
         }
         node_list.clear();
-        if (op == 2) {
+        if (op == 2) { //년
             for (int i = Integer.parseInt(t1.getText().toString().substring(0, 4)); i <= Integer.parseInt(t2.getText().toString().substring(0, 4)); i++) {
                 node_list.add(new TreeNode(new SalesAdpater.TreeItem(i + "년", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
             }
@@ -468,10 +490,7 @@ Log.d("BEOM14", "i : " + i);
                     }
                 }
             }
-//            for (int i = 0; i < node_list.size(); i++) {
-//                node_list.get(i).getChildren().add(new TreeNode(new SalesAdpater.TreeItem("박범민", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
-//            }
-        } else if (op == 1) {
+        } else if (op == 1) { //월
             for (int i = Integer.parseInt(t1.getText().toString().substring(5, 7)); i <= Integer.parseInt(t2.getText().toString().substring(5, 7)); i++) {
                 node_list.add(new TreeNode(new SalesAdpater.TreeItem(i + "월", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
             }
@@ -486,7 +505,7 @@ Log.d("BEOM14", "i : " + i);
                     node_list.get(i).getChildren().get(j).addChild(new TreeNode(new SalesAdpater.TreeItem("박범민", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
                 }
             }
-        } else if (op == 0) {
+        } else if (op == 0) { //일
             for (int i = Integer.parseInt(t1.getText().toString().substring(8)); i <= Integer.parseInt(t2.getText().toString().substring(8)); i++) {
                 node_list.add(new TreeNode(new SalesAdpater.TreeItem(i + "일", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
             }
@@ -494,12 +513,6 @@ Log.d("BEOM14", "i : " + i);
                 node_list.get(i).addChild(new TreeNode(new SalesAdpater.TreeItem("박범민", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
             }
         }
-//        for (int i = Integer.parseInt(t1.getText().toString().substring(8)); i <= Integer.parseInt(t2.getText().toString().substring(8)); i++) {
-//            node_list.add(new TreeNode(new SalesAdpater.TreeItem(i + "일", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
-//        }
-//        for (int i = 0; i < node_list.size(); i++) {
-//            node_list.get(i).addChild(new TreeNode(new SalesAdpater.TreeItem("박범민", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
-//        }
         for (int i = 0; i < node_list.size(); i++) {
             if (node_list.get(i).getParent() == null) {
                 tView.addNode(root, node_list.get(i));
