@@ -1,5 +1,6 @@
 package com.example.jisung.darimi;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
@@ -16,6 +17,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.tsengvn.typekit.Typekit;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,9 +49,15 @@ public class ManageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage);
+        Typekit.getInstance()
+                .addNormal(Typekit.createFromAsset(this, "rix.ttf"))
+                .addBold(Typekit.createFromAsset(this, "rixb.TTF"));
         init();
     }
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
     //basis
     void init() {
         all_ = (Button) findViewById(R.id.all_search_btn);
