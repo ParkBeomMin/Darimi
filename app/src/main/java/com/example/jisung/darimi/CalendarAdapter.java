@@ -68,7 +68,8 @@ public class CalendarAdapter extends BaseAdapter {
         if (todays.equals(getItem(i)) && get_Title_Year.equals(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)))
                 && get_Title_Month.equals(String.valueOf(Calendar.getInstance().get(Calendar.MONTH) + 1))) {
             Log.d("BEOM", "TODAY COLOR CHANGE");
-            calendar_day.setBackgroundColor(Color.BLUE);
+            calendar_day.setBackgroundResource(R.drawable.circle_border);
+//            calendar_day.setBackgroundColor(Color.BLUE);
         }
 //        else if (get_Finish_Year.equals(get_Title_Year) && get_Finish_Month.equals(get_Title_Month) && get_Finish_Day.equals(getItem(i))) {
 //            calendar_day.setBackgroundColor(Color.RED);
@@ -112,7 +113,8 @@ public class CalendarAdapter extends BaseAdapter {
                     (get_Title_Year.equals(get_Finish_Year) && get_Title_Month.equals(get_Finish_Month))) {
 
                 if (String.valueOf(j).equals(getItem(i))) {
-                    calendar_day.setBackgroundColor(Color.RED);
+//                    calendar_day.setBackgroundColor(Color.RED);
+                    calendar_day.setBackgroundResource(R.drawable.circle_border);
                 }
             }
         }

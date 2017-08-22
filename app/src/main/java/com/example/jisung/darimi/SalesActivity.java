@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -67,6 +68,16 @@ public class SalesActivity extends AppCompatActivity {
         year = (TextView) findViewById(R.id.sales_year_tv);
         month = (TextView) findViewById(R.id.sales_month_tv);
         calendar_gridview = (GridView) findViewById(R.id.sales_calendar);
+        calendar_gridview.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction() == MotionEvent.ACTION_MOVE) // 그리드뷰 스크롤 막기
+                {
+                    return true;
+                }
+                return false;
+            }
+        });
         adapter = new CalendarAdapter(day_list, this);
 
 
