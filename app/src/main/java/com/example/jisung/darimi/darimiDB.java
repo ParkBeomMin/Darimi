@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -37,7 +38,7 @@ public class darimiDB extends SQLiteOpenHelper {
                 "name varchar(12)," +
                 "item varchar(100)," +
                 "charge number not null," +
-                "date varchar(12))";
+                "date number(12))";
         sqLiteDatabase.execSQL(sql);
 
 //        sql = "create table if not exists order(" +
@@ -135,9 +136,80 @@ public class darimiDB extends SQLiteOpenHelper {
             String item = cursor.getString(2);
             String charge = cursor.getString(3);
             String date = cursor.getString(4);
-            arrayList.add(new Sales(id, name, item, date, Integer.parseInt(charge)));
+            arrayList.add(new Sales(id, name, item, Integer.parseInt(date), Integer.parseInt(charge)));
         }
         cursor.close();
     }
+    public String Get_Total(String date){
+        int amount = 0;
+        SQLiteDatabase myDB = getWritableDatabase();
+//        String sql = "Select sum(charge) from sales WHERE date = '"+ date +"'";
+        Cursor cursor;// = myDB.rawQuery(sql, null);
+        cursor = myDB.rawQuery("Select sum(charge) from sales WHERE date = '"+ date +"';", null);
+        if(cursor.moveToFirst())
+            amount = cursor.getInt(0);
+        else
+            amount = -1;
+        cursor.close();
 
+//        myDB.execSQL(sql);
+        return String.valueOf(amount);
+    }public String Get_Charge(String date, String name){
+        int amount = 0;
+        SQLiteDatabase myDB = getWritableDatabase();
+//        String sql = "Select sum(charge) from sales WHERE date = '"+ date +"'";
+        Cursor cursor;// = myDB.rawQuery(sql, null);
+        cursor = myDB.rawQuery("Select charge from sales WHERE date = '"+ date +"' AND name = '"+name+"';", null);
+        if(cursor.moveToFirst())
+            amount = cursor.getInt(0);
+        else
+            amount = -1;
+        cursor.close();
+
+//        myDB.execSQL(sql);
+        return String.valueOf(amount);
+    }
+
+    public int Count_Custom(String date){
+        int count = 0;
+        SQLiteDatabase myDB = getWritableDatabase();
+        Cursor c;
+        c = myDB.rawQuery("SELECT count(name) FROM sales WHERE date = '"+date +"';", null);
+        if(c.moveToFirst()){
+            count = c.getInt(0);
+        }else {
+            count = -1;
+        }
+        c.close();
+        return  count;
+    }
+    public void Get_day(ArrayList arrayList, String date) {
+        SQLiteDatabase myDB = getWritableDatabase();
+        Log.d("BEOM18", "test1");
+        String sql = "SELECT distinct date FROM sales WHERE substr(date,5,2) = '"+date +"';";
+        Log.d("BEOM18", "test1");
+        Cursor cursor = myDB.rawQuery(sql, null);
+
+        while (cursor.moveToNext()) {
+            Log.d("BEOM18", "test1");
+            String temp = cursor.getString(0);
+            Log.d("BEOM18", "temp : " + temp);
+            arrayList.add(temp);
+        }
+        cursor.close();
+    }public void Get_Custom(ArrayList arrayList, String date) {
+        SQLiteDatabase myDB = getWritableDatabase();
+        Log.d("BEOM18", "test1");
+        String sql = "SELECT name FROM sales WHERE date = '"+date +"';";
+        Log.d("BEOM18", "test1");
+        Cursor cursor = myDB.rawQuery(sql, null);
+
+        while (cursor.moveToNext()) {
+            Log.d("BEOM18", "test1");
+            String temp = cursor.getString(0);
+            Log.d("BEOM18", "temp : " + temp);
+            arrayList.add(temp);
+        }
+        cursor.close();
+    }
 }

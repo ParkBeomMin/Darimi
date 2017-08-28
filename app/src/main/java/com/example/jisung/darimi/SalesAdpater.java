@@ -65,14 +65,26 @@ public class SalesAdpater extends TreeNode.BaseNodeViewHolder<SalesAdpater.TreeI
 //            }
 //        });
         return view;
+
     }
+
 
     public static class TreeItem{
         public String s1;
         public String s2;
+
+        public String getS1() {
+            return s1;
+        }
+
+        public String getS2() {
+            return s2;
+        }
+
         public TreeItem(String s1, String s2){
             this.s1 = s1;
             this.s2 = s2;
+
         }
     }
 
