@@ -10,10 +10,10 @@ public class Sales {
     String id;
     String name;
     String item;
-    String date;
+    int date;
     int sale;
 
-    public Sales(String id, String name, String item, String date, int sale) {
+    public Sales(String id, String name, String item, int date, int sale) {
         this.id = id;
         this.name = name;
         this.item = item;
@@ -33,7 +33,7 @@ public class Sales {
         return item;
     }
 
-    public String getDate() {
+    public int getDate() {
         return date;
     }
 

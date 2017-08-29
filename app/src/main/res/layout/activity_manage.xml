@@ -98,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="8.2"
-            android:background="@color/Gray"
+            android:background="@color/Background"
             android:orientation="vertical"
             android:padding="15dp">
 
@@ -116,6 +116,8 @@
                     android:textColor="@color/White" />
 
                 <EditText
+                    android:textColorHint="@color/Background"
+                    android:hint="이름검색"
                     android:id="@+id/custom_search_edt"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -135,8 +137,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:background="@color/Gray">
+                android:background="@color/Background">
 
+                <Button
+                    android:layout_weight="0.5"
+                    android:background="@color/Background"
+                    android:layout_marginRight="5dp"
+android:text="분류"
+                    android:textColor="@color/DeepGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
                 <Button
                     android:id="@+id/all_search_btn"
                     android:layout_width="wrap_content"
@@ -338,7 +348,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/border"
-                android:divider="@color/Gray"
+                android:divider="@color/Background"
                 android:dividerHeight="1dp"
                 android:padding="1dp">
 
