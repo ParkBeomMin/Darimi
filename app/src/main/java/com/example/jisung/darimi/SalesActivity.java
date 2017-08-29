@@ -3,6 +3,7 @@ package com.example.jisung.darimi;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -499,6 +500,12 @@ public class SalesActivity extends AppCompatActivity {
         b1.setEnabled(false);
         b2.setEnabled(true);
         b3.setEnabled(true);
+        b1.setBackgroundResource(R.drawable.sale_selec_btn);
+        b1.setTextColor(Color.WHITE);
+        b2.setBackgroundResource(R.drawable.sale_btn);
+        b2.setTextColor(Color.BLACK);
+        b3.setBackgroundResource(R.drawable.sale_btn);
+        b3.setTextColor(Color.BLACK);
     }
 
     void set_list(TextView t1, TextView t2, int op) {
@@ -544,22 +551,23 @@ public class SalesActivity extends AppCompatActivity {
         } else if (op == 0) { //일
             ArrayList day_list = new ArrayList();
             for (int i = 0; i < sales_list.size(); i++) {
-                Log.d("BEOM21", "Integer.parseInt(t1.getText().toString().substring(0,4)+t1.getText().toString().substring(5,7) + t1.getText().toString().substring(8)) : "+ Integer.parseInt(t1.getText().toString().substring(0,4)+t1.getText().toString().substring(5,7) + t1.getText().toString().substring(8)));
-                if (String.valueOf(sales_list.get(i).getDate()).substring(0, 4).equals(t1.getText().toString().substring(0, 4)) &&
-                        //String.valueOf(sales_list.get(i).getDate()).substring(4, 6).equals(t1.getText().toString().substring(5, 7))) {
-                        sales_list.get(i).getDate() >= Integer.parseInt(t1.getText().toString().substring(0,4)+t1.getText().toString().substring(5,7) + t1.getText().toString().substring(8)) &&
-                        sales_list.get(i).getDate() <= Integer.parseInt(t2.getText().toString().substring(0,4) + t2.getText().toString().substring(5,7) + t2.getText().toString().substring(8))) {
+                Log.d("BEOM21", "Integer.parseInt(t1.getText().toString().substring(0,4)+t1.getText().toString().substring(5,7) + t1.getText().toString().substring(8)) : " + Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)));
+                if (
+                        sales_list.get(i).getDate() >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                                sales_list.get(i).getDate() <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
                     database.Get_day(day_list, String.valueOf(sales_list.get(i).getDate()).substring(4, 6));
                 }
             }
             HashSet hs = new HashSet(day_list);
             ArrayList<String> new_day_list = new ArrayList<String>(hs);
+            Log.d("BEOM22", "new_day_list.size() : "+new_day_list.size());
             Ascendingstr ascending = new Ascendingstr();
             Collections.sort(new_day_list, ascending);
             for (int i1 = 0; i1 < new_day_list.size(); i1++) {
                 Log.d("BEOM18", "new_day_list.get(i1) : " + new_day_list.get(i1));
                 String sum = database.Get_Total(new_day_list.get(i1));
                 if (t1.getText().toString().substring(5, 7).equals(t2.getText().toString().substring(5, 7))) {
+                    Log.d("BEOM22", "test1");
                     if (Integer.parseInt(new_day_list.get(i1).toString().substring(6)) >= Integer.parseInt(t1.getText().toString().substring(8)) &&
                             Integer.parseInt(new_day_list.get(i1).toString().substring(6)) <= Integer.parseInt(t2.getText().toString().substring(8))) {
                         node_list.add(new TreeNode(new SalesAdpater.TreeItem(new_day_list.get(i1).toString().substring(4, 6) + "월" + new_day_list.get(i1).toString().substring(6) + "일", sum)).setViewHolder(new SalesAdpater(SalesActivity.this)));
@@ -575,12 +583,65 @@ public class SalesActivity extends AppCompatActivity {
                             }
                         }
                     }
-                }else{
-if(Integer.parseInt(t2.getText().toString().substring(5,7)) - Integer.parseInt(t1.getText().toString().substring(5,7)) == 1) {
+                } else {
+                    Log.d("BEOM22", "test2");
 
-}else {
+//                    if (Integer.parseInt(t2.getText().toString().substring(5, 7)) - Integer.parseInt(t1.getText().toString().substring(5, 7)) == 1) {
+                        if (Integer.parseInt(new_day_list.get(i1).toString().substring(4, 6)) == Integer.parseInt(t1.getText().toString().substring(5, 7))) {
+                            Log.d("BEOM22", "test3");
 
-}
+                            if (Integer.parseInt(new_day_list.get(i1).toString().substring(6)) >= Integer.parseInt(t1.getText().toString().substring(8)) &&
+                                    Integer.parseInt(new_day_list.get(i1).toString().substring(6)) <= 31) {
+                                node_list.add(new TreeNode(new SalesAdpater.TreeItem(new_day_list.get(i1).toString().substring(4, 6) + "월" + new_day_list.get(i1).toString().substring(6) + "일", sum)).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                                Log.d("BEOM23","new_day_list.get(i1).toString() : " + new_day_list.get(i1).toString());
+                                int count = database.Count_Custom(new_day_list.get(i1).toString());
+                                Log.d("BEOM20", "count : " + count);
+                                ArrayList custom_list = new ArrayList();
+                                database.Get_Custom(custom_list, new_day_list.get(i1));
+                                Log.d("BEOM20", "custom_list.size : " + custom_list.size());
+                                for (int i3 = 0; i3 < node_list.size(); i3++) {
+                                    for (int i2 = 0; i2 < count; i2++) {
+                                        String charge = database.Get_Charge(new_day_list.get(i1), custom_list.get(i2).toString());
+                                        node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(custom_list.get(i2).toString(), charge)).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                                    }
+                                }
+                            }
+                        }else if(Integer.parseInt(new_day_list.get(i1).toString().substring(4,6)) == Integer.parseInt(t2.getText().toString().substring(5,7))){
+                            if (Integer.parseInt(new_day_list.get(i1).toString().substring(6)) >= 1 &&
+                                    Integer.parseInt(new_day_list.get(i1).toString().substring(6)) <= Integer.parseInt(t2.getText().toString().substring(8))) {
+                                node_list.add(new TreeNode(new SalesAdpater.TreeItem(new_day_list.get(i1).toString().substring(4, 6) + "월" + new_day_list.get(i1).toString().substring(6) + "일", sum)).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                                int count = database.Count_Custom(new_day_list.get(i1).toString());
+                                Log.d("BEOM20", "count : " + count);
+                                ArrayList custom_list = new ArrayList();
+                                database.Get_Custom(custom_list, new_day_list.get(i1));
+                                Log.d("BEOM20", "custom_list.size : " + custom_list.size());
+                                for (int i3 = 0; i3 < node_list.size(); i3++) {
+                                    for (int i2 = 0; i2 < count; i2++) {
+                                        String charge = database.Get_Charge(new_day_list.get(i1), custom_list.get(i2).toString());
+                                        node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(custom_list.get(i2).toString(), charge)).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                                    }
+                                }
+                            }
+                        }else{
+                            if (Integer.parseInt(new_day_list.get(i1).toString().substring(6)) >= 1 &&
+                                    Integer.parseInt(new_day_list.get(i1).toString().substring(6)) <= 31) {
+                                node_list.add(new TreeNode(new SalesAdpater.TreeItem(new_day_list.get(i1).toString().substring(4, 6) + "월" + new_day_list.get(i1).toString().substring(6) + "일", sum)).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                                int count = database.Count_Custom(new_day_list.get(i1).toString());
+                                Log.d("BEOM20", "count : " + count);
+                                ArrayList custom_list = new ArrayList();
+                                database.Get_Custom(custom_list, new_day_list.get(i1));
+                                Log.d("BEOM20", "custom_list.size : " + custom_list.size());
+                                for (int i3 = 0; i3 < node_list.size(); i3++) {
+                                    for (int i2 = 0; i2 < count; i2++) {
+                                        String charge = database.Get_Charge(new_day_list.get(i1), custom_list.get(i2).toString());
+                                        node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(custom_list.get(i2).toString(), charge)).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                                    }
+                                }
+                            }
+                        }
+//                    } else {
+
+//                    }
                 }
             }
 //            Log.d("BEOM19", "node_list.get(0).getValue().toString() : "+(SalesAdpater.TreeItem)(node_list.get(0).getValue()));
