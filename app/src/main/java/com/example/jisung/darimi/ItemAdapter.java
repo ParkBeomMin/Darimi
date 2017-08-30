@@ -1,11 +1,17 @@
 package com.example.jisung.darimi;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +47,7 @@ public class ItemAdapter extends DragItemAdapter<Item, ItemAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
+//        if(mItemList.get)
         String text = mItemList.get(position).getName();
         holder.name.setText(text);
         holder.price.setText(mItemList.get(position).getPrice());
@@ -72,7 +79,52 @@ public class ItemAdapter extends DragItemAdapter<Item, ItemAdapter.ViewHolder> {
 
         @Override
         public void onItemClicked(View view) {
-                Log.d("test1",getPosition()+"");
+            Log.d("test1", getPosition() + "");
+            if (getPosition() == mItemList.size() - 1) {
+                View e_view = View.inflate(view.getContext(), R.layout.item_setting, null);   //뷰 가져오기
+                Display display;
+
+                display = ((WindowManager) view.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+                final Dialog dialog = new Dialog(view.getContext()); //대화상자 생성
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(e_view); //대화상자 뷰 설정
+                WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+                params.width = (int) (display.getWidth() * 0.3);
+                params.height = (int) (display.getHeight() * 0.3);
+                dialog.getWindow().setAttributes(params);//대화상자 크기 설정
+
+                final EditText eitem_name = (EditText) e_view.findViewById(R.id.edit_name);
+                final EditText eitem_price = (EditText) e_view.findViewById(R.id.edit_price);
+                Button selcet_img = (Button) e_view.findViewById(R.id.change_img);
+                Button comple = (Button) e_view.findViewById(R.id.edit_com);
+                //대화상자 초기화
+
+
+                selcet_img.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                            /*
+                            이미지 선택 및 저장
+                            */
+
+                    }
+                });//파일 선택
+                comple.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        //클릭시 아이템 변경
+                            /*
+                            데이터 베이스 전송
+                             */
+
+                    }
+                });
+
+
+                dialog.show();
+                return;
+            }
         }
 
         @Override

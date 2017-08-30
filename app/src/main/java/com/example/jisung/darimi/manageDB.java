@@ -77,7 +77,8 @@ public class manageDB {
         sql+=data.getName()+"','";
         sql+=data.getCall()+"')";
         myDB.execSQL(sql);
-    }public void Get_Custom(){
+    }
+    public void Get_Custom(){
         ArrayList<Custom> data = new ArrayList<>();
         String sql = "Select * from custom";
         Cursor cursor = myDB.rawQuery(sql,null);

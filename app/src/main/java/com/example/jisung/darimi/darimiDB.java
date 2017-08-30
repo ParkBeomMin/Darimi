@@ -23,7 +23,8 @@ public class darimiDB extends SQLiteOpenHelper {
                 "name varchar(12), " +
                 "price varchar(12)," +
                 "img number," +
-                "mark boolean)";
+                "mark number," +
+                "seq number)";
         sqLiteDatabase.execSQL(sql);
 
         sql = "create table if not exists custom(" +
@@ -60,6 +61,8 @@ public class darimiDB extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
+
+
     public void Insert_Custom(ArrayList<Custom> arrayList, Custom data) {
         SQLiteDatabase myDB = getWritableDatabase();
         String sql = "Insert into custom values('";
@@ -69,6 +72,21 @@ public class darimiDB extends SQLiteOpenHelper {
         sql += data.getCall() + "')";
         myDB.execSQL(sql);
         arrayList.add(data);
+    }
+    public void Insert_Item(ArrayList<Item> list, Item data) {
+        SQLiteDatabase myDB = getWritableDatabase();
+        int mark=0;
+        if(data.isMark())
+            mark=1;
+
+        String sql = "Insert into item values('";
+        sql += data.getName() + "',";
+        sql += data.getPrice()+",'";
+        sql += data.getImg() + "','";
+        sql += data.isMark() + "','";
+        sql += data.getSeq() + "')";
+        myDB.execSQL(sql);
+        list.add(data);
     }
 
     public void Get_Custom(ArrayList<Custom> arrayList) {

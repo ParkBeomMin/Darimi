@@ -2,44 +2,106 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="100dp"
+    android:orientation="vertical"
     android:weightSum="10">
-    <LinearLayout
-        android:layout_weight="3"
-        android:layout_width="0dp"
-        android:weightSum="2"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/item_name"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp" />
-        <TextView
-            android:id="@+id/item_price"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-    </LinearLayout>
-    <View
-        android:layout_weight="2"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"/>
-    <TextView
-        android:id="@+id/item_num"
-        android:text="1"
-        android:layout_width="0dp"
-        android:layout_weight="2"
-        android:layout_height="match_parent" />
 
-    <TextView
-        android:id="@+id/item_total_price"
-        android:layout_width="0dp"
-        android:layout_weight="2"
-        android:layout_height="match_parent" />
-    <Button
-        android:id="@+id/item_cancel"
-        android:onClick="onClick"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_weight="5"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/item_name"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/item_price"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
+
+        <TextView
+            android:id="@+id/item_num"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
+
+        <TextView
+            android:id="@+id/item_total_price"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
+
+        <Button
+            android:id="@+id/item_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="onClick" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/num_setting_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:text="수량변경" />
+
+
+        <TextView
+            android:id="@+id/item_num_set"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
+
+        <Button
+            android:text=""
+            android:id="@+id/item_add_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:onClick="onClick" />
+
+        <Button
+            android:text="수량 빼기"
+            android:id="@+id/item_sub_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:onClick="onClick" />
+
+        <Button
+            android:id="@+id/set_exit_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="onClick" />
+    </LinearLayout>
+
 </LinearLayout>

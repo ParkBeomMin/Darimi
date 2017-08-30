@@ -22,7 +22,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_height="match_parent"
-            android:weightSum="10">
+            android:weightSum="7">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -61,15 +61,30 @@
                     android:layout_weight="3"
                     android:layout_height="match_parent" />
             </LinearLayout>
-            <Button
-                android:id="@+id/change_img"
-                android:text="폴더선택"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"/>
+                android:layout_weight="2"
+                android:weightSum="4"
+                android:orientation="horizontal">
+                <TextView
+                    android:text="분류"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent" />
+                <Button
+                    android:background="@color/White"
+                    android:id="@+id/change_img"
+                    android:text="폴더선택"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"/>
+            </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
     <Button
+        android:background="@color/app_color"
         android:text="완료"
         android:id="@+id/edit_com"
         android:layout_width="match_parent"

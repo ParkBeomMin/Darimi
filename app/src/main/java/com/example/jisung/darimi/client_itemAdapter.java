@@ -10,15 +10,17 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by jeongjiseong on 2017. 8. 7..
+ * Created by jisung on 2017. 8. 29..
  */
 
-public class CateAdapter extends BaseAdapter {
-    private ArrayList<Categol> list;
-    private Context context;
-    public CateAdapter(ArrayList<Categol> list, Context context) {
-        this.list = list;
+public class client_itemAdapter extends BaseAdapter
+{
+    Context context;
+    ArrayList<SelectItem> list;
+
+    public client_itemAdapter(Context context, ArrayList<SelectItem> list) {
         this.context = context;
+        this.list = list;
     }
 
     @Override
@@ -40,13 +42,11 @@ public class CateAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         final LayoutInflater inflater = LayoutInflater.from(context);
         if (view == null)
-            view = inflater.inflate(R.layout.cate_list, null);
-        TextView name = (TextView)view.findViewById(R.id.cate_name);
-        if(list.get(i).isChoose())
-            name.setBackgroundColor(view.getResources().getColor(R.color.White));
-        else
-            name.setBackgroundColor(view.getResources().getColor(R.color.Key));
-        name.setText(list.get(i).getCate_name());
+            view = inflater.inflate(R.layout.work_client_item, null);
+        TextView client = (TextView)view.findViewById(R.id.item_name);
+        TextView num = (TextView)view.findViewById(R.id.item_num);
+        client.setText(list.get(i).getItem().getName());
+        num.setText(list.get(i).getNum());
         return view;
     }
 }

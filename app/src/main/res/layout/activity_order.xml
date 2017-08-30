@@ -61,9 +61,12 @@
         android:layout_height="match_parent"
         android:layout_weight="13"
         android:orientation="vertical"
-        android:weightSum="9.2">
+        android:weightSum="9.2"
+
+>
 
         <LinearLayout
+
             android:onClick="EonClick"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -92,22 +95,24 @@
         </LinearLayout>
 
         <LinearLayout
-            android:onClick="EonClick"
+            android:background="#EAEAEA"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:onClick="EonClick"
             android:weightSum="10">
 
             <View
+                android:background="#EAEAEA"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5" />
 
             <Button
-                android:onClick="EonClick"
                 android:id="@+id/item_edit_btn"
                 android:layout_width="50dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:onClick="EonClick" />
 
         </LinearLayout>
 
@@ -116,7 +121,9 @@
             android:layout_height="0dp"
             android:layout_weight="7"
             android:orientation="horizontal"
-            android:weightSum="10">
+            android:background="#EAEAEA"
+            android:weightSum="10"
+>
 
             <LinearLayout
                 android:id="@+id/edit_area"
@@ -125,7 +132,8 @@
                 android:layout_weight="6"
                 android:orientation="vertical"
                 android:onClick="EonClick"
-                android:weightSum="10">
+                android:weightSum="10"
+                android:layout_marginRight="10dp">
 
                 <it.sephiroth.android.library.widget.HListView
                     android:id="@+id/cate_list"
@@ -146,6 +154,7 @@
 >
                     <GridView
                         android:numColumns="3"
+                        android:columnWidth="100dp"
                         android:id="@+id/item_list"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -189,18 +198,14 @@
                         android:gravity="center_vertical" />
 
                     <Button
+                        android:background="@color/app_color"
                         android:id="@+id/client_search"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1.5"
+                        android:layout_weight="3"
                         android:text="검색" />
 
-                    <Button
-                        android:id="@+id/client_regit"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1.5"
-                        android:text="등록" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -223,6 +228,14 @@
                         android:layout_height="match_parent"
                         android:layout_weight="4"
                         android:gravity="center_vertical" />
+                    <Button
+                        android:id="@+id/number_search"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:text="검색"
+                        android:background="@color/app_color"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -231,6 +244,7 @@
                     android:layout_weight="4">
 
                     <ListView
+
                         android:id="@+id/selected_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"></ListView>
@@ -253,6 +267,7 @@
 
                         <TextView
                             android:layout_width="0dp"
+                            android:text="총 개수"
                             android:layout_height="match_parent"
                             android:layout_weight="3" />
 
@@ -317,7 +332,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="7"
                         android:gravity="right"
-                        android:text="0원" />
+                        android:text="₩0" />
                 </LinearLayout>
 
                 <Button

@@ -39,7 +39,7 @@ public class ItemBaseAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         final LayoutInflater inflater = LayoutInflater.from(context);
         if (view == null)
             view = inflater.inflate(R.layout.order_item, null);
@@ -53,8 +53,18 @@ public class ItemBaseAdapter extends BaseAdapter {
         name.setText(list.get(i).getName());
         price.setText(list.get(i).getPrice());
         img.setImageResource(list.get(i).getImg());
+        mark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                list.get(i).setMark(!list.get(i).isMark());
+                notifyDataSetChanged();
+            }
+        });
+
         if (list.get(i).isMark())
             mark.setImageResource(R.drawable.item_marked);
+        else
+            mark.setImageResource(R.drawable.item_non_mark);
 
 
         return view;
