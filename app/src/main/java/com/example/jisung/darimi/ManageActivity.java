@@ -24,8 +24,12 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.zip.Inflater;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 //test
 public class ManageActivity extends AppCompatActivity {
@@ -37,13 +41,15 @@ public class ManageActivity extends AppCompatActivity {
 
     EditText custom_search_edt;
     ListView custom_list;
-    ArrayList<Custom> arrayList = new ArrayList<Custom>();
+    static ArrayList<Custom> arrayList;// = new ArrayList<Custom>();
     CustomAdapter adapter;
 
-    darimiDB database = new darimiDB(this, "myDB", null, 1);
+    //    darimiDB database = new darimiDB(this, "myDB", null, 1);
     String init = "";
     Button all_, r_, s_, e_, f_, a_, q_, t_, d_, w_, c_, z_, x_, v_, g_;
     ArrayList<Button> select_btn_array = new ArrayList<Button>();
+
+    private static Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +59,14 @@ public class ManageActivity extends AppCompatActivity {
                 .addNormal(Typekit.createFromAsset(this, "rix.ttf"))
                 .addBold(Typekit.createFromAsset(this, "rixb.TTF"));
         init();
+        adapter.filter("");
     }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
+
     //basis
     void init() {
         all_ = (Button) findViewById(R.id.all_search_btn);
@@ -97,30 +106,21 @@ public class ManageActivity extends AppCompatActivity {
         time_N = (TextView) findViewById(R.id.time);
         time_N.setText(time);
         //
+        realm.init(this);
+        realm = Realm.getDefaultInstance();
 
+        arrayList = new ArrayList<Custom>(realm.where(Custom.class).findAll());
+        Log.d("BEOMm", "arrayList.size() : " + arrayList.size());
         custom_search_edt = (EditText) findViewById(R.id.custom_search_edt);
         custom_list = (ListView) findViewById(R.id.custom_list);
-        //test
-//        database.Insert_Custom(new Custom("1","박범민","01024347280"));
-//        database.Insert_Custom(new Custom("2","정지성","01024347280"));
-//        database.Insert_Custom(new Custom("3","문소연","01024347280"));
-//        database.Insert_Custom(new Custom("4","남궁선","01024347280"));
-//        database.Insert_Custom(new Custom("5","서수민","01024347280"));
-//        arrayList.add(new Custom("1","박범민","01024347280"));
-//        arrayList.add(new Custom("2","정지성","01024347280"));
-//        arrayList.add(new Custom("3","문소연","01024347280"));
-//        arrayList.add(new Custom("4","남궁선","01024347280"));
-//        arrayList.add(new Custom("5","서수민","01024347280"));
-        //
-        database.Get_Custom(arrayList);
-        adapter = new CustomAdapter(arrayList, this, database);
+//        database.Get_Custom(arrayList);
+        adapter = new CustomAdapter(arrayList, this, realm);
         custom_list.setAdapter(adapter);
 
+//        getCustomList();
         custom_search_edt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-
             }
 
             @Override
@@ -137,12 +137,63 @@ public class ManageActivity extends AppCompatActivity {
                     for (int i = 0; i < select_btn_array.size(); i++) {
                         Log.d("BEOM7", "arrBtn : " + select_btn_array.get(i).getText())
                         ;
-                        select_btn_array.get(i).setBackgroundResource(R.drawable.border);
+                        select_btn_array.get(i).setBackgroundResource(R.drawable.rounded_btn);
                     }
                 }
             }
         });
 
+    }
+
+    private RealmResults<Custom> getUserList() {
+        return realm.where(Custom.class).findAll();
+    }
+
+    public static void insertuserData(final String id, final String name, final String call) {
+
+//        realm.beginTransaction();
+//
+//        Custom user = realm.createObject(Custom.class, id);
+//        user.setName(name);
+//        user.setCall(call);
+//        user.setNum("1");
+//        realm.insert(user);
+//        realm.commitTransaction();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Custom user = realm.createObject(Custom.class, id);
+                user.setName(name);
+                user.setCall(call);
+                user.setNum(arrayList.size()+1 + "");
+                realm.insert(user);
+            }
+        });
+    }
+
+    public static void UpdateCus(Custom c){
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(c);
+        realm.commitTransaction();
+    }
+
+
+
+
+    public List<Custom> getCustomList() {
+        List<Custom> list = new ArrayList<>();
+        try {
+            realm = Realm.getDefaultInstance();
+            RealmResults<Custom> results = realm
+                    .where(Custom.class)
+                    .findAll();
+            list.addAll(realm.copyFromRealm(results));
+        } finally {
+            if (realm != null) {
+                realm.close();
+            }
+        }
+        return list;
     }
 
     public void onClick(View v) {
@@ -200,8 +251,9 @@ public class ManageActivity extends AppCompatActivity {
                                 Toast.makeText(ManageActivity.this, "전화번호를 제대로 입력해주세요.", Toast.LENGTH_LONG).show();
                             } else {
                                 Custom new_Custom = new Custom(id, Integer.toString(num), custom_name, custom_call);
+                                insertuserData(id, custom_name, custom_call);
 
-                                database.Insert_Custom(arrayList, new_Custom);
+//                                database.Insert_Custom(arrayList, new_Custom);
 
 //                                arrayList.add(new_Custom);
 //                                adapter.searchList.clear();
@@ -384,4 +436,14 @@ public class ManageActivity extends AppCompatActivity {
         select_btn_array.add(g_);
     }
 
+    public static void removeCus(final String id) {
+//        final String Name = c.getId();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<Custom> result = realm.where(Custom.class).equalTo("id", id).findAll();
+                result.deleteAllFromRealm();
+            }
+        });
+    }
 }
