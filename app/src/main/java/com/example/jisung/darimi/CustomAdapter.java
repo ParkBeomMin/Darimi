@@ -17,23 +17,30 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 /**
  * Created by parkbeommin on 2017. 8. 3..
  */
 
 public class CustomAdapter extends BaseAdapter {
-    darimiDB database;
+    //    darimiDB database;
+    Realm realm;
     ArrayList<Custom> searchList; //원본 리스트
     ArrayList<Custom> arrayList; //검색된 결과가 들어있는 리스트
     Context c;
     String charText = "";
 
-    public CustomAdapter(ArrayList<Custom> arrayList, Context c, darimiDB database) {
-        this.database = database;
+    public CustomAdapter(ArrayList<Custom> arrayList, Context c, Realm realm) {
+//        this.database = database;
+        this.realm = realm;
         this.arrayList = arrayList;
         this.c = c;
         searchList = new ArrayList<Custom>();
-        searchList.addAll(arrayList);
+        if (arrayList.size() != 0) {
+            searchList.addAll(arrayList);
+        }
     }
 
     @Override
@@ -80,17 +87,15 @@ public class CustomAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 searchList.remove(searchList.indexOf(arrayList.get(position)));
-//                arrayList.remove(position);
-                database.Delete_Custom(arrayList.get(position).getId());
-                database.Get_Custom(arrayList);
-
+                ManageActivity m = new ManageActivity();
+                m.removeCus(one.id);
+                realm.beginTransaction();
                 for (int i = 0; i < searchList.size(); i++) {
-                    searchList.get(i).num = Integer.toString(i + 1);
+                    searchList.get(i).setNum(Integer.toString(i + 1)); //= Integer.toString(i + 1);
                 }
+                realm.cancelTransaction();
                 CustomAdapter.this.notifyDataSetChanged();
                 filter(charText);
-//                searchList.clear();
-//                searchList.addAll(arrayList);
                 Toast.makeText(c, "삭제되었습니다.", Toast.LENGTH_LONG).show();
             }
         });
@@ -117,23 +122,34 @@ public class CustomAdapter extends BaseAdapter {
                 modify_custom_confirm_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+//                        realm.beginTransaction();
                         String origin_name = one.name;
                         String origin_call = one.call;
                         String modify_name = modify_custom_name_edt.getText().toString();
                         String modify_call = modify_custom_call_edt.getText().toString();
+                        ManageActivity m = new ManageActivity();
+                        ManageActivity m1 = new ManageActivity();
 
                         if (modify_custom_name_edt.length() == 0 && modify_custom_call_edt.length() == 0) {
                             Toast.makeText(c, "변동사항이 없습니다.", Toast.LENGTH_LONG).show();
                         } else {
-//                            arrayList.remove(position);
                             searchList.remove(searchList.indexOf(arrayList.get(position)));
-//                            arrayList.remove(position);
-//                            searchList.remove(position);
                             int num = getCount();//arrayList.size() + 1;
                             if (modify_custom_name_edt.length() == 0) {
                                 Custom modify_custom = new Custom(one.id, Integer.toString(num), origin_name, modify_call);
-                                database.Update_Custom(one.id, origin_name, modify_call);
-                                database.Get_Custom(arrayList);
+
+//                                RealmResults<Custom> userList = realm.where(Custom.class).equalTo("id",one.id).findAll();
+//                                userList.remove(0);
+//                                Custom user = realm.createObject(Custom.class, one.id);
+//                                user.setName(origin_name);
+//                                user.setCall(modify_call);
+//                                user.setNum(Integer.toString(num));
+//                                realm.insert(user);
+                                m.UpdateCus(modify_custom);
+//                                m.removeCus(one.id);
+//                                m1.insertuserData(one.id, origin_name, modify_call);
+//                                database.Update_Custom(one.id, origin_name, modify_call);
+//                                database.Get_Custom(arrayList);
 //                                arrayList.add(modify_custom);
 //                                for (int i = 0; i < arrayList.size(); i++) {
 //                                    arrayList.get(i).num = Integer.toString(i + 1);
@@ -142,31 +158,47 @@ public class CustomAdapter extends BaseAdapter {
                                 CustomAdapter.this.notifyDataSetChanged();
                             } else if (modify_custom_call_edt.length() == 0) {
                                 Custom modify_custom = new Custom(one.id, Integer.toString(num), modify_name, origin_call);
-                                database.Update_Custom(one.id, modify_name, origin_call);
-                                database.Get_Custom(arrayList);
+//                                database.Update_Custom(one.id, modify_name, origin_call);
+//                                database.Get_Custom(arrayList);
 //                                arrayList.add(modify_custom);
 //                                for (int i = 0; i < arrayList.size(); i++) {
 //                                    arrayList.get(i).num = Integer.toString(i + 1);
 //                                }
+m.UpdateCus(modify_custom);
+//                                m.removeCus(one.id);
+//                                m1.insertuserData(one.id, modify_name, origin_call);
                                 searchList.add(modify_custom);
 
                                 CustomAdapter.this.notifyDataSetChanged();
                             } else {
                                 Custom modify_custom = new Custom(one.id, Integer.toString(num), modify_name, modify_call);
-                                database.Update_Custom(one.id, modify_name, modify_call);
-                                database.Get_Custom(arrayList);
+//                                database.Update_Custom(one.id, modify_name, modify_call);
+//                                database.Get_Custom(arrayList);
 //                                arrayList.add(modify_custom);
 //                                for (int i = 0; i < arrayList.size(); i++) {
 //                                    arrayList.get(i).num = Integer.toString(i + 1);
 //                                }
+//                                RealmResults<Custom> userList = realm.where(Custom.class).equalTo("id",one.id).findAll();
+//                                userList.remove(0);
+//                                Custom user = realm.createObject(Custom.class, one.id);
+//                                user.setName(modify_name);
+//                                user.setCall(modify_call);
+//                                user.setNum(Integer.toString(num));
+//                                realm.insert(user);
+//                                m.removeCus(one.id);
+//                                m1.insertuserData(one.id, modify_name, modify_call);
+                                m.UpdateCus(modify_custom);
                                 searchList.add(modify_custom);
 
                                 CustomAdapter.this.notifyDataSetChanged();
                             }
                         }
+                        realm.beginTransaction();
                         for (int i = 0; i < searchList.size(); i++) {
-                            searchList.get(i).num = Integer.toString(i + 1);
+                            searchList.get(i).setNum(Integer.toString(i + 1));// = Integer.toString(i + 1);
                         }
+                        realm.cancelTransaction();
+
 //                        searchList.clear();
 //                        searchList.addAll(arrayList);
                         filter(charText);
@@ -198,10 +230,17 @@ public class CustomAdapter extends BaseAdapter {
                 }
             }
         }
+        realm.beginTransaction();
         for (int i = 0; i < arrayList.size(); i++) {
-            arrayList.get(i).num = String.valueOf(i + 1);
-        }
-        notifyDataSetChanged();
+            Log.d("BEOMm1", "num sort");
+            arrayList.get(i).setNum(String.valueOf(i + 1)); //= String.valueOf(i + 1);
+            Log.d("BEOMm1", "arrayList.get(i).getNum() : " + arrayList.get(i).getNum());
+            Log.d("BEOMm1", "searchList.get(i).getNum() : " + searchList.get(i).getNum());
+        }        realm.commitTransaction();
+
+//        realm.cancelTransaction();
+//        realm.commitTransaction();
+        this.notifyDataSetChanged();
     }
 
     private static final char HANGUL_BEGIN_UNICODE = 44032; // 가
@@ -222,6 +261,8 @@ public class CustomAdapter extends BaseAdapter {
     }
 
     void Initial_Search(char c) {
+//        realm.beginTransaction();
+
 //        custom_search_edt.setText("");
         arrayList.clear();
         for (int i = 0; i < searchList.size(); i++) {
@@ -231,9 +272,11 @@ public class CustomAdapter extends BaseAdapter {
                 arrayList.add(searchList.get(i));
             }
         }
+        realm.beginTransaction();
         for (int i = 0; i < arrayList.size(); i++) {
-            arrayList.get(i).num = String.valueOf(i + 1);
+            arrayList.get(i).setNum(String.valueOf(i + 1)); //= String.valueOf(i + 1);
         }
+        realm.cancelTransaction();
         notifyDataSetChanged();
         ManageActivity manageActivity = new ManageActivity();
         manageActivity.init = c + "";
