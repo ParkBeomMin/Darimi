@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import io.realm.Realm;
+import io.realm.RealmList;
+
 /**
  * Created by jisung on 2017. 8. 14..
  */
@@ -17,10 +20,17 @@ import java.util.ArrayList;
 public class ItemBaseAdapter extends BaseAdapter {
     ArrayList<Item> list;
     private Context context;
+    Realm realm;
 
     public ItemBaseAdapter(ArrayList<Item> list, Context context) {
         this.list = list;
         this.context = context;
+    }
+
+    public ItemBaseAdapter(ArrayList<Item> list, Context context,Realm realm) {
+        this.list = list;
+        this.context = context;
+        this.realm = realm;
     }
 
     @Override
@@ -56,7 +66,9 @@ public class ItemBaseAdapter extends BaseAdapter {
         mark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                realm.beginTransaction();
                 list.get(i).setMark(!list.get(i).isMark());
+                realm.commitTransaction();
                 notifyDataSetChanged();
             }
         });

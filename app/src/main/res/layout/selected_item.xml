@@ -7,12 +7,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="0dp"
         android:layout_weight="5"
         android:orientation="horizontal"
         android:weightSum="10">
 
         <LinearLayout
+            android:layout_marginLeft="20dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
@@ -35,25 +36,31 @@
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2" />
+            android:layout_weight="1.5" />
 
         <TextView
+            android:background="@color/Background"
             android:id="@+id/item_num"
+            android:gravity="center"
+            android:layout_margin="15dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2" />
 
         <TextView
+            android:layout_gravity="center_vertical"
+            android:gravity="right"
             android:id="@+id/item_total_price"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2" />
 
         <Button
+            android:background="@drawable/ic_close_black_24dp"
             android:id="@+id/item_cancel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:onClick="onClick" />
     </LinearLayout>
 
@@ -63,44 +70,70 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
+        android:background="@color/Background"
         android:orientation="horizontal"
         android:weightSum="10">
 
 
         <TextView
+            android:background="@color/Background"
+            android:layout_marginLeft="20dp"
             android:layout_width="0dp"
+            android:gravity="center_vertical"
             android:layout_height="match_parent"
-            android:layout_weight="3"
+            android:layout_weight="2"
             android:text="수량변경" />
 
 
         <TextView
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:background="@color/White"
             android:id="@+id/item_num_set"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2" />
+            android:layout_weight="1" />
 
-        <Button
-            android:text=""
-            android:id="@+id/item_add_btn"
+        <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1.5"/>
+        <Button
+            android:background="@drawable/round_btn_key4"
+            android:textColor="@color/White"
+            android:text="수량 더하기"
+            android:id="@+id/item_add_btn"
+            android:layout_width="0dp"
+            android:textSize="7dp"
+            android:layout_height="match_parent"
             android:layout_weight="2"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
             android:onClick="onClick" />
 
         <Button
+            android:textSize="7dp"
+            android:background="@drawable/round_btn_key4"
+            android:textColor="@color/White"
             android:text="수량 빼기"
             android:id="@+id/item_sub_btn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
             android:onClick="onClick" />
 
         <Button
+            android:background="@color/Key2"
             android:id="@+id/set_exit_btn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:onClick="onClick" />
     </LinearLayout>
 

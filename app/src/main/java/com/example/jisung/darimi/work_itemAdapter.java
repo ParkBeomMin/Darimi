@@ -13,16 +13,20 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import io.realm.RealmList;
+
 /**
  * Created by jisung on 2017. 8. 29..
  */
 
 public class work_itemAdapter extends BaseAdapter {
 
-    ArrayList<work_item> list;
+    ArrayList<Order> list;
     Context context;
+    boolean isAll=false;
 
-    public work_itemAdapter(ArrayList<work_item> list, Context context) {
+
+    public work_itemAdapter(ArrayList<Order> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -43,7 +47,7 @@ public class work_itemAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         final LayoutInflater inflater = LayoutInflater.from(context);
         if (view == null)
             view = inflater.inflate(R.layout.work_item_list, null);
@@ -57,20 +61,27 @@ public class work_itemAdapter extends BaseAdapter {
         Button comBtn = (Button)view.findViewById(R.id.work_comp);
         Button recepitBtn = (Button)view.findViewById(R.id.work_recepit);
 
-        client_itemAdapter adapter = new client_itemAdapter(view.getContext(),list.get(i).getItems());
+        client_itemAdapter adapter = new client_itemAdapter(view.getContext(),list.get(i).getData());
 
 
         date.setText(list.get(i).getDate());
-        client.setText(list.get(i).getName());
-//        if(list.get(i).isSending())
+        client.setText(list.get(i).getCustom().getName());
+        if(list.get(i).isSending())
 //            msgBtn.setImageResource();
+
         work_list.setAdapter(adapter);
         switch (list.get(i).getWork_state()){
             case 1:
                 break;
             case 2:
+                comBtn.setClickable(false);
+//                comBtn.setBackground();
                 break;
             case 3:
+                comBtn.setClickable(false);
+                recepitBtn.setClickable(false);
+//                comBtn.setBackground();
+//                recepitBtn.setBackground();
                 break;
             default:
                 break;
@@ -78,10 +89,21 @@ public class work_itemAdapter extends BaseAdapter {
         comBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                list.get(i).setWork_state(1);
+                if(!isAll)
+                    list.remove(i);
+                notifyDataSetChanged();
             }
         });
-//        recepitBtn
+        recepitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                list.get(i).setWork_state(2);
+                if(!isAll)
+                    list.remove(i);
+                notifyDataSetChanged();
+            }
+        });
 
         return view;
     }

@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="White">#ffffff</color>
     <color name="Black">#000000</color>
+    <color name="text">#000000</color>
 
     <color name="list_item_background">#AACCCCCC</color>
     <color name="app_color">#8EAE3C</color>
@@ -16,6 +17,8 @@
     <color name="DeepGray">#65686f</color>
     <color name="MidGray">#dddddd</color>
     <color name="basic_gray">#EAEAEA</color>
+    <color name="key3">#303F9F</color>
+    <color name="key4">#1f2550</color>
 
     <color name="Gray">#EAEAEA</color>
 

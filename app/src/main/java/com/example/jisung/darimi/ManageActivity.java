@@ -34,7 +34,6 @@ public class ManageActivity extends AppCompatActivity {
     String time;
     TextView time_N;
     //
-
     EditText custom_search_edt;
     ListView custom_list;
     ArrayList<Custom> arrayList = new ArrayList<Custom>();

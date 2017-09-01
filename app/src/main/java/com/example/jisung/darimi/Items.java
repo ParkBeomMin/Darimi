@@ -1,12 +1,17 @@
 package com.example.jisung.darimi;
 
+import io.realm.RealmObject;
+
 /**
  * Created by jisung on 2017. 8. 30..
  */
 
-public class Items {
+public class Items extends RealmObject {
     private Item item;
     private int item_num;
+
+    public Items() {
+    }
 
     public Items(Item item, int item_num) {
         this.item = item;

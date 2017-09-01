@@ -3,6 +3,7 @@ package com.example.jisung.darimi;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -34,10 +35,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.SimpleTimeZone;
 
+import io.realm.Realm;
+import io.realm.RealmList;
 import it.sephiroth.android.library.widget.HListView;
 
 public class OrderActivity extends AppCompatActivity {
     private TextView time_N,total,order_time,item_total_num;
+    private EditText client_name,client_num;
     private Button editActBtn;
     private String today_date,today_time;
     private Intent intent;
@@ -57,13 +61,17 @@ public class OrderActivity extends AppCompatActivity {
     private HListView cate_view;
     private Display display;
 
+    private ArrayList<Item> All_item;
     private ArrayList<Item> mItemArray;
     private DragListView mDragListView;
+    private Button orderBtn;
+
+    private Custom custom;
 
     int tmp;
 
 
-
+    Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,18 +79,10 @@ public class OrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order);
         init();
 
-        item_list.add(new Item("구두","100000",1,R.drawable.images1,true));
-        item_list.add(new Item("운동화","100000",2,R.drawable.images2,false));
-        item_list.add(new Item("청바지","100000",3,R.drawable.images3,true));
-        item_list.add(new Item("맨투맨","100000",4,R.drawable.images,false));
         item_adapter.notifyDataSetChanged();
-        Categol cate = new Categol("즐겨찾기",true,item_list);
-        cate_list.add(cate);
         cate_adapter.notifyDataSetChanged();
-//        mDragListView.setDragEnabled(false);
+        mDragListView.setDragEnabled(false);
         getObjectData();
-
-//
 
 
         item_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -126,13 +126,55 @@ public class OrderActivity extends AppCompatActivity {
             }
         });
 
+        orderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RealmList<Items> cData = new RealmList<Items>();
+                realm.beginTransaction();
+                for(int i=0;i<selectItems_list.size();i++){
+                    cData.add(selectItems_list.get(i));
+                }
+                if(true){
+                    //custom 이 기존에 있는 경우
+                    custom = new Custom(""," ",client_name.getText().toString(),client_num.getText().toString());
+                }
+                else{
+                    custom = new Custom(""," ",client_name.getText().toString(),client_num.getText().toString());
+                }
+                realm.commitTransaction();
+                darimiDataCon.makeOrder(realm,cData,custom,today_date);
+
+                Toast.makeText(OrderActivity.this, "ordering", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
 
 
-
+    private boolean isinitInstall(){
+        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+        boolean is = pref.getBoolean("init",true);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean("init",false);
+        editor.commit();
+        return is;
+    }
 
     void init(){
+
+        Realm.init(this);
+        realm = Realm.getDefaultInstance();
+        if(isinitInstall()) {
+            darimiDataInit.categolDataInit(realm);
+            darimiDataInit.itemDataInit(realm);
+        }
+
+        orderBtn = (Button)findViewById(R.id.order_btn);
+
+        client_name=(EditText)findViewById(R.id.client_name_E);
+        client_num = (EditText)findViewById(R.id.client_number_E);
+
         display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 
         time_N = (TextView)findViewById(R.id.time);
@@ -142,12 +184,13 @@ public class OrderActivity extends AppCompatActivity {
 
         item_list = new ArrayList<Item>();
         selectItems_list = new ArrayList<Items>();
-        cate_list = new ArrayList<Categol>();
+        cate_list = new ArrayList<Categol>(realm.where(Categol.class).findAll());
+        All_item=new ArrayList<Item>(realm.where(Item.class).findAll());
 
 
         selected_adapter = new SelectItemAdapter(selectItems_list,this,item_total_num,total);
         cate_adapter =  new CateAdapter(cate_list,this);
-        item_adapter = new ItemBaseAdapter(item_list,this);
+        item_adapter = new ItemBaseAdapter(item_list,this,realm);
 
         sele_view = (ListView)findViewById(R.id.selected_list);
         cate_view = (HListView)findViewById(R.id.cate_list);
@@ -159,6 +202,16 @@ public class OrderActivity extends AppCompatActivity {
 
         mDragListView = (DragListView)findViewById(R.id.drag_list_view);
 
+//        if(cate_list.get(0).getId()==0){
+            for(int j=0;j<All_item.size();j++){
+                if(All_item.get(j).isMark())
+                    item_list.add(All_item.get(j));
+            }
+//        }
+
+//        for(int i=1;i<cate_list.size();i++){
+//            if(cate_list.get(i).getId()==All_item.get())
+//        }
 
 
         tmp=0;
@@ -167,10 +220,24 @@ public class OrderActivity extends AppCompatActivity {
             public void onItemClick(it.sephiroth.android.library.widget.AdapterView<?> adapterView, View view, int i, long l) {
                 TextView t = (TextView)view.findViewById(R.id.cate_name);
                 t.setBackgroundColor(getResources().getColor(R.color.Gray));
+                realm.beginTransaction();
                 cate_list.get(tmp).setChoose(false);
                 cate_list.get(i).setChoose(true);
+                item_list.clear();
+                if(cate_list.get(i).getId()==0){
+                    for(int j=0;j<All_item.size();j++){
+                        if(All_item.get(j).isMark())
+                            item_list.add(All_item.get(j));
+                    }
+                }
+                else{
+                    for(int j=0;j<All_item.size();j++){
+                        if(All_item.get(j).getC_id()==cate_list.get(i).getId())
+                            item_list.add(All_item.get(j));
+                    }
+                }
+                realm.commitTransaction();
                 cate_adapter.notifyDataSetChanged();
-                item_list = cate_list.get(i).getItemlist();
                 item_adapter.notifyDataSetChanged();
                 tmp = i;
             }
@@ -193,11 +260,26 @@ public class OrderActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.beginTransaction();
+        cate_list.get(0).setChoose(true);
+        for (int i=1;i<cate_list.size();i++){
+            cate_list.get(i).setChoose(false);
+        }
+        realm.commitTransaction();
+    }
 
     void getObjectData(){
 
     }
 
+
+
+    void testObjectAdd(){
+
+    }
     void DragListSetting(){
         mDragListView.getRecyclerView().setVerticalScrollBarEnabled(true);
         Log.d("test11","2");

@@ -20,6 +20,8 @@ import com.woxthebox.draglistview.DragItemAdapter;
 
 import java.util.ArrayList;
 
+import io.realm.RealmList;
+
 /**
  * Created by jeongjiseong on 2017. 8. 5..
  */

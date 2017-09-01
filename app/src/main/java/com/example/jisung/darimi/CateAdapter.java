@@ -42,11 +42,16 @@ public class CateAdapter extends BaseAdapter {
         if (view == null)
             view = inflater.inflate(R.layout.cate_list, null);
         TextView name = (TextView)view.findViewById(R.id.cate_name);
-        if(list.get(i).isChoose())
+        if(list.get(i).isChoose()) {
             name.setBackgroundColor(view.getResources().getColor(R.color.White));
-        else
+            name.setTextColor(view.getResources().getColor(R.color.Key));
+        }
+        else {
             name.setBackgroundColor(view.getResources().getColor(R.color.Key));
-        name.setText(list.get(i).getCate_name());
+            name.setTextColor(view.getResources().getColor(R.color.White));
+
+        }
+            name.setText(list.get(i).getCate_name());
         return view;
     }
 }

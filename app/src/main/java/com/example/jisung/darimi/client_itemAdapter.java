@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import io.realm.RealmList;
+
 /**
  * Created by jisung on 2017. 8. 29..
  */
@@ -16,9 +18,9 @@ import java.util.ArrayList;
 public class client_itemAdapter extends BaseAdapter
 {
     Context context;
-    ArrayList<SelectItem> list;
+    RealmList<Items> list;
 
-    public client_itemAdapter(Context context, ArrayList<SelectItem> list) {
+    public client_itemAdapter(Context context, RealmList<Items> list) {
         this.context = context;
         this.list = list;
     }
@@ -46,7 +48,7 @@ public class client_itemAdapter extends BaseAdapter
         TextView client = (TextView)view.findViewById(R.id.item_name);
         TextView num = (TextView)view.findViewById(R.id.item_num);
         client.setText(list.get(i).getItem().getName());
-        num.setText(list.get(i).getNum());
+        num.setText(list.get(i).getItem_num());
         return view;
     }
 }

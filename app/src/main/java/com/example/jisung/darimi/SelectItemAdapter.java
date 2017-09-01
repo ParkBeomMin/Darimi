@@ -2,6 +2,7 @@ package com.example.jisung.darimi;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,9 +74,10 @@ public class SelectItemAdapter extends BaseAdapter {
 
 
         name.setText(list.get(i).getItem().getName());
-        price.setText(list.get(i).getItem().getPrice());
+        price.setText("￦"+list.get(i).getItem().getPrice());
         num.setText(list.get(i).getItem_num()+"");
-        total_price.setText(list.get(i).getTotalprice()+"");
+        item_num_set.setText(list.get(i).getItem_num()+"");
+        total_price.setText("￦"+list.get(i).getTotalprice()+"");
         int now=0,Tnum=0;
         for(int j =0;j<list.size();j++){
             now += list.get(j).getTotalprice();
@@ -90,8 +92,8 @@ public class SelectItemAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 list.get(i).setItem_num(list.get(i).getItem_num()+1);
-                item_num_set.setText(name.getText().toString());
-                total_price.setText(list.get(i).getTotalprice()+"");
+                item_num_set.setText(list.get(i).getItem_num()+"");
+                total_price.setText("￦"+list.get(i).getTotalprice()+"");
                 num.setText(list.get(i).getItem_num()+"");
                 notifyDataSetChanged();
 //                int tprice = now + Integer.parseInt(list.get(i).getItem().getPrice());
@@ -107,8 +109,8 @@ public class SelectItemAdapter extends BaseAdapter {
                 if(list.get(i).getItem_num()>1)
                     list.get(i).setItem_num(list.get(i).getItem_num() - 1);
 
-                item_num_set.setText(name.getText().toString());
-                total_price.setText(list.get(i).getTotalprice()+"");
+                item_num_set.setText(list.get(i).getItem_num() +"");
+                total_price.setText("￦"+list.get(i).getTotalprice()+"");
                 num.setText(list.get(i).getItem_num()+"");
                 notifyDataSetChanged();
 //                int tprice = now - Integer.parseInt(list.get(i).getItem().getPrice());
@@ -120,7 +122,7 @@ public class SelectItemAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 setting.setVisibility(View.VISIBLE);
-                item_num_set.setText(name.getText().toString());
+                item_num_set.setText(num.getText().toString());
                 notifyDataSetInvalidated();
             }
         });
