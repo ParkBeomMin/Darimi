@@ -8,7 +8,7 @@ import io.realm.annotations.PrimaryKey;
  */
 
 public class Custom extends RealmObject{
-//    @PrimaryKey
+    @PrimaryKey
     String id;
     String num, name, call;
     public Custom(){
