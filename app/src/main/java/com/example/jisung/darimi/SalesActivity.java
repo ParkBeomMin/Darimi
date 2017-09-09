@@ -27,6 +27,7 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,13 +35,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmResults;
 
 public class SalesActivity extends AppCompatActivity {
-    Realm realm;
+    static Realm realm;
     Button b1, b2, b3;
 
     Intent intent;
@@ -61,14 +64,16 @@ public class SalesActivity extends AppCompatActivity {
     TreeNode none_node;
     ArrayList<TreeNode> node_list = new ArrayList<TreeNode>();
 
-    ArrayList<Order> sales_list ;//= new ArrayList<Sales>();
+    ArrayList<Sales> sales_list;//= new ArrayList<Sales>();
 
-//    ArrayList<ArrayList<ArrayList<String>>> test1 = new ArrayList<>();
-//    ArrayList<ArrayList<String>> test2 = new ArrayList<>();
-//    ArrayList<String> test3 = new ArrayList<>();
     ArrayList<Test1> test1 = new ArrayList<>();
     ArrayList<Test2> test2 = new ArrayList<>();
     ArrayList<String> test3 = new ArrayList<>();
+
+    ArrayList<Sales_year> sales_years = new ArrayList<>();
+    ArrayList<Sales_month> sales_months = new ArrayList<>();
+    ArrayList<Sales_day> sales_days = new ArrayList<>();
+    ArrayList<Sales_custom> sales_customs = new ArrayList<>();
     int FILTER = 0;
 
     @Override
@@ -84,15 +89,27 @@ public class SalesActivity extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
+
     void init() {
         realm.init(this);
         realm = Realm.getDefaultInstance();
-//        sales_list = new ArrayList<Order>(realm.where(Order.class).findAll());
+        insertData("201709091111", "박범민", 20000, true);
+        insertData("201709091112", "정지성", 25000, true);
+        insertData("201709111113", "박범민", 26000, true);
+        insertData("201709121114", "남궁선", 27000, true);
+        insertData("201709201115", "문소연", 28000, true);
+        insertData("201710091111", "박범민", 20000, true);
+        insertData("201710091112", "정지성", 25000, true);
+        insertData("201710111113", "박범민", 26000, true);
+        insertData("201711121114", "남궁선", 27000, true);
+        insertData("201712201115", "문소연", 28000, true);
+        sales_list = (ArrayList<Sales>) getAllSalesList();
+        /*
         test3.add("shirts");
         test3.add("pants");
         test2.add(new Test2("박범민",test3));
         test1.add(new Test1("20170910",test2));
-
+*/
 
         AscendingObj ascending = new AscendingObj();
 //        Collections.sort(sales_list, ascending);
@@ -232,6 +249,8 @@ public class SalesActivity extends AppCompatActivity {
 //                }
             }
         });
+        set_list(start_tv, finish_tv, 0);
+
     }
 
     private void setCalendarDate(int year, int month) {
@@ -563,45 +582,143 @@ public class SalesActivity extends AppCompatActivity {
 
 
         } else if (op == 0) {//일
-            for (int i = 0; i < test1.size(); i++){
-                node_list.add(new TreeNode(new SalesAdpater.TreeItem(test1.get(i).getDate() + "년", "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
-            for (int i1 = 0; i1 < test2.size(); i1++){
-                node_list.get(i).addChild(new TreeNode(new SalesAdpater.TreeItem(test2.get(i1).getName(), "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
-            for (int i2 = 0; i2 < test3.size(); i2++) {
-                node_list.get(i).getChildren().get(i1).addChild(new TreeNode(new SalesAdpater.TreeItem(test3.get(i2) + "년", "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
-            }
-            }
-            }
+            ArrayList<String> day_list = new ArrayList<>();
+//            for (int i = 0; i < DiffOfDate(start_tv.getText().toString(), finish_tv.getText().toString()); i++) {
+            for (int i1 = 0; i1 < sales_list.size(); i1++) {
+                if (Integer.parseInt(sales_list.get(i1).getDate().substring(0, 8)) >= Integer.parseInt(start_tv.getText().toString().substring(0, 4) + start_tv.getText().toString().substring(5, 7) + start_tv.getText().toString().substring(8)) &&
+                        Integer.parseInt(sales_list.get(i1).getDate().substring(0, 8)) <= Integer.parseInt(finish_tv.getText().toString().substring(0, 4) + finish_tv.getText().toString().substring(5, 7) + finish_tv.getText().toString().substring(8))) {
+                    day_list.add(sales_list.get(i1).getDate().substring(0, 8));
+//ArrayList<Sales> arrayList = (ArrayList<Sales>) getSalesList("date",sales_list.get(i1).getDate().substring(0,8));
+//                        for(int i2 = 0; i2 < arrayList.size(); i2++) {
+//
+//                        }
 
-        }
-
-            for (int i = 0; i < node_list.size(); i++) {
-                if (node_list.get(i).getParent() == null) {
-                    tView.addNode(root, node_list.get(i));
                 }
             }
-
-        }
-
-        class AscendingObj implements Comparator<Order> {
-
-            @Override
-            public int compare(Order o1, Order o2) {
-//            return o1.getDate() >= o2.getDate();
-                return String.valueOf(o1.getDate()).compareTo(o2.getDate() + "");
+            HashSet hs = new HashSet(day_list);
+            ArrayList<String> day_list_ = new ArrayList<String>(hs);
+            Ascendingstr ascending = new Ascendingstr();
+            Collections.sort(day_list_, ascending);
+            for (int i3 = 0; i3 < day_list_.size(); i3++) {
+                ArrayList<Sales> arrayList = (ArrayList<Sales>) getSalesList("date", day_list_.get(i3));
+                Log.d("BEOM24", "arraylist_size : " + arrayList.size());
+                Number sum = realm.where(Sales.class).contains("date", day_list_.get(i3)).sum("sum");
+                node_list.add(new TreeNode(new SalesAdpater.TreeItem(day_list_.get(i3).substring(4, 6) + "월" + day_list_.get(i3).substring(6, 8) + "일", sum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                for (int i4 = 0; i4 < arrayList.size(); i4++) {
+                    node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(arrayList.get(i4).getName(), arrayList.get(i4).getSum() + "")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                }
             }
+//                for (int i2 = 0; i2 < sales_customs.size(); i2++) {
+//                    if(i2 == 0) {
+//                        sales_days.add(new Sales_day(sales_customs.get(i2).getDate(), sales_customs));
+//                    }
+//                }
+//            }
+
+
+//            for (int i = 0; i < test1.size(); i++){
+//                node_list.add(new TreeNode(new SalesAdpater.TreeItem(test1.get(i).getDate() + "년", "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+//            for (int i1 = 0; i1 < test2.size(); i1++){
+//                node_list.get(i).addChild(new TreeNode(new SalesAdpater.TreeItem(test2.get(i1).getName(), "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+//            for (int i2 = 0; i2 < test3.size(); i2++) {
+//                node_list.get(i).getChildren().get(i1).addChild(new TreeNode(new SalesAdpater.TreeItem(test3.get(i2) + "년", "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+//            }
+//            }
+//            }
 
         }
 
-        class Ascendingstr implements Comparator<String> {
-
-            @Override
-            public int compare(String o1, String o2) {
-//            return o1.getDate() >= o2.getDate();
-                return o1.compareTo(o2);
+        for (int i = 0; i < node_list.size(); i++) {
+            if (node_list.get(i).getParent() == null) {
+                tView.addNode(root, node_list.get(i));
             }
-
         }
-
 
     }
+
+    class AscendingObj implements Comparator<Order> {
+
+        @Override
+        public int compare(Order o1, Order o2) {
+//            return o1.getDate() >= o2.getDate();
+            return String.valueOf(o1.getDate()).compareTo(o2.getDate() + "");
+        }
+
+    }
+
+    class Ascendingstr implements Comparator<String> {
+
+        @Override
+        public int compare(String o1, String o2) {
+//            return o1.getDate() >= o2.getDate();
+            return o1.compareTo(o2);
+        }
+
+    }
+
+    public List<Sales> getSalesList(final String table, final String data) {
+        List<Sales> list = new ArrayList<>();
+        try {
+            realm = Realm.getDefaultInstance();
+            RealmResults<Sales> results = realm
+                    .where(Sales.class).contains(table, data)
+                    .findAll();
+            list.addAll(realm.copyFromRealm(results));
+        } finally {
+            if (realm != null) {
+                realm.close();
+            }
+        }
+        return list;
+    }
+
+    public List<Sales> getAllSalesList() {
+        List<Sales> list = new ArrayList<>();
+        try {
+            realm = Realm.getDefaultInstance();
+            RealmResults<Sales> results = realm
+                    .where(Sales.class)
+                    .findAll();
+            list.addAll(realm.copyFromRealm(results));
+        } finally {
+            if (realm != null) {
+                realm.close();
+            }
+        }
+        return list;
+    }
+
+    public long DiffOfDate(String start, String end) {
+        long diffDays = 0;
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd");
+            Date beginDate = formatter.parse(start);
+            Date endDate = formatter.parse(end);
+
+            // 시간차이를 시간,분,초를 곱한 값으로 나누면 하루 단위가 나옴
+            long diff = endDate.getTime() - beginDate.getTime();
+            diffDays = diff / (24 * 60 * 60 * 1000);
+
+//            System.out.println("날짜차이=" + diffDays);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return diffDays;
+    }
+
+    public static void insertData(final String date, final String name, final int price, final boolean pay) {
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Sales user = realm.createObject(Sales.class, date);
+                user.setName(name);
+                user.setPay(pay);
+                user.setSum(price);
+                realm.insert(user);
+            }
+        });
+    }
+
+}
