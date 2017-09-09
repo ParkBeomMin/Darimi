@@ -65,7 +65,7 @@ public class work_itemAdapter extends BaseAdapter {
 
 
         date.setText(list.get(i).getDate());
-        client.setText(list.get(i).getCustom().getName());
+//        client.setText(list.get(i).getCustom().getName());
         if(list.get(i).isSending())
 //            msgBtn.setImageResource();
 

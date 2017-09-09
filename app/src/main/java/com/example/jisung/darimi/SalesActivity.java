@@ -36,8 +36,11 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Locale;
 
+import io.realm.Realm;
+import io.realm.RealmList;
+
 public class SalesActivity extends AppCompatActivity {
-    darimiDB database = new darimiDB(this, "myDB", null, 1);
+    Realm realm;
     Button b1, b2, b3;
 
     Intent intent;
@@ -58,7 +61,14 @@ public class SalesActivity extends AppCompatActivity {
     TreeNode none_node;
     ArrayList<TreeNode> node_list = new ArrayList<TreeNode>();
 
-    ArrayList<Sales> sales_list = new ArrayList<Sales>();
+    ArrayList<Order> sales_list ;//= new ArrayList<Sales>();
+
+//    ArrayList<ArrayList<ArrayList<String>>> test1 = new ArrayList<>();
+//    ArrayList<ArrayList<String>> test2 = new ArrayList<>();
+//    ArrayList<String> test3 = new ArrayList<>();
+    ArrayList<Test1> test1 = new ArrayList<>();
+    ArrayList<Test2> test2 = new ArrayList<>();
+    ArrayList<String> test3 = new ArrayList<>();
     int FILTER = 0;
 
     @Override
@@ -74,16 +84,18 @@ public class SalesActivity extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
-
     void init() {
-        database.Insert_Sales(new Sales("1", "박범민", "셔츠", 20170831, 30000));
-        database.Insert_Sales(new Sales("2", "정지성", "남방", 20170911, 40000));
-        database.Insert_Sales(new Sales("3", "박범민", "셔츠", 20170921, 50000));
-        database.Insert_Sales(new Sales("3", "박범민", "셔츠", 20170822, 20000));
-        database.Insert_Sales(new Sales("3", "정지성", "바지", 20170822, 10000));
-        database.Select_Sales(sales_list);
+        realm.init(this);
+        realm = Realm.getDefaultInstance();
+//        sales_list = new ArrayList<Order>(realm.where(Order.class).findAll());
+        test3.add("shirts");
+        test3.add("pants");
+        test2.add(new Test2("박범민",test3));
+        test1.add(new Test1("20170910",test2));
+
+
         AscendingObj ascending = new AscendingObj();
-        Collections.sort(sales_list, ascending);
+//        Collections.sort(sales_list, ascending);
 
         b1 = (Button) findViewById(R.id.sales_list_day_btn);
         b2 = (Button) findViewById(R.id.sales_list_month_btn);
@@ -146,18 +158,20 @@ public class SalesActivity extends AppCompatActivity {
 
 
         root = TreeNode.root();
-        for (int i = 0; i < sales_list.size(); i++) {
-            if (String.valueOf(sales_list.get(i).getDate()).substring(6).equals(curDayFormat.format(date))) {
-                defalt_node = new TreeNode(new SalesAdpater.TreeItem(curDayFormat.format(date) + "일", sales_list.get(i).getSale() + "")).setViewHolder(new SalesAdpater(this));
-                TreeNode child0 = new TreeNode(new SalesAdpater.TreeItem(sales_list.get(i).getName(), sales_list.get(i).getSale() + "")).setViewHolder(new SalesAdpater(this));
-                TreeNode child1 = new TreeNode(new SalesAdpater.TreeItem(sales_list.get(i).getItem(), sales_list.get(i).getSale() + "")).setViewHolder(new SalesAdpater(this));
-                defalt_node.addChildren(child0);
-                child0.addChild(child1);
+//        for (int i = 0; i < sales_list.size(); i++) {
+//            if (String.valueOf(sales_list.get(i).getDate()).substring(6).equals(curDayFormat.format(date))) {
+//                defalt_node = new TreeNode(new SalesAdpater.TreeItem(curDayFormat.format(date) + "일", sales_list.get(i).getSale() + "")).setViewHolder(new SalesAdpater(this));
+//                TreeNode child0 = new TreeNode(new SalesAdpater.TreeItem(sales_list.get(i).getName(), sales_list.get(i).getSale() + "")).setViewHolder(new SalesAdpater(this));
+//                TreeNode child1 = new TreeNode(new SalesAdpater.TreeItem(sales_list.get(i).getItem(), sales_list.get(i).getSale() + "")).setViewHolder(new SalesAdpater(this));
+//                defalt_node.addChildren(child0);
+//                child0.addChild(child1);
+//
+//            } else {
+//                defalt_node = new TreeNode(new SalesAdpater.TreeItem("내역이 없습니다.", "")).setViewHolder(new SalesAdpater(this));
+//            }
+//        }
+        defalt_node = new TreeNode(new SalesAdpater.TreeItem("내역이 없습니다.", "")).setViewHolder(new SalesAdpater(this));
 
-            } else {
-                defalt_node = new TreeNode(new SalesAdpater.TreeItem("내역이 없습니다.", "")).setViewHolder(new SalesAdpater(this));
-            }
-        }
         root.addChild(defalt_node);
         tView = new AndroidTreeView(this, root);
         containerView = (ViewGroup) findViewById(R.id.sales_list);
@@ -548,157 +562,46 @@ public class SalesActivity extends AppCompatActivity {
         } else if (op == 1) { //월
 
 
-        } else if (op == 0) { //일
-            ArrayList day_list = new ArrayList();
-            for (int i = 0; i < sales_list.size(); i++) {
-                Log.d("BEOM21", "Integer.parseInt(t1.getText().toString().substring(0,4)+t1.getText().toString().substring(5,7) + t1.getText().toString().substring(8)) : " + Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)));
-                if (
-                        sales_list.get(i).getDate() >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
-                                sales_list.get(i).getDate() <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
-                    database.Get_day(day_list, String.valueOf(sales_list.get(i).getDate()).substring(4, 6));
+        } else if (op == 0) {//일
+            for (int i = 0; i < test1.size(); i++){
+                node_list.add(new TreeNode(new SalesAdpater.TreeItem(test1.get(i).getDate() + "년", "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+            for (int i1 = 0; i1 < test2.size(); i1++){
+                node_list.get(i).addChild(new TreeNode(new SalesAdpater.TreeItem(test2.get(i1).getName(), "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+            for (int i2 = 0; i2 < test3.size(); i2++) {
+                node_list.get(i).getChildren().get(i1).addChild(new TreeNode(new SalesAdpater.TreeItem(test3.get(i2) + "년", "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+            }
+            }
+            }
+
+        }
+
+            for (int i = 0; i < node_list.size(); i++) {
+                if (node_list.get(i).getParent() == null) {
+                    tView.addNode(root, node_list.get(i));
                 }
             }
-            HashSet hs = new HashSet(day_list);
-            ArrayList<String> new_day_list = new ArrayList<String>(hs);
-            Log.d("BEOM22", "new_day_list.size() : "+new_day_list.size());
-            Ascendingstr ascending = new Ascendingstr();
-            Collections.sort(new_day_list, ascending);
-            for (int i1 = 0; i1 < new_day_list.size(); i1++) {
-                Log.d("BEOM18", "new_day_list.get(i1) : " + new_day_list.get(i1));
-                String sum = database.Get_Total(new_day_list.get(i1));
-                if (t1.getText().toString().substring(5, 7).equals(t2.getText().toString().substring(5, 7))) {
-                    Log.d("BEOM22", "test1");
-                    if (Integer.parseInt(new_day_list.get(i1).toString().substring(6)) >= Integer.parseInt(t1.getText().toString().substring(8)) &&
-                            Integer.parseInt(new_day_list.get(i1).toString().substring(6)) <= Integer.parseInt(t2.getText().toString().substring(8))) {
-                        node_list.add(new TreeNode(new SalesAdpater.TreeItem(new_day_list.get(i1).toString().substring(4, 6) + "월" + new_day_list.get(i1).toString().substring(6) + "일", sum)).setViewHolder(new SalesAdpater(SalesActivity.this)));
-                        int count = database.Count_Custom(new_day_list.get(i1).toString());
-                        Log.d("BEOM20", "count : " + count);
-                        ArrayList custom_list = new ArrayList();
-                        database.Get_Custom(custom_list, new_day_list.get(i1));
-                        Log.d("BEOM20", "custom_list.size : " + custom_list.size());
-                        for (int i3 = 0; i3 < node_list.size(); i3++) {
-                            for (int i2 = 0; i2 < count; i2++) {
-                                String charge = database.Get_Charge(new_day_list.get(i1), custom_list.get(i2).toString());
-                                node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(custom_list.get(i2).toString(), charge)).setViewHolder(new SalesAdpater(SalesActivity.this)));
-                            }
-                        }
-                    }
-                } else {
-                    Log.d("BEOM22", "test2");
 
-//                    if (Integer.parseInt(t2.getText().toString().substring(5, 7)) - Integer.parseInt(t1.getText().toString().substring(5, 7)) == 1) {
-                        if (Integer.parseInt(new_day_list.get(i1).toString().substring(4, 6)) == Integer.parseInt(t1.getText().toString().substring(5, 7))) {
-                            Log.d("BEOM22", "test3");
-
-                            if (Integer.parseInt(new_day_list.get(i1).toString().substring(6)) >= Integer.parseInt(t1.getText().toString().substring(8)) &&
-                                    Integer.parseInt(new_day_list.get(i1).toString().substring(6)) <= 31) {
-                                node_list.add(new TreeNode(new SalesAdpater.TreeItem(new_day_list.get(i1).toString().substring(4, 6) + "월" + new_day_list.get(i1).toString().substring(6) + "일", sum)).setViewHolder(new SalesAdpater(SalesActivity.this)));
-                                Log.d("BEOM23","new_day_list.get(i1).toString() : " + new_day_list.get(i1).toString());
-                                int count = database.Count_Custom(new_day_list.get(i1).toString());
-                                Log.d("BEOM20", "count : " + count);
-                                ArrayList custom_list = new ArrayList();
-                                database.Get_Custom(custom_list, new_day_list.get(i1));
-                                Log.d("BEOM20", "custom_list.size : " + custom_list.size());
-                                for (int i3 = 0; i3 < node_list.size(); i3++) {
-                                    for (int i2 = 0; i2 < count; i2++) {
-                                        String charge = database.Get_Charge(new_day_list.get(i1), custom_list.get(i2).toString());
-                                        node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(custom_list.get(i2).toString(), charge)).setViewHolder(new SalesAdpater(SalesActivity.this)));
-                                    }
-                                }
-                            }
-                        }else if(Integer.parseInt(new_day_list.get(i1).toString().substring(4,6)) == Integer.parseInt(t2.getText().toString().substring(5,7))){
-                            if (Integer.parseInt(new_day_list.get(i1).toString().substring(6)) >= 1 &&
-                                    Integer.parseInt(new_day_list.get(i1).toString().substring(6)) <= Integer.parseInt(t2.getText().toString().substring(8))) {
-                                node_list.add(new TreeNode(new SalesAdpater.TreeItem(new_day_list.get(i1).toString().substring(4, 6) + "월" + new_day_list.get(i1).toString().substring(6) + "일", sum)).setViewHolder(new SalesAdpater(SalesActivity.this)));
-                                int count = database.Count_Custom(new_day_list.get(i1).toString());
-                                Log.d("BEOM20", "count : " + count);
-                                ArrayList custom_list = new ArrayList();
-                                database.Get_Custom(custom_list, new_day_list.get(i1));
-                                Log.d("BEOM20", "custom_list.size : " + custom_list.size());
-                                for (int i3 = 0; i3 < node_list.size(); i3++) {
-                                    for (int i2 = 0; i2 < count; i2++) {
-                                        String charge = database.Get_Charge(new_day_list.get(i1), custom_list.get(i2).toString());
-                                        node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(custom_list.get(i2).toString(), charge)).setViewHolder(new SalesAdpater(SalesActivity.this)));
-                                    }
-                                }
-                            }
-                        }else{
-                            if (Integer.parseInt(new_day_list.get(i1).toString().substring(6)) >= 1 &&
-                                    Integer.parseInt(new_day_list.get(i1).toString().substring(6)) <= 31) {
-                                node_list.add(new TreeNode(new SalesAdpater.TreeItem(new_day_list.get(i1).toString().substring(4, 6) + "월" + new_day_list.get(i1).toString().substring(6) + "일", sum)).setViewHolder(new SalesAdpater(SalesActivity.this)));
-                                int count = database.Count_Custom(new_day_list.get(i1).toString());
-                                Log.d("BEOM20", "count : " + count);
-                                ArrayList custom_list = new ArrayList();
-                                database.Get_Custom(custom_list, new_day_list.get(i1));
-                                Log.d("BEOM20", "custom_list.size : " + custom_list.size());
-                                for (int i3 = 0; i3 < node_list.size(); i3++) {
-                                    for (int i2 = 0; i2 < count; i2++) {
-                                        String charge = database.Get_Charge(new_day_list.get(i1), custom_list.get(i2).toString());
-                                        node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(custom_list.get(i2).toString(), charge)).setViewHolder(new SalesAdpater(SalesActivity.this)));
-                                    }
-                                }
-                            }
-                        }
-//                    } else {
-
-//                    }
-                }
-            }
-//            Log.d("BEOM19", "node_list.get(0).getValue().toString() : "+(SalesAdpater.TreeItem)(node_list.get(0).getValue()));
-            for (int i2 = 0; i2 < node_list.size(); i2++) {
-//                int count = database.Count_Custom(node_list.get(i2).getValue().toString())
-            }
-
-
-//            int j = 0;
-//            int k = 0;
-//            for (int i = 0; i < sales_list.size(); i++) {
-//                if (sales_list.get(i).getDate().substring(0, 4).equals(t1.getText().toString().substring(0, 4)) &&
-//                        sales_list.get(i).getDate().substring(5, 7).equals(t1.getText().toString().substring(5, 7))
-//
-//                        &&
-//                        Integer.parseInt(sales_list.get(i).date.substring(8)) >= Integer.parseInt(t1.getText().toString().substring(8)) &&
-//                        Integer.parseInt(sales_list.get(i).date.substring(8)) <= Integer.parseInt(t2.getText().toString().substring(8))) {
-//                    node_list.add(new TreeNode(new SalesAdpater.TreeItem(sales_list.get(i).getDate().substring(5, 7) + "월" + sales_list.get(i).date.substring(8) + "일", sales_list.get(i).getSale() + "")).setViewHolder(new SalesAdpater(SalesActivity.this)));
-//                    node_list.get(j).addChild(new TreeNode(new SalesAdpater.TreeItem(sales_list.get(i).getName(), sales_list.get(i).getSale() + "")).setViewHolder(new SalesAdpater(SalesActivity.this)));
-//                    node_list.get(j).getChildren().get(k).addChild(new TreeNode(new SalesAdpater.TreeItem(sales_list.get(i).getItem(), sales_list.get(i).getSale() + "")).setViewHolder(new SalesAdpater(SalesActivity.this)));
-////                    k++;
-//                    j++;
-//                } else {
-////                    node_list.add(new TreeNode(new SalesAdpater.TreeItem("매출내역없음","")).setViewHolder(new SalesAdpater(SalesActivity.this)));
-//                }
-//            }
-        }
-        for (
-                int i = 0; i < node_list.size(); i++)
-
-        {
-            if (node_list.get(i).getParent() == null) {
-                tView.addNode(root, node_list.get(i));
-            }
         }
 
-    }
+        class AscendingObj implements Comparator<Order> {
 
-    class AscendingObj implements Comparator<Sales> {
-
-        @Override
-        public int compare(Sales o1, Sales o2) {
+            @Override
+            public int compare(Order o1, Order o2) {
 //            return o1.getDate() >= o2.getDate();
-            return String.valueOf(o1.getDate()).compareTo(o2.getDate() + "");
+                return String.valueOf(o1.getDate()).compareTo(o2.getDate() + "");
+            }
+
         }
 
-    }
+        class Ascendingstr implements Comparator<String> {
 
-    class Ascendingstr implements Comparator<String> {
-
-        @Override
-        public int compare(String o1, String o2) {
+            @Override
+            public int compare(String o1, String o2) {
 //            return o1.getDate() >= o2.getDate();
-            return o1.compareTo(o2);
+                return o1.compareTo(o2);
+            }
+
         }
 
+
     }
-
-
-}
