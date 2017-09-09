@@ -25,7 +25,6 @@ public class darimiDataCon {
             @Override
             public void execute(Realm realm) {
                 Custom custom = realm.createObject(Custom.class);
-//                custom.setId(id);
                 custom.setName(name);
                 custom.setCall(call);
                 custom.setNum("1");
@@ -34,13 +33,15 @@ public class darimiDataCon {
     }
 
 
-    public static void makeOrder(Realm realm, final RealmList<Items> data, final String date, final Custom custom){
+    public static void makeOrder(Realm realm, final String data, final String date, final String call, final String name, final boolean pay){
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 Order order = realm.createObject(Order.class);
                 order.setData(data);
-//                order.setCustom(custom);
+                order.setName(name);
+                order.setCall(call);
+                order.setPay(pay);
                 order.setDate(date);
                 order.setWork_state(0);
                 order.setSending(false);

@@ -61,9 +61,9 @@ public class work_itemAdapter extends BaseAdapter {
         Button comBtn = (Button)view.findViewById(R.id.work_comp);
         Button recepitBtn = (Button)view.findViewById(R.id.work_recepit);
 
-        client_itemAdapter adapter = new client_itemAdapter(view.getContext(),list.get(i).getData());
+        client_itemAdapter adapter = new client_itemAdapter(view.getContext(),itemParser.parserString(list.get(i).getData()));
 
-
+        client.setText(list.get(i).getName());
         date.setText(list.get(i).getDate());
 //        client.setText(list.get(i).getCustom().getName());
         if(list.get(i).isSending())

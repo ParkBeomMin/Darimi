@@ -142,13 +142,12 @@ public class OrderActivity extends AppCompatActivity {
 //                    darimiDataCon.makeCustom(realm,today_date,client_name.getText().toString(),client_num.getText().toString());
                 }
                 else{
-               //     custom = new Custom(today_date,"2",client_name.getText().toString(),client_num.getText().toString());
+                    custom = new Custom(client_name.getText().toString(),client_num.getText().toString());
                 }
 
-                final RealmList<Items> cData = (RealmList<Items>) realm.copyToRealm(selectItems_list);
-             //   custom = new Custom(today_date,"2",client_name.getText().toString(),client_num.getText().toString());
+                custom = new Custom(client_name.getText().toString(),client_num.getText().toString());
 
-                darimiDataCon.makeOrder(realm,cData,today_date,custom);
+                darimiDataCon.makeOrder(realm,itemParser.parserList(selectItems_list),today_date,custom.getCall(),custom.getName(),true);
 
                 Toast.makeText(OrderActivity.this, "ordering", Toast.LENGTH_SHORT).show();
             }

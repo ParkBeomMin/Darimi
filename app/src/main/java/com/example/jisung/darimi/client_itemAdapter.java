@@ -18,9 +18,9 @@ import io.realm.RealmList;
 public class client_itemAdapter extends BaseAdapter
 {
     Context context;
-    RealmList<Items> list;
+    ArrayList<item_basic> list;
 
-    public client_itemAdapter(Context context, RealmList<Items> list) {
+    public client_itemAdapter(Context context, ArrayList<item_basic> list) {
         this.context = context;
         this.list = list;
     }
@@ -47,8 +47,8 @@ public class client_itemAdapter extends BaseAdapter
             view = inflater.inflate(R.layout.work_client_item, null);
         TextView client = (TextView)view.findViewById(R.id.item_name);
         TextView num = (TextView)view.findViewById(R.id.item_num);
-        client.setText(list.get(i).getItem().getName());
-        num.setText(list.get(i).getItem_num());
+        client.setText(list.get(i).getName());
+        num.setText(list.get(i).getNum());
         return view;
     }
 }

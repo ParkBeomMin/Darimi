@@ -8,7 +8,7 @@ import io.realm.annotations.PrimaryKey;
  */
 
 public class Item extends RealmObject {
-//      @PrimaryKey
+//    @PrimaryKey
     private String name;
     private String price;
     private long seq;

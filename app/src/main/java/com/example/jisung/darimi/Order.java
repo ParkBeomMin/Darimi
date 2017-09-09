@@ -10,24 +10,21 @@ import io.realm.RealmObject;
  */
 
 public class Order extends RealmObject{
-    private RealmList<Items> data;//
+    private String data;//
     private String name;
     private String call;
-//    private Custom custom;//
     private String date;
     private int work_state;
     private boolean sending;
+    private boolean pay;
 
     public Order() {
     }
 
-    public Order(RealmList<Items> data, String name, String call, String date, int work_state, boolean sending) {
+    public Order(String data, String name, String call, String date, int work_state, boolean sending) {
         this.data = data;
-//        this.name = custom.getName();
-//        this.call = custom.getCall();
         this.name = name;
         this.call =call;
-//        this.custom = custom;
         this.date = date;
         this.work_state = work_state;
         this.sending = sending;
@@ -49,21 +46,37 @@ public class Order extends RealmObject{
         this.sending = sending;
     }
 
-    public RealmList<Items> getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(RealmList<Items> data) {
+    public void setData(String data) {
         this.data = data;
     }
 
-//    public Custom getCustom() {
-//        return custom;
-//    }
-//
-//    public void setCustom(Custom custom) {
-//        this.custom = custom;
-//    }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCall() {
+        return call;
+    }
+
+    public void setCall(String call) {
+        this.call = call;
+    }
+
+    public boolean isPay() {
+        return pay;
+    }
+
+    public void setPay(boolean pay) {
+        this.pay = pay;
+    }
 
     public String getDate() {
         return date;
@@ -74,8 +87,10 @@ public class Order extends RealmObject{
     }
     public int getOrderPrice(){
         int result=0;
-        for(int i=0;i<data.size();i++){
-            result+=data.get(i).getTotalprice();
+        ArrayList<item_basic> d;
+        d = itemParser.parserString(data);
+        for(int i=0;i<d.size();i++){
+            result+=Integer.parseInt(d.get(i).getPrice());
         }
         return result;
     }
