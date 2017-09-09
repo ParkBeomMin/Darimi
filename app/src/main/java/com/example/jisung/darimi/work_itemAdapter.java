@@ -68,16 +68,17 @@ public class work_itemAdapter extends BaseAdapter {
         work_list.setAdapter(adapter);
         Log.d("test1",list.get(i).getData());
         client.setText(list.get(i).getName());
-        date.setText(list.get(i).getDate().substring(0,10));
+        date.setText(dateSet.b_date(list.get(i).getDate()));
 //        client.setText(list.get(i).getCustom().getName());
         if(list.get(i).isSending())
 //            msgBtn.setImageResource();
 
         work_list.setAdapter(adapter);
         switch (list.get(i).getWork_state()){
-            case 1:
+            case 0:
+//                comBtn.setBackground();
                 break;
-            case 2:
+            case 1:
                 comBtn.setClickable(false);
 //                comBtn.setBackground();
                 break;
@@ -90,12 +91,23 @@ public class work_itemAdapter extends BaseAdapter {
             default:
                 break;
         }
+
+
+        msgBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//
+            }
+        });
+
         comBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                list.get(i).setWork_state(1);
-                if(!isAll)
-                    list.remove(i);
+
+                if(!isAll) {
+                    darimiDataCon.updateStateOrder(realm,list.get(i).getDate());
+
+                }
                 notifyDataSetChanged();
             }
         });

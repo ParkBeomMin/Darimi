@@ -49,8 +49,8 @@ public class client_itemAdapter extends BaseAdapter
         Log.d("test1",list.get(i).getName());
         TextView client = (TextView)view.findViewById(R.id.item_name);
         TextView num = (TextView)view.findViewById(R.id.item_num);
-        client.setText(list.get(i).getName());
-        num.setText(list.get(i).getNum());
+        client.setText(list.get(i).getName()+" ");
+        num.setText(list.get(i).getNum()+"개");
         return view;
     }
 }

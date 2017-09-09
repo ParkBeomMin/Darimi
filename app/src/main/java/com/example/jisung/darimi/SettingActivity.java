@@ -24,7 +24,7 @@ public class SettingActivity extends AppCompatActivity {
     GridView work_list_view;
     ExpandableListView work_name_view;
     ArrayList<work_date_list> date_list;
-
+    ArrayList<Order> allWork;
     ArrayList<Order> works;
     work_itemAdapter work_adapter;
     work_nameAdapter nameAdapter;
@@ -49,10 +49,15 @@ public class SettingActivity extends AppCompatActivity {
         c_ext = (TextView) findViewById(R.id.class_extire);
         time_N.setText(time);
 
+        allWork = new ArrayList<Order>(realm.where(Order.class).findAll());
+
         work_list_view = (GridView) findViewById(R.id.work_list);
         work_name_view = (ExpandableListView)findViewById(R.id.work_name_list);
 
-        works = new ArrayList<Order>(realm.where(Order.class).findAll());
+        works = new ArrayList<Order>();
+        for(int i=0;i<allWork.size();i++){
+            works.add(allWork.get(i));
+        }
         date_list = new ArrayList<work_date_list>();
 //        workToname();
         work_date_list test = new work_date_list();
@@ -126,6 +131,11 @@ public class SettingActivity extends AppCompatActivity {
                 c_pro.setTextColor(getColor(R.color.text));
                 c_com.setTextColor(getColor(R.color.text));
                 c_ext.setTextColor(getColor(R.color.text));
+                works.clear();
+                for(int i=0;i<allWork.size();i++){
+                    works.add(allWork.get(i));
+                }
+                work_adapter.notifyDataSetChanged();
 //                works = loadList(0);
                 break;
             case R.id.class_proceed:
@@ -139,6 +149,11 @@ public class SettingActivity extends AppCompatActivity {
                 c_com.setTextColor(getColor(R.color.text));
                 c_ext.setTextColor(getColor(R.color.text));
 //                works = loadList(1);
+                works.clear();
+                for(int i=0;i<allWork.size();i++){
+                    if(allWork.get(i).getWork_state()==0)
+                        works.add(allWork.get(i));
+                }work_adapter.notifyDataSetChanged();
                 break;
             case R.id.class_comple:
                 c_all.setBackgroundColor(getColor(R.color.White));
@@ -150,6 +165,11 @@ public class SettingActivity extends AppCompatActivity {
                 c_pro.setTextColor(getColor(R.color.text));
                 c_com.setTextColor(getColor(R.color.White));
                 c_ext.setTextColor(getColor(R.color.text));
+                works.clear();
+                for(int i=0;i<allWork.size();i++){
+                    if(allWork.get(i).getWork_state()==1)
+                        works.add(allWork.get(i));
+                }work_adapter.notifyDataSetChanged();
 
 //                works = loadList(2);
                 break;

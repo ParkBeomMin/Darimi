@@ -171,8 +171,12 @@
                     android:orientation="horizontal"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
                     android:weightSum="10">
                     <TextView
+                        android:gravity="center"
+                        android:textColor="@color/White"
                         android:background="@drawable/round_btn_key2"
                         android:id="@+id/class_all"
                         android:layout_weight="2"
@@ -181,13 +185,16 @@
                         android:layout_height="match_parent"
                         android:text="전체"/>
                     <TextView
+                        android:gravity="center"
                         android:id="@+id/class_proceed"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
                         android:text="진행"
-                        android:onClick="work_onclick"/>
+                        android:onClick="work_onclick"
+                        />
                     <TextView
+                        android:gravity="center"
                         android:onClick="work_onclick"
                         android:id="@+id/class_comple"
                         android:layout_width="0dp"
@@ -195,6 +202,8 @@
                         android:layout_weight="2"
                         android:text="작업완료"/>
                     <TextView
+                        android:visibility="gone"
+                        android:gravity="center"
                         android:onClick="work_onclick"
                         android:id="@+id/class_extire"
                         android:layout_width="0dp"

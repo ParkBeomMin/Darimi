@@ -51,6 +51,16 @@ public class darimiDataCon {
             }
         });
     }
+    public static void updateStateOrder(Realm realm,final String date) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<Order> result = realm.where(Order.class).equalTo("date", date).findAll();
+                result.get(0).setWork_state(1);
+            }
+        });
+    }
+
     public static void removeOrder(Realm realm,final String date) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override

@@ -7,6 +7,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:paddingLeft="20dp"
     android:weightSum="2"
         android:orientation="vertical"
         android:layout_weight="1"
@@ -28,8 +29,11 @@
         android:layout_height="match_parent"
         android:layout_weight="1"/>
     <Button
+        android:text="자세히"
+        android:textColor="@color/White"
+        android:layout_margin="15dp"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@color/Key2"/>
+        android:background="@drawable/round_btn_key2"/>
 </LinearLayout>
