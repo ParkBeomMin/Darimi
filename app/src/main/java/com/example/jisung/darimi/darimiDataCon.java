@@ -10,7 +10,7 @@ import io.realm.RealmList;
  */
 
 public class darimiDataCon {
-    public static void makeItems(Realm realm, final Item item, final int i){
+    public static void makeItems(Realm realm, final Item item, final int i) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -20,7 +20,8 @@ public class darimiDataCon {
             }
         });
     }
-    public static void makeCustom(Realm realm, final String id, final String name, final String call){
+
+    public static void makeCustom(Realm realm, final String id, final String name, final String call) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -33,7 +34,7 @@ public class darimiDataCon {
     }
 
 
-    public static void makeOrder(Realm realm, final String data, final String date, final String call, final String name, final boolean pay){
+    public static void makeOrder(Realm realm, final String data, final String date, final String call, final String name, final boolean pay) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -48,6 +49,18 @@ public class darimiDataCon {
 
             }
         });
+    }
 
+    public static void makeSales(Realm realm, final String date, final String name, final int price, final boolean pay) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Sales sales = realm.createObject(Sales.class);
+                sales.setName(name);
+                sales.setPay(pay);
+                sales.setDate(date);
+                sales.setSum(price);
+            }
+        });
     }
 }
