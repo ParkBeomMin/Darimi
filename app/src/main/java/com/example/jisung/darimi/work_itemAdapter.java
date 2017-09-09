@@ -1,6 +1,7 @@
 package com.example.jisung.darimi;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import io.realm.Realm;
 import io.realm.RealmList;
 
 /**
@@ -23,6 +25,7 @@ public class work_itemAdapter extends BaseAdapter {
 
     ArrayList<Order> list;
     Context context;
+    Realm realm;
     boolean isAll=false;
 
 
@@ -62,9 +65,10 @@ public class work_itemAdapter extends BaseAdapter {
         Button recepitBtn = (Button)view.findViewById(R.id.work_recepit);
 
         client_itemAdapter adapter = new client_itemAdapter(view.getContext(),itemParser.parserString(list.get(i).getData()));
-
+        work_list.setAdapter(adapter);
+        Log.d("test1",list.get(i).getData());
         client.setText(list.get(i).getName());
-        date.setText(list.get(i).getDate());
+        date.setText(list.get(i).getDate().substring(0,10));
 //        client.setText(list.get(i).getCustom().getName());
         if(list.get(i).isSending())
 //            msgBtn.setImageResource();
@@ -98,9 +102,13 @@ public class work_itemAdapter extends BaseAdapter {
         recepitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                list.get(i).setWork_state(2);
-                if(!isAll)
+//                list.get(i).setWork_state(2);
+                if(!isAll) {
+                    Log.d("test1",list.get(i).getDate());
+                    darimiDataCon.makeSales(realm,list.get(i).getDate(),list.get(i).getName(),list.get(i).getOrderPrice(),list.get(i).isPay());
+                    darimiDataCon.removeOrder(realm,list.get(i).getDate());
                     list.remove(i);
+                }
                 notifyDataSetChanged();
             }
         });

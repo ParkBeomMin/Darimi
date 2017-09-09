@@ -585,6 +585,7 @@ public class SalesActivity extends AppCompatActivity {
             ArrayList<String> day_list = new ArrayList<>();
 //            for (int i = 0; i < DiffOfDate(start_tv.getText().toString(), finish_tv.getText().toString()); i++) {
             for (int i1 = 0; i1 < sales_list.size(); i1++) {
+                Log.d("test1","t"+Integer.parseInt(sales_list.get(i1).getDate().substring(0, 8)));
                 if (Integer.parseInt(sales_list.get(i1).getDate().substring(0, 8)) >= Integer.parseInt(start_tv.getText().toString().substring(0, 4) + start_tv.getText().toString().substring(5, 7) + start_tv.getText().toString().substring(8)) &&
                         Integer.parseInt(sales_list.get(i1).getDate().substring(0, 8)) <= Integer.parseInt(finish_tv.getText().toString().substring(0, 4) + finish_tv.getText().toString().substring(5, 7) + finish_tv.getText().toString().substring(8))) {
                     day_list.add(sales_list.get(i1).getDate().substring(0, 8));

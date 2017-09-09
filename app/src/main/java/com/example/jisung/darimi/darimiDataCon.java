@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmResults;
 
 /**
  * Created by jisung on 2017. 9. 1..
@@ -50,15 +51,23 @@ public class darimiDataCon {
             }
         });
     }
+    public static void removeOrder(Realm realm,final String date) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<Order> result = realm.where(Order.class).equalTo("date", date).findAll();
+                result.deleteAllFromRealm();
+            }
+        });
+    }
 
     public static void makeSales(Realm realm, final String date, final String name, final int price, final boolean pay) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                Sales sales = realm.createObject(Sales.class);
+                Sales sales = realm.createObject(Sales.class, date);
                 sales.setName(name);
                 sales.setPay(pay);
-                sales.setDate(date);
                 sales.setSum(price);
             }
         });

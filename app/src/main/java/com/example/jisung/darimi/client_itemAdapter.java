@@ -1,6 +1,7 @@
 package com.example.jisung.darimi;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ public class client_itemAdapter extends BaseAdapter
         final LayoutInflater inflater = LayoutInflater.from(context);
         if (view == null)
             view = inflater.inflate(R.layout.work_client_item, null);
+        Log.d("test1",list.get(i).getName());
         TextView client = (TextView)view.findViewById(R.id.item_name);
         TextView num = (TextView)view.findViewById(R.id.item_num);
         client.setText(list.get(i).getName());

@@ -147,7 +147,7 @@ public class OrderActivity extends AppCompatActivity {
 
                 custom = new Custom(client_name.getText().toString(),client_num.getText().toString());
 
-                darimiDataCon.makeOrder(realm,itemParser.parserList(selectItems_list),today_date,custom.getCall(),custom.getName(),true);
+                darimiDataCon.makeOrder(realm,itemParser.parserList(selectItems_list),dateKey(),custom.getCall(),custom.getName(),true);
 
                 Toast.makeText(OrderActivity.this, "ordering", Toast.LENGTH_SHORT).show();
             }
@@ -379,4 +379,10 @@ public class OrderActivity extends AppCompatActivity {
         today_date =formatDate.substring(0,4)+"."+formatDate.substring(5,7)+"."+formatDate.substring(8,10)+"";
         today_time = formatDate.substring(11,13)+":"+formatDate.substring(14,16);
     }//날짜와 시간 문자열로 받아옴
+    String dateKey(){
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat sdfNow = new SimpleDateFormat("yyyyMMddHHmmss");
+        return sdfNow.format(date);
+    }
 }
