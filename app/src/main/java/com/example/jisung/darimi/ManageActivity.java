@@ -143,14 +143,14 @@ public class ManageActivity extends AppCompatActivity {
         return realm.where(Custom.class).findAll();
     }
 
-    public static void insertuserData(final String id, final String name, final String call) {
+    public static void insertuserData(final String name, final String call) {
 
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                Custom user = realm.createObject(Custom.class, id);
+                Custom user = realm.createObject(Custom.class, call);
                 user.setName(name);
-                user.setCall(call);
+//                user.setCall(call);
                 user.setNum(arrayList.size() + 1 + "");
                 realm.insert(user);
             }
@@ -220,6 +220,7 @@ public class ManageActivity extends AppCompatActivity {
                         String custom_name = add_custom_name_edt.getText().toString();
                         String custom_call = add_custom_call_edt.getText().toString();
                         int num = arrayList.size() + 1;
+                        /*
                         // 현재시간을 msec 으로 구한다.
                         long now = System.currentTimeMillis();
                         // 현재시간을 date 변수에 저장한다.
@@ -228,6 +229,7 @@ public class ManageActivity extends AppCompatActivity {
                         SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                         // nowDate 변수에 값을 저장한다.
                         String id = sdfNow.format(date);
+                        */
                         if (custom_name.length() != 0 && custom_call.length() != 0) {
                             if (adapter.isInitialSound(custom_name.charAt(0))) {
                                 Toast.makeText(ManageActivity.this, "이름을 제대로 입력해주세요.", Toast.LENGTH_LONG).show();
@@ -235,16 +237,23 @@ public class ManageActivity extends AppCompatActivity {
 
                                 Toast.makeText(ManageActivity.this, "전화번호를 제대로 입력해주세요.", Toast.LENGTH_LONG).show();
                             } else {
-                                Custom new_Custom = new Custom(id, Integer.toString(num), custom_name, custom_call);
-                                insertuserData(id, custom_name, custom_call);
-                                adapter.searchList.add(new_Custom);
-                                adapter.notifyDataSetChanged();
-                                adapter.filter(custom_search_edt.getText().toString());
-                                //                                Initial_Search(init);
-                                adapter.filter(init);
-                                custom_search_edt.setText(custom_name);
+                                int flag = Check_call(custom_call);
 
-                                dialog.dismiss();
+                                if(flag==0) {
+                                    Custom new_Custom = new Custom(custom_name, custom_call);
+                                    insertuserData(custom_name, custom_call);
+                                    adapter.searchList.add(new_Custom);
+                                    adapter.notifyDataSetChanged();
+                                    adapter.filter(custom_search_edt.getText().toString());
+                                    //                                Initial_Search(init);
+                                    adapter.filter(init);
+                                    custom_search_edt.setText(custom_name);
+
+                                    dialog.dismiss();
+                                }else {
+                                    Toast.makeText(getApplicationContext(), "이미 존재하는 전화번호 입니다.", Toast.LENGTH_LONG).show();
+
+                                }
                             }
                         } else {
                             Toast.makeText(ManageActivity.this, "모든 항목을 입력해주세요.", Toast.LENGTH_LONG).show();
@@ -416,13 +425,25 @@ public class ManageActivity extends AppCompatActivity {
         select_btn_array.add(g_);
     }
 
-    public static void removeCus(final String id) {
+    public static void removeCus(final String call) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                RealmResults<Custom> result = realm.where(Custom.class).equalTo("id", id).findAll();
+                RealmResults<Custom> result = realm.where(Custom.class).equalTo("call", call).findAll();
                 result.deleteAllFromRealm();
             }
         });
+    }
+
+    public int Check_call(String call){
+        ArrayList<Custom> arrayList = (ArrayList<Custom>) getCustomList();
+        for(int i = 0; i < arrayList.size(); i++) {
+            if(arrayList.get(i).getCall().equals(call)){
+                Log.d("BEOM22", "arrayList.get(i).getCall() : " + arrayList.get(i).getCall());
+                Log.d("BEOM22","custom_call : " + call);
+                return 1;
+            }
+        }
+        return 0;
     }
 }
