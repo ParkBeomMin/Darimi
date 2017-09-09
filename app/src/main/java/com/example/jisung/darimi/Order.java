@@ -10,8 +10,10 @@ import io.realm.RealmObject;
  */
 
 public class Order extends RealmObject{
-    private RealmList<Items> data;
-    private Custom custom;
+    private RealmList<Items> data;//
+    private String name;
+    private String call;
+//    private Custom custom;//
     private String date;
     private int work_state;
     private boolean sending;
@@ -19,9 +21,13 @@ public class Order extends RealmObject{
     public Order() {
     }
 
-    public Order(RealmList<Items> data, Custom custom, String date, int work_state, boolean sending) {
+    public Order(RealmList<Items> data, String name, String call, String date, int work_state, boolean sending) {
         this.data = data;
-        this.custom = custom;
+//        this.name = custom.getName();
+//        this.call = custom.getCall();
+        this.name = name;
+        this.call =call;
+//        this.custom = custom;
         this.date = date;
         this.work_state = work_state;
         this.sending = sending;
@@ -51,13 +57,13 @@ public class Order extends RealmObject{
         this.data = data;
     }
 
-    public Custom getCustom() {
-        return custom;
-    }
-
-    public void setCustom(Custom custom) {
-        this.custom = custom;
-    }
+//    public Custom getCustom() {
+//        return custom;
+//    }
+//
+//    public void setCustom(Custom custom) {
+//        this.custom = custom;
+//    }
 
     public String getDate() {
         return date;
