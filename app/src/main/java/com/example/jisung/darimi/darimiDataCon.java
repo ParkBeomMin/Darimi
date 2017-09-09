@@ -10,9 +10,31 @@ import io.realm.RealmList;
  */
 
 public class darimiDataCon {
-//    public static void makeItem(Realm realm,){}
-//    public static void makeCustom(Realm realm,){}
-    public static void makeOrder(Realm realm, final RealmList<Items> data, final Custom custom, final String date){
+    public static void makeItems(Realm realm, final Item item, final int i){
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Items items = realm.createObject(Items.class);
+                items.setItem(item);
+                items.setItem_num(i);
+            }
+        });
+    }
+    public static void makeCustom(Realm realm, final String id, final String name, final String call){
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Custom custom = realm.createObject(Custom.class);
+                custom.setId(id);
+                custom.setName(name);
+                custom.setCall(call);
+                custom.setNum("1");
+            }
+        });
+    }
+
+
+    public static void makeOrder(Realm realm, final RealmList<Items> data, final String date, final Custom custom){
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {

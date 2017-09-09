@@ -129,20 +129,26 @@ public class OrderActivity extends AppCompatActivity {
         orderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RealmList<Items> cData = new RealmList<Items>();
                 realm.beginTransaction();
-                for(int i=0;i<selectItems_list.size();i++){
-                    cData.add(selectItems_list.get(i));
-                }
-                if(true){
+
+//                for(int i=0;i<selectItems_list.size();i++){
+//                    cData.add(selectItems_list.get(i));
+//                }
+                realm.commitTransaction();
+
+                if(false){
                     //custom 이 기존에 있는 경우
-                    custom = new Custom(""," ",client_name.getText().toString(),client_num.getText().toString());
+//                    custom = new Custom(""," ",client_name.getText().toString(),client_num.getText().toString());
+//                    darimiDataCon.makeCustom(realm,today_date,client_name.getText().toString(),client_num.getText().toString());
                 }
                 else{
-                    custom = new Custom(""," ",client_name.getText().toString(),client_num.getText().toString());
+                    custom = new Custom(today_date,"2",client_name.getText().toString(),client_num.getText().toString());
                 }
-                realm.commitTransaction();
-                darimiDataCon.makeOrder(realm,cData,custom,today_date);
+
+                final RealmList<Items> cData = realm.copyToRealm(selectItems_list);
+                custom = new Custom(today_date,"2",client_name.getText().toString(),client_num.getText().toString());
+
+                darimiDataCon.makeOrder(realm,cData,today_date,custom);
 
                 Toast.makeText(OrderActivity.this, "ordering", Toast.LENGTH_SHORT).show();
             }

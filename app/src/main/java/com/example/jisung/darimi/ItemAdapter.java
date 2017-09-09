@@ -59,6 +59,7 @@ public class ItemAdapter extends DragItemAdapter<Item, ItemAdapter.ViewHolder> {
             holder.mark.setImageResource(R.drawable.item_marked);
     }
 
+
     @Override
     public long getItemId(int position) {
         return mItemList.get(position).getSeq();
