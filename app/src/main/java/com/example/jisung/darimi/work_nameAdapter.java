@@ -23,6 +23,8 @@ public class work_nameAdapter extends BaseExpandableListAdapter {
 
     ArrayList<work_date_list> list;
     Context context;
+    ArrayList<Order> Alls,orders;
+    work_itemAdapter adapter;
 
     public work_nameAdapter(ArrayList<work_date_list> list, Context context) {
         this.list = list;
@@ -74,20 +76,33 @@ public class work_nameAdapter extends BaseExpandableListAdapter {
         if (convertView == null)
             convertView = inflater.inflate(R.layout.work_name_item, null);
         TextView date =(TextView)convertView.findViewById(R.id.date);
-        date.setText(list.get(groupPosition).getDate());
+        date.setText(dateSet.b_date(list.get(groupPosition).getDate()));
 
         return convertView;
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         final LayoutInflater inflater = LayoutInflater.from(context);
         if (convertView == null)
             convertView = inflater.inflate(R.layout.setting_list_item, null);
         TextView name =(TextView)convertView.findViewById(R.id.name);
         TextView item = (TextView)convertView.findViewById(R.id.item);
+        Button button = (Button)convertView.findViewById(R.id.detailBtn);
         name.setText(list.get(groupPosition).getOrders().get(childPosition).getName());
-        item.setText(list.get(groupPosition).getOrders().get(childPosition).getData());
+        item.setText(itemParser.parserSumList(list.get(groupPosition).getOrders().get(childPosition).getData()));
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                orders.clear();
+                for(int i=0;i<Alls.size();i++){
+                    if(Alls.get(i).getName().equals(list.get(groupPosition).getOrders().get(childPosition).getName()))
+                        orders.add(Alls.get(i));
+
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
         return convertView;
     }
 

@@ -1,16 +1,58 @@
 package com.example.jisung.darimi;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 
+import static com.example.jisung.darimi.R.id.date;
+
 /**
  * Created by jisung on 2017. 9. 1..
  */
 
 public class darimiDataCon {
+    public static int itemSeqSet(Context context){
+        SharedPreferences pref = context.getSharedPreferences("seq", context.MODE_PRIVATE);
+        int is = pref.getInt("num",0);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt("num",++is);
+        editor.commit();
+        return is;
+    }
+    public static void makeItem(Realm realm, final Context context, final String name, final String price, final int img, final int c_id ){
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Item item = realm.createObject(Item.class);
+                item.setName(name);
+                item.setPrice(price);
+                item.setSeq(itemSeqSet(context));
+                item.setImg(img);
+                item.setMark(false);
+                item.setC_id(c_id);
+
+            }
+        });
+    }
+    public static void updateItemSeq(Realm realm,final String to, final String from){
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Item item1 =realm.where(Item.class).equalTo("name",to).findFirst();
+                Item item2 =realm.where(Item.class).equalTo("name",from).findFirst();
+                long tmp = item2.getSeq();
+                item2.setSeq(item1.getSeq());
+                item1.setSeq(tmp);
+            }
+        });
+    }
+
     public static void makeItems(Realm realm, final Item item, final int i) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -39,6 +81,19 @@ public class darimiDataCon {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
+                Log.d("test3","realmBefore");
+                Custom result = realm.where(Custom.class).equalTo("call", call).findFirst();
+                Log.d("test3","realm");
+                if(result==null){
+                    Custom custom = realm.createObject(Custom.class,call);
+                    custom.setName(name);
+                    Log.d("test3","realmCreate");
+                }
+            }
+        });
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
                 Order order = realm.createObject(Order.class);
                 order.setData(data);
                 order.setName(name);
@@ -61,6 +116,15 @@ public class darimiDataCon {
         });
     }
 
+    public static void updateMsgOrder(Realm realm,final String date){
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<Order> result = realm.where(Order.class).equalTo("date", date).findAll();
+                result.get(0).setSending(true);
+            }
+        });
+    }
     public static void removeOrder(Realm realm,final String date) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override

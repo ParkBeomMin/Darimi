@@ -1,6 +1,9 @@
 package com.example.jisung.darimi;
 
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -58,7 +62,7 @@ public class work_itemAdapter extends BaseAdapter {
 
         TextView date = (TextView)view.findViewById(R.id.work_date);
         TextView client = (TextView)view.findViewById(R.id.client_name);
-        ImageButton msgBtn = (ImageButton)view.findViewById(R.id.send_msg);
+        final ImageButton msgBtn = (ImageButton)view.findViewById(R.id.send_msg);
         ListView work_list=(ListView)view.findViewById(R.id.work_item_list);
         ImageView work_state = (ImageView)view.findViewById(R.id.work_state);
         Button comBtn = (Button)view.findViewById(R.id.work_comp);
@@ -71,7 +75,7 @@ public class work_itemAdapter extends BaseAdapter {
         date.setText(dateSet.b_date(list.get(i).getDate()));
 //        client.setText(list.get(i).getCustom().getName());
         if(list.get(i).isSending())
-//            msgBtn.setImageResource();
+            msgBtn.setImageResource(R.color.list_item_background);
 
         work_list.setAdapter(adapter);
         switch (list.get(i).getWork_state()){
@@ -80,7 +84,7 @@ public class work_itemAdapter extends BaseAdapter {
                 break;
             case 1:
                 comBtn.setClickable(false);
-//                comBtn.setBackground();
+                comBtn.setBackground(context.getDrawable(R.color.list_item_background));
                 break;
             case 3:
                 comBtn.setClickable(false);
@@ -96,7 +100,13 @@ public class work_itemAdapter extends BaseAdapter {
         msgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//
+                if (list.get(i).getWork_state() == 1) {
+                    String msg = "세탁이 완료되었습니다. 수령바랍니다.";
+                    sendSMS(list.get(i).getCall(), msg);//미전송 케이스 처리
+                    msgBtn.setBackgroundResource(R.color.list_item_background);
+                    darimiDataCon.updateMsgOrder(realm,list.get(i).getDate());
+                    Toast.makeText(context, "문자가 전송되었습니다.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -127,4 +137,13 @@ public class work_itemAdapter extends BaseAdapter {
 
         return view;
     }
+    public void sendSMS(String smsNumber, String smsText){
+        PendingIntent sentIntent = PendingIntent.getBroadcast(context, 0, new Intent("SMS_SENT_ACTION"), 0);
+        PendingIntent deliveredIntent = PendingIntent.getBroadcast(context, 0, new Intent("SMS_DELIVERED_ACTION"), 0);
+
+        SmsManager mSmsManager = SmsManager.getDefault();
+        mSmsManager.sendTextMessage(smsNumber, null, smsText, sentIntent, deliveredIntent);
+    }
+
+
 }

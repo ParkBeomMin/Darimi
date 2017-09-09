@@ -14,11 +14,13 @@
         android:layout_width="0dp"
         android:layout_height="match_parent">
         <TextView
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:id="@+id/name"/>
         <TextView
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -30,6 +32,7 @@
         android:layout_weight="1"/>
     <Button
         android:text="자세히"
+        android:id="@+id/detailBtn"
         android:textColor="@color/White"
         android:layout_margin="15dp"
         android:layout_width="0dp"

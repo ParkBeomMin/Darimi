@@ -52,48 +52,49 @@ public class SettingActivity extends AppCompatActivity {
         allWork = new ArrayList<Order>(realm.where(Order.class).findAll());
 
         work_list_view = (GridView) findViewById(R.id.work_list);
-        work_name_view = (ExpandableListView)findViewById(R.id.work_name_list);
+        work_name_view = (ExpandableListView) findViewById(R.id.work_name_list);
 
         works = new ArrayList<Order>();
-        for(int i=0;i<allWork.size();i++){
+        for (int i = 0; i < allWork.size(); i++) {
             works.add(allWork.get(i));
         }
         date_list = new ArrayList<work_date_list>();
-//        workToname();
-        work_date_list test = new work_date_list();
-        ArrayList<Order> orders = new ArrayList<Order>();
-        orders.add(new Order("cfasd;klf","jisug","0100000","2017.09.09",1,true));
-        test.setDate("2017.09.09");
-        test.setOrders(orders);
-        date_list.add(test);
+        workToname();
+
         work_adapter = new work_itemAdapter(works, this);
-        work_adapter.realm=realm;
+        work_adapter.realm = realm;
         work_list_view.setAdapter(work_adapter);
 
-        nameAdapter = new work_nameAdapter(date_list,this);
+        nameAdapter = new work_nameAdapter(date_list, this);
+        nameAdapter.orders = works;
+        nameAdapter.adapter=work_adapter;
+        nameAdapter.Alls =allWork;
         work_name_view.setAdapter(nameAdapter);
     }
-    public void workToname(){
-        Log.d("test1","ss");
-        Collections.sort(works,new sortWorks());
-        String tmp=works.get(0).getDate().substring(0,10);
-        for(int i=0;i< works.size();i++){
-            Log.d("test1",tmp);
+
+    public void workToname() {
+        Collections.sort(works, new sortWorks());
+        for (int i = 0; i < works.size(); i++) {
+            Log.d("test2",works.get(i).getDate());
+        }
+        String tmp = works.get(0).getDate().substring(0,8);
+        for (int i = 0; i < works.size(); i++) {
+            Log.d("test1", tmp);
             work_date_list data = new work_date_list();
             ArrayList<Order> orders = new ArrayList<Order>();
-            while(tmp.equals(works.get(i).getDate())){
-                Log.d("test1",tmp);
-                tmp = works.get(i).getDate().substring(0,10);
+            while (tmp.equals(works.get(i).getDate().substring(0,8))) {
+                Log.d("test1", tmp);
+                tmp = works.get(i).getDate().substring(0,8);
                 data.setDate(tmp);
                 orders.add(works.get(i));
                 i++;
-                if(i==works.size())
+                if (i == works.size())
                     break;
             }
             data.setOrders(orders);
             date_list.add(data);
-            Log.d("test1",data.getDate());
-            if(i==works.size())
+            Log.d("test1", data.getDate());
+            if (i == works.size())
                 break;
         }
     }
@@ -132,7 +133,7 @@ public class SettingActivity extends AppCompatActivity {
                 c_com.setTextColor(getColor(R.color.text));
                 c_ext.setTextColor(getColor(R.color.text));
                 works.clear();
-                for(int i=0;i<allWork.size();i++){
+                for (int i = 0; i < allWork.size(); i++) {
                     works.add(allWork.get(i));
                 }
                 work_adapter.notifyDataSetChanged();
@@ -150,10 +151,11 @@ public class SettingActivity extends AppCompatActivity {
                 c_ext.setTextColor(getColor(R.color.text));
 //                works = loadList(1);
                 works.clear();
-                for(int i=0;i<allWork.size();i++){
-                    if(allWork.get(i).getWork_state()==0)
+                for (int i = 0; i < allWork.size(); i++) {
+                    if (allWork.get(i).getWork_state() == 0)
                         works.add(allWork.get(i));
-                }work_adapter.notifyDataSetChanged();
+                }
+                work_adapter.notifyDataSetChanged();
                 break;
             case R.id.class_comple:
                 c_all.setBackgroundColor(getColor(R.color.White));
@@ -166,10 +168,11 @@ public class SettingActivity extends AppCompatActivity {
                 c_com.setTextColor(getColor(R.color.White));
                 c_ext.setTextColor(getColor(R.color.text));
                 works.clear();
-                for(int i=0;i<allWork.size();i++){
-                    if(allWork.get(i).getWork_state()==1)
+                for (int i = 0; i < allWork.size(); i++) {
+                    if (allWork.get(i).getWork_state() == 1)
                         works.add(allWork.get(i));
-                }work_adapter.notifyDataSetChanged();
+                }
+                work_adapter.notifyDataSetChanged();
 
 //                works = loadList(2);
                 break;
@@ -188,7 +191,8 @@ public class SettingActivity extends AppCompatActivity {
                 break;
         }
     }
-//    public ArrayList<Order> loadList(int i){
+
+    //    public ArrayList<Order> loadList(int i){
 //        ArrayList<Order> list;
 //        list = new ArrayList<Order>();
 //        switch (i){
@@ -204,11 +208,11 @@ public class SettingActivity extends AppCompatActivity {
 //        System.gc();
 //        return list;
 //    }
-    class sortWorks implements Comparator<Order>{
+    class sortWorks implements Comparator<Order> {
 
-    @Override
-    public int compare(Order o1, Order o2) {
-        return String.valueOf(o1.getDate()).compareTo(o2.getDate() + "");
+        @Override
+        public int compare(Order o1, Order o2) {
+            return String.valueOf(o1.getDate()).compareTo(o2.getDate() + "");
+        }
     }
-}
 }

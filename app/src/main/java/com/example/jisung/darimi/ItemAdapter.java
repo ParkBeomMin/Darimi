@@ -20,6 +20,7 @@ import com.woxthebox.draglistview.DragItemAdapter;
 
 import java.util.ArrayList;
 
+import io.realm.Realm;
 import io.realm.RealmList;
 
 /**
@@ -31,6 +32,8 @@ public class ItemAdapter extends DragItemAdapter<Item, ItemAdapter.ViewHolder> {
     private int mLayoutId;
     private int mGrabHandleId;
     private boolean mDragOnLongPress;
+    Realm realm;
+    int cate;
 
     ItemAdapter(ArrayList<Item> list, int layoutId, int grabHandleId, boolean dragOnLongPress) {
         mLayoutId = layoutId;
@@ -115,7 +118,10 @@ public class ItemAdapter extends DragItemAdapter<Item, ItemAdapter.ViewHolder> {
                 comple.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        darimiDataCon.makeItem(realm,view.getContext(),eitem_name.getText().toString(),eitem_price.getText().toString(),R.drawable.images3,cate);
+                        Toast.makeText(view.getContext(), "항목이 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        notifyDataSetChanged();
                         //클릭시 아이템 변경
                             /*
                             데이터 베이스 전송

@@ -31,4 +31,14 @@ public class itemParser {
         }
         return data;
     }
+    public static String parserSumList(String data){
+        String result="";
+        StringTokenizer st = new StringTokenizer(data,"/");
+        if(st.hasMoreTokens()){
+            result+=st.nextToken()+" ";
+            st.nextToken();
+            result+=st.nextToken()+"개";
+        }
+        return result;
+    }
 }
