@@ -9,18 +9,20 @@ import io.realm.annotations.PrimaryKey;
 
 public class Custom extends RealmObject{
     @PrimaryKey
+    private String call;
+    private String name;
+    String num;
+    /*
     String id;
-    String num, name, call;
+    String num, name, call;*/
     public Custom(){
 
     }
-    public Custom(String id, String num, String name, String call) {
-        this.id = id;
-        this.num = num;
+    public Custom(String name, String call) {
         this.name = name;
         this.call = call;
     }
-
+/*
     public String getId() {
         return id;
     }
@@ -28,7 +30,7 @@ public class Custom extends RealmObject{
     public String getNum() {
         return num;
     }
-
+*/
     public String getName() {
         return name;
     }
@@ -36,15 +38,14 @@ public class Custom extends RealmObject{
     public String getCall() {
         return call;
     }
-
+/*
     public void setId(String id) {
         this.id = id;
     }
-
+*/
     public void setNum(String num) {
         this.num = num;
     }
-
     public void setName(String name) {
         this.name = name;
     }

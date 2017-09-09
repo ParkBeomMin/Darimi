@@ -25,7 +25,7 @@ public class darimiDataCon {
             @Override
             public void execute(Realm realm) {
                 Custom custom = realm.createObject(Custom.class);
-                custom.setId(id);
+//                custom.setId(id);
                 custom.setName(name);
                 custom.setCall(call);
                 custom.setNum("1");
@@ -40,7 +40,7 @@ public class darimiDataCon {
             public void execute(Realm realm) {
                 Order order = realm.createObject(Order.class);
                 order.setData(data);
-                order.setCustom(custom);
+//                order.setCustom(custom);
                 order.setDate(date);
                 order.setWork_state(0);
                 order.setSending(false);
