@@ -2,9 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="10">
+    android:background="@color/Background"
+    android:padding="1dp">
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:orientation="vertical"
+        android:weightSum="10">
+    <LinearLayout
+        android:paddingLeft="20dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1.5"
@@ -30,29 +36,35 @@
             android:layout_weight="1"/>
     </LinearLayout>
     <TextView
+        android:paddingLeft="20dp"
         android:id="@+id/client_name"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2.5"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
-        android:weightSum="4"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="4">
+
         <ListView
+            android:paddingLeft="20dp"
             android:id="@+id/work_item_list"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"></ListView>
+
         <ImageView
 
             android:id="@+id/work_state"
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:layout_gravity="center|bottom"/>
+            android:layout_gravity="center|bottom"
+            android:layout_weight="1" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
@@ -84,5 +96,5 @@
             android:layout_height="match_parent"
             android:layout_weight="1"/>
     </LinearLayout>
-
+    </LinearLayout>
 </LinearLayout>

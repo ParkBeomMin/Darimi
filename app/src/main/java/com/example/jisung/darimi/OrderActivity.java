@@ -32,6 +32,9 @@ import com.woxthebox.draglistview.swipe.ListSwipeItem;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.SimpleTimeZone;
 
@@ -68,7 +71,8 @@ public class OrderActivity extends AppCompatActivity {
 
     private Custom custom;
 
-    int tmp;
+    int tmp=0;
+    int cate_tmp;
 
 
     Realm realm;
@@ -81,7 +85,7 @@ public class OrderActivity extends AppCompatActivity {
 
         item_adapter.notifyDataSetChanged();
         cate_adapter.notifyDataSetChanged();
-        mDragListView.setDragEnabled(false);
+//        mDragListView.setDragEnabled(true);
         getObjectData();
 
 
@@ -129,27 +133,13 @@ public class OrderActivity extends AppCompatActivity {
         orderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                realm.beginTransaction();
 
-//                for(int i=0;i<selectItems_list.size();i++){
-//                    cData.add(selectItems_list.get(i));
-//                }
-                realm.commitTransaction();
 
-                if(false){
-                    //custom 이 기존에 있는 경우
-//                    custom = new Custom(""," ",client_name.getText().toString(),client_num.getText().toString());
-//                    darimiDataCon.makeCustom(realm,today_date,client_name.getText().toString(),client_num.getText().toString());
-                }
-                else{
-                    custom = new Custom(client_name.getText().toString(),client_num.getText().toString());
-                }
+                darimiDataCon.makeOrder(realm,itemParser.parserList(selectItems_list),dateKey(),client_num.getText().toString(),client_name.getText().toString(),true);
 
-                custom = new Custom(client_name.getText().toString(),client_num.getText().toString());
-
-                darimiDataCon.makeOrder(realm,itemParser.parserList(selectItems_list),today_date,custom.getCall(),custom.getName(),true);
-
-                Toast.makeText(OrderActivity.this, "ordering", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(OrderActivity.this,SettingActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -190,7 +180,7 @@ public class OrderActivity extends AppCompatActivity {
         item_list = new ArrayList<Item>();
         selectItems_list = new ArrayList<Items>();
         cate_list = new ArrayList<Categol>(realm.where(Categol.class).findAll());
-        All_item=new ArrayList<Item>(realm.where(Item.class).findAll());
+        All_item=new ArrayList<Item>(realm.where(Item.class).findAll().sort("seq"));
 
 
         selected_adapter = new SelectItemAdapter(selectItems_list,this,item_total_num,total);
@@ -205,21 +195,14 @@ public class OrderActivity extends AppCompatActivity {
         cate_view.setAdapter(cate_adapter);
         item_view.setAdapter(item_adapter);
 
+
         mDragListView = (DragListView)findViewById(R.id.drag_list_view);
 
-//        if(cate_list.get(0).getId()==0){
             for(int j=0;j<All_item.size();j++){
                 if(All_item.get(j).isMark())
                     item_list.add(All_item.get(j));
             }
-//        }
 
-//        for(int i=1;i<cate_list.size();i++){
-//            if(cate_list.get(i).getId()==All_item.get())
-//        }
-
-
-        tmp=0;
         cate_view.setOnItemClickListener(new it.sephiroth.android.library.widget.AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(it.sephiroth.android.library.widget.AdapterView<?> adapterView, View view, int i, long l) {
@@ -229,6 +212,7 @@ public class OrderActivity extends AppCompatActivity {
                 cate_list.get(tmp).setChoose(false);
                 cate_list.get(i).setChoose(true);
                 item_list.clear();
+                Collections.sort(All_item,new sortWorks());
                 if(cate_list.get(i).getId()==0){
                     for(int j=0;j<All_item.size();j++){
                         if(All_item.get(j).isMark())
@@ -301,8 +285,7 @@ public class OrderActivity extends AppCompatActivity {
 
             @Override
             public void onItemDragEnded(int fromPosition, int toPosition) {
-                Log.d("test11","9");
-
+                darimiDataCon.updateItemSeq(realm,item_list.get(fromPosition).getName(),item_list.get(toPosition).getName());
                 if (fromPosition != toPosition) {
                     Toast.makeText(OrderActivity.this, "End - position: " + toPosition, Toast.LENGTH_SHORT).show();
                 }
@@ -314,6 +297,8 @@ public class OrderActivity extends AppCompatActivity {
     private void setupGridVerticalRecyclerView() {
         mDragListView.setLayoutManager(new GridLayoutManager(this, 3));
         ItemAdapter listAdapter = new ItemAdapter(item_list, R.layout.order_item, R.id.item_layout, true);
+        listAdapter.realm = realm;
+        listAdapter.cate = tmp;
         mDragListView.setAdapter(listAdapter, true);
         mDragListView.setCanDragHorizontally(true);
         mDragListView.setCustomDragItem(null);
@@ -379,4 +364,17 @@ public class OrderActivity extends AppCompatActivity {
         today_date =formatDate.substring(0,4)+"."+formatDate.substring(5,7)+"."+formatDate.substring(8,10)+"";
         today_time = formatDate.substring(11,13)+":"+formatDate.substring(14,16);
     }//날짜와 시간 문자열로 받아옴
+    String dateKey(){
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat sdfNow = new SimpleDateFormat("yyyyMMddHHmmss");
+        return sdfNow.format(date);
+    }
+    class sortWorks implements Comparator<Item> {
+
+        @Override
+        public int compare(Item o1, Item o2) {
+            return (o1.getSeq()>o2.getSeq())?1:0;
+        }
+    }
 }

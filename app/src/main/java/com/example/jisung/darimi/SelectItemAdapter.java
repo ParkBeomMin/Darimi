@@ -83,7 +83,7 @@ public class SelectItemAdapter extends BaseAdapter {
             now += list.get(j).getTotalprice();
             Tnum += list.get(j).getItem_num();
         }
-        price_Text.setText(""+now);
+        price_Text.setText("￦"+now);
         num_Text.setText(Tnum+"벌");
 
 

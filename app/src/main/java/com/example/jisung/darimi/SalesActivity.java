@@ -745,9 +745,11 @@ public class SalesActivity extends AppCompatActivity {
         } else if (op == 0) {//일
             ArrayList<String> day_list = new ArrayList<>();
             for (int i1 = 0; i1 < sales_list.size(); i1++) {
+
                 if (Integer.parseInt(String.valueOf(sales_list.get(i1).getDate()).substring(0, 8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
                         Integer.parseInt(String.valueOf(sales_list.get(i1).getDate()).substring(0, 8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
                     day_list.add(String.valueOf(sales_list.get(i1).getDate()).substring(0, 8));
+
                 }
             }
             HashSet hs = new HashSet(day_list);
