@@ -61,19 +61,10 @@ public class SalesActivity extends AppCompatActivity {
     AndroidTreeView tView;
     ViewGroup containerView;
     TreeNode defalt_node;
-    TreeNode none_node;
     ArrayList<TreeNode> node_list = new ArrayList<TreeNode>();
 
     ArrayList<Sales> sales_list;//= new ArrayList<Sales>();
 
-    ArrayList<Test1> test1 = new ArrayList<>();
-    ArrayList<Test2> test2 = new ArrayList<>();
-    ArrayList<String> test3 = new ArrayList<>();
-
-    ArrayList<Sales_year> sales_years = new ArrayList<>();
-    ArrayList<Sales_month> sales_months = new ArrayList<>();
-    ArrayList<Sales_day> sales_days = new ArrayList<>();
-    ArrayList<Sales_custom> sales_customs = new ArrayList<>();
     int FILTER = 0;
 
     @Override
@@ -93,8 +84,6 @@ public class SalesActivity extends AppCompatActivity {
     void init() {
         realm.init(this);
         realm = Realm.getDefaultInstance();
-        insertData("201709091111", "박범민", 20000, true);
-        insertData("201709091112", "정지성", 25000, true);
         insertData("201709111113", "박범민", 26000, true);
         insertData("201709121114", "남궁선", 27000, true);
         insertData("201709201115", "문소연", 28000, true);
@@ -103,6 +92,9 @@ public class SalesActivity extends AppCompatActivity {
         insertData("201710111113", "박범민", 26000, true);
         insertData("201711121114", "남궁선", 27000, true);
         insertData("201712201115", "문소연", 28000, true);
+        insertData("201810111113", "박범민", 26000, true);
+        insertData("201811121114", "남궁선", 27000, true);
+        insertData("201812201115", "문소연", 28000, true);
         sales_list = (ArrayList<Sales>) getAllSalesList();
         /*
         test3.add("shirts");
@@ -556,43 +548,206 @@ public class SalesActivity extends AppCompatActivity {
         }
         node_list.clear();
         if (op == 2) { //년
-            for (int i = Integer.parseInt(t1.getText().toString().substring(0, 4)); i <= Integer.parseInt(t2.getText().toString().substring(0, 4)); i++) {
-                node_list.add(new TreeNode(new SalesAdpater.TreeItem(i + "년", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
-            }
-            for (int i = 0; i < node_list.size(); i++) {
-                for (int j = Integer.parseInt(t1.getText().toString().substring(5, 7)); j <= Integer.parseInt(t2.getText().toString().substring(5, 7)); j++) {
-                    node_list.get(i).addChild(new TreeNode(new SalesAdpater.TreeItem(j + "월", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+            ArrayList<String> year_list = new ArrayList<>();
+            for (int i1 = 0; i1 < sales_list.size(); i1++) {
+                if (Integer.parseInt(String.valueOf(sales_list.get(i1).getDate()).substring(0, 8)) >= Integer.parseInt(start_tv.getText().toString().substring(0, 4) + start_tv.getText().toString().substring(5, 7) + start_tv.getText().toString().substring(8)) &&
+                        Integer.parseInt(String.valueOf(sales_list.get(i1).getDate()).substring(0, 8)) <= Integer.parseInt(finish_tv.getText().toString().substring(0, 4) + finish_tv.getText().toString().substring(5, 7) + finish_tv.getText().toString().substring(8))) {
+                    year_list.add(String.valueOf(sales_list.get(i1).getDate()).substring(0, 4));
                 }
             }
-            for (int i = 0; i < node_list.size(); i++) {
-                for (int j = 0; j <= Integer.parseInt(t2.getText().toString().substring(5, 7)) - Integer.parseInt(t1.getText().toString().substring(5, 7)); j++) {
-                    for (int k = Integer.parseInt(t1.getText().toString().substring(8)); k <= Integer.parseInt(t2.getText().toString().substring(8)); k++) {
-                        node_list.get(i).getChildren().get(j).addChild((new TreeNode(new SalesAdpater.TreeItem(k + "일", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this))));
+            HashSet hs = new HashSet(year_list);
+            ArrayList<String> year_list_ = new ArrayList<String>(hs);
+            Ascendingstr ascending = new Ascendingstr();
+            Collections.sort(year_list_, ascending);
+            for (int i3 = 0; i3 < year_list_.size(); i3++) {
+                ArrayList<Sales> month_list = new ArrayList<>();
+                ArrayList<Sales> month_list_ = (ArrayList<Sales>) getSalesList("date", year_list_.get(i3));
+                for(int j = 0; j < month_list_.size(); j++) {
+                    if(Integer.parseInt(month_list_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                            Integer.parseInt(month_list_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                        month_list.add(month_list_.get(j));
                     }
                 }
-            }
-            for (int i = 0; i < node_list.size(); i++) {
-                for (int j = 0; j <= Integer.parseInt(t2.getText().toString().substring(5, 7)) - Integer.parseInt(t1.getText().toString().substring(5, 7)); j++) {
-                    for (int k = 0; k <= Integer.parseInt(t2.getText().toString().substring(8)) - Integer.parseInt(t1.getText().toString().substring(8)); k++) {
-                        node_list.get(i).getChildren().get(j).getChildren().get(k).addChild(new TreeNode(new SalesAdpater.TreeItem("박범민", "500,000원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
-                    }
-                }
-            }
-        } else if (op == 1) { //월
+                Number Ysum = realm.where(Sales.class).contains("date", year_list_.get(i3)).sum("sum");
+                node_list.add(new TreeNode(new SalesAdpater.TreeItem(year_list_.get(i3).substring(0, 4) + "년", Ysum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                for (int i4 = 0; i4 < month_list.size(); i4++) {
+                    if (i4 == month_list.size() - 1) {
+                        ArrayList<Sales> day_list = new ArrayList<>();
+                        ArrayList<Sales> day_list_ = (ArrayList<Sales>) getSalesList("date", String.valueOf(month_list.get(i4).getDate()).substring(0, 6));
+                        for(int j = 0; j < day_list_.size(); j++) {
+                            if(Integer.parseInt(day_list_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                                    Integer.parseInt(day_list_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                                day_list.add(day_list_.get(j));
+                            }
+                        }
+                        Number Msum = realm.where(Sales.class).contains("date", String.valueOf(month_list.get(i4).getDate()).substring(0, 6)).sum("sum");
+                        node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(String.valueOf(month_list.get(i4).getDate()).substring(4, 6) + "월", Msum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                        for (int i5 = 0; i5 < day_list.size(); i5++) {
+                            if (i5 == day_list.size() - 1) {
+                                ArrayList<Sales> arrayList = new ArrayList<>();
+                                ArrayList<Sales> arrayList_ = (ArrayList<Sales>) getSalesList("date", String.valueOf(day_list.get(i5).getDate()).substring(0, 8));
+//                                        , Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)), Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8)));
+                                for(int j = 0; j < arrayList_.size(); j++) {
+                                    if(Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                                            Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                                        arrayList.add(arrayList_.get(j));
+                                    }
+                                }
+                                Number Dsum = realm.where(Sales.class).contains("date", String.valueOf(day_list.get(i5).getDate()).substring(0, 8)).sum("sum");
+                                node_list.get(i3).getChildren().get(i4).addChild(new TreeNode(new SalesAdpater.TreeItem(String.valueOf(day_list.get(i5).getDate()).substring(6, 8) + "일", Dsum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                                for (int i6 = 0; i6 < arrayList.size(); i6++) {
+                                    node_list.get(i3).getChildren().get(i4).getChildren().get(i5).addChild(new TreeNode(new SalesAdpater.TreeItem(arrayList.get(i6).getName(), arrayList.get(i6).getSum() + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                                }
+                            } else {
+                                if (String.valueOf(day_list.get(i5).getDate()).substring(0, 8).equals(String.valueOf(day_list.get(i5 + 1).getDate()).substring(0, 8))) {
+                                    node_list.get(i3).getChildren().get(i4).addChild(new TreeNode(new SalesAdpater.TreeItem("", "")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                                } else {
+                                    ArrayList<Sales> arrayList = new ArrayList<>();
+                                    ArrayList<Sales> arrayList_ = (ArrayList<Sales>) getSalesList("date", String.valueOf(day_list.get(i5).getDate()).substring(0, 8));
+//                                            , Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)), Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8)));
+                                    for(int j = 0; j < arrayList_.size(); j++) {
+                                        if(Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                                                Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                                            arrayList.add(arrayList_.get(j));
+                                        }
+                                    }
+                                    Number Dsum = realm.where(Sales.class).contains("date", String.valueOf(day_list.get(i5).getDate()).substring(0, 8)).sum("sum");
+                                    node_list.get(i3).getChildren().get(i4).addChild(new TreeNode(new SalesAdpater.TreeItem(String.valueOf(day_list.get(i5).getDate()).substring(6, 8) + "일", Dsum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                                    for (int i6 = 0; i6 < arrayList.size(); i6++) {
+                                        node_list.get(i3).getChildren().get(i4).getChildren().get(i5).addChild(new TreeNode(new SalesAdpater.TreeItem(arrayList.get(i6).getName(), arrayList.get(i6).getSum() + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                                    }
+                                }
+                            }
 
+                        }
+                    } else {
+                        if (String.valueOf(month_list.get(i4).getDate()).substring(0, 8).equals(String.valueOf(month_list.get(i4 + 1).getDate()).substring(0, 8))) {
+                            node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem("", "")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                        } else {
+                            ArrayList<Sales> day_list = new ArrayList<>();
+                            ArrayList<Sales> day_list_ = (ArrayList<Sales>) getSalesList("date", String.valueOf(month_list.get(i4).getDate()).substring(0, 8));
+//                                    , Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)), Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8)));
+                            for(int j = 0; j < day_list_.size(); j++) {
+                                if(Integer.parseInt(day_list_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                                        Integer.parseInt(day_list_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                                    day_list.add(day_list_.get(j));
+                                }
+                            }
+                            Number Msum = realm.where(Sales.class).contains("date", String.valueOf(month_list.get(i4).getDate()).substring(0, 8)).sum("sum");
+                            node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(String.valueOf(month_list.get(i4).getDate()).substring(4, 6) + "월", Msum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                            for (int i5 = 0; i5 < day_list.size(); i5++) {
+                                if (i5 == day_list.size() - 1) {
+                                    ArrayList<Sales> arrayList = new ArrayList<>();
+                                    ArrayList<Sales> arrayList_ = (ArrayList<Sales>) getSalesList("date", String.valueOf(day_list.get(i5).getDate()).substring(0, 8));
+//                                            , Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)), Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8)));
+                                    for(int j = 0; j < arrayList_.size(); j++) {
+                                        if(Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                                                Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                                            arrayList.add(arrayList_.get(j));
+                                        }
+                                    }
+                                    Number Dsum = realm.where(Sales.class).contains("date", String.valueOf(day_list.get(i5).getDate()).substring(0, 8)).sum("sum");
+
+                                    node_list.get(i3).getChildren().get(i4).addChild(new TreeNode(new SalesAdpater.TreeItem(String.valueOf(day_list.get(i5).getDate()).substring(6, 8) + "일", Dsum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                                    for (int i6 = 0; i6 < arrayList.size(); i6++) {
+                                        node_list.get(i3).getChildren().get(i4).getChildren().get(i5).addChild(new TreeNode(new SalesAdpater.TreeItem(arrayList.get(i6).getName(), arrayList.get(i6).getSum() + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                                    }
+                                } else {
+                                    if (String.valueOf(day_list.get(i5).getDate()).substring(0, 8).equals(String.valueOf(day_list.get(i5 + 1).getDate()).substring(0, 8))) {
+                                        node_list.get(i3).getChildren().get(i4).addChild(new TreeNode(new SalesAdpater.TreeItem("", "")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                                    } else {
+                                        ArrayList<Sales> arrayList = new ArrayList<>();
+                                        ArrayList<Sales> arrayList_ = (ArrayList<Sales>) getSalesList("date", String.valueOf(day_list.get(i4).getDate()).substring(0, 8));
+                                        for(int j = 0; j < arrayList_.size(); j++) {
+                                            if(Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                                                    Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                                                arrayList.add(arrayList_.get(j));
+                                            }
+                                        }
+                                        Number Dsum = realm.where(Sales.class).contains("date", String.valueOf(day_list.get(i4).getDate()).substring(0, 8)).sum("sum");
+                                        node_list.get(i3).getChildren().get(i4).addChild(new TreeNode(new SalesAdpater.TreeItem(String.valueOf(day_list.get(i5).getDate()).substring(6, 8) + "일", Dsum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                                        for (int i6 = 0; i6 < arrayList.size(); i6++) {
+                                            node_list.get(i3).getChildren().get(i4).getChildren().get(i5).addChild(new TreeNode(new SalesAdpater.TreeItem(arrayList.get(i6).getName(), arrayList.get(i6).getSum() + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+
+        } else if (op == 1) { //월
+            ArrayList<String> month_list = new ArrayList<>();
+            for (int i1 = 0; i1 < sales_list.size(); i1++) {
+                if (Integer.parseInt(String.valueOf(sales_list.get(i1).getDate()).substring(0, 8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                        Integer.parseInt(String.valueOf(sales_list.get(i1).getDate()).substring(0, 8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                    month_list.add(String.valueOf(sales_list.get(i1).getDate()).substring(0, 6));
+                }
+            }
+            HashSet hs = new HashSet(month_list);
+            ArrayList<String> month_list_ = new ArrayList<String>(hs);
+            Ascendingstr ascending = new Ascendingstr();
+            Collections.sort(month_list_, ascending);
+            Log.d("BEOM25", "month_list : " + month_list_.size());
+            for (int i3 = 0; i3 < month_list_.size(); i3++) {
+                Log.d("BEOM26", "i3 : " + i3);
+                ArrayList<Sales> day_list_ = new ArrayList<>();
+                ArrayList<Sales> day_list = (ArrayList<Sales>) getSalesList("date", month_list_.get(i3));
+                for(int j = 0; j < day_list.size(); j++) {
+                    if(Integer.parseInt(day_list.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                            Integer.parseInt(day_list.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                        day_list_.add(day_list.get(j));
+                    }
+                }
+                Number Msum = realm.where(Sales.class).contains("date", month_list_.get(i3)).sum("sum");
+                node_list.add(new TreeNode(new SalesAdpater.TreeItem(month_list_.get(i3).substring(4, 6) + "월", Msum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                Log.d("BEOM25", "day_list : " + day_list_.size());
+                for (int i4 = 0; i4 < day_list_.size(); i4++) {
+                    if (i4 == day_list_.size() - 1) {
+                        ArrayList<Sales> arrayList = new ArrayList<>();
+                        ArrayList<Sales> arrayList_ = (ArrayList<Sales>) getSalesList("date", String.valueOf(day_list_.get(i4).getDate()).substring(0, 8));
+                                //, Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)), Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8)));
+                        for(int j = 0; j < arrayList_.size(); j++) {
+                            if(Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                                    Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                                arrayList.add(arrayList_.get(j));
+                            }
+                        }
+                        Number Dsum = realm.where(Sales.class).contains("date", String.valueOf(day_list_.get(i4).getDate()).substring(0, 8)).sum("sum");
+                        node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(String.valueOf(day_list_.get(i4).getDate()).substring(6, 8) + "일", Dsum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                        for (int i5 = 0; i5 < arrayList.size(); i5++) {
+                            node_list.get(i3).getChildren().get(i4).addChild(new TreeNode(new SalesAdpater.TreeItem(arrayList.get(i5).getName(), arrayList.get(i5).getSum() + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                        }
+                    } else {
+                        if (String.valueOf(day_list_.get(i4).getDate()).substring(0, 8).equals(String.valueOf(day_list_.get(i4 + 1).getDate()).substring(0, 8))) {
+                            node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem("", "")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                        } else {
+                            ArrayList<Sales> arrayList = new ArrayList<>();
+                            ArrayList<Sales> arrayList_ = (ArrayList<Sales>) getSalesList("date", String.valueOf(day_list_.get(i4).getDate()).substring(0, 8));//, Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)), Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8)));
+                            for(int j = 0; j < arrayList_.size(); j++) {
+                                if(Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                                        Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                                    arrayList.add(arrayList_.get(j));
+                                }
+                            }
+                            Number Dsum = realm.where(Sales.class).contains("date", String.valueOf(day_list_.get(i4).getDate()).substring(0, 8)).sum("sum");
+                            node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(String.valueOf(day_list_.get(i4).getDate()).substring(6, 8) + "일", Dsum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                            for (int i5 = 0; i5 < arrayList.size(); i5++) {
+                                node_list.get(i3).getChildren().get(i4).addChild(new TreeNode(new SalesAdpater.TreeItem(arrayList.get(i5).getName(), arrayList.get(i5).getSum() + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                            }
+                        }
+                    }
+                }
+            }
 
         } else if (op == 0) {//일
             ArrayList<String> day_list = new ArrayList<>();
-//            for (int i = 0; i < DiffOfDate(start_tv.getText().toString(), finish_tv.getText().toString()); i++) {
             for (int i1 = 0; i1 < sales_list.size(); i1++) {
-                if (Integer.parseInt(sales_list.get(i1).getDate().substring(0, 8)) >= Integer.parseInt(start_tv.getText().toString().substring(0, 4) + start_tv.getText().toString().substring(5, 7) + start_tv.getText().toString().substring(8)) &&
-                        Integer.parseInt(sales_list.get(i1).getDate().substring(0, 8)) <= Integer.parseInt(finish_tv.getText().toString().substring(0, 4) + finish_tv.getText().toString().substring(5, 7) + finish_tv.getText().toString().substring(8))) {
-                    day_list.add(sales_list.get(i1).getDate().substring(0, 8));
-//ArrayList<Sales> arrayList = (ArrayList<Sales>) getSalesList("date",sales_list.get(i1).getDate().substring(0,8));
-//                        for(int i2 = 0; i2 < arrayList.size(); i2++) {
-//
-//                        }
-
+                if (Integer.parseInt(String.valueOf(sales_list.get(i1).getDate()).substring(0, 8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                        Integer.parseInt(String.valueOf(sales_list.get(i1).getDate()).substring(0, 8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                    day_list.add(String.valueOf(sales_list.get(i1).getDate()).substring(0, 8));
                 }
             }
             HashSet hs = new HashSet(day_list);
@@ -600,112 +755,83 @@ public class SalesActivity extends AppCompatActivity {
             Ascendingstr ascending = new Ascendingstr();
             Collections.sort(day_list_, ascending);
             for (int i3 = 0; i3 < day_list_.size(); i3++) {
-                ArrayList<Sales> arrayList = (ArrayList<Sales>) getSalesList("date", day_list_.get(i3));
-                Log.d("BEOM24", "arraylist_size : " + arrayList.size());
-                Number sum = realm.where(Sales.class).contains("date", day_list_.get(i3)).sum("sum");
-                node_list.add(new TreeNode(new SalesAdpater.TreeItem(day_list_.get(i3).substring(4, 6) + "월" + day_list_.get(i3).substring(6, 8) + "일", sum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
-                for (int i4 = 0; i4 < arrayList.size(); i4++) {
-                    node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(arrayList.get(i4).getName(), arrayList.get(i4).getSum() + "")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                ArrayList<Sales> arrayList = new ArrayList<>();
+                ArrayList<Sales> arrayList_ = (ArrayList<Sales>) getSalesList("date", day_list_.get(i3));//, Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)), Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8)));
+                for(int j = 0; j < arrayList_.size(); j++) {
+                    if(Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                            Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                        arrayList.add(arrayList_.get(j));
+                    }
+                }
+                    Number sum = realm.where(Sales.class).contains("date", day_list_.get(i3)).sum("sum");
+                    node_list.add(new TreeNode(new SalesAdpater.TreeItem(day_list_.get(i3).substring(4, 6) + "월" + day_list_.get(i3).substring(6, 8) + "일", sum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                    for (int i4 = 0; i4 < arrayList.size(); i4++) {
+                        node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(arrayList.get(i4).getName(), arrayList.get(i4).getSum() + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                    }
                 }
             }
-//                for (int i2 = 0; i2 < sales_customs.size(); i2++) {
-//                    if(i2 == 0) {
-//                        sales_days.add(new Sales_day(sales_customs.get(i2).getDate(), sales_customs));
-//                    }
-//                }
-//            }
 
-
-//            for (int i = 0; i < test1.size(); i++){
-//                node_list.add(new TreeNode(new SalesAdpater.TreeItem(test1.get(i).getDate() + "년", "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
-//            for (int i1 = 0; i1 < test2.size(); i1++){
-//                node_list.get(i).addChild(new TreeNode(new SalesAdpater.TreeItem(test2.get(i1).getName(), "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
-//            for (int i2 = 0; i2 < test3.size(); i2++) {
-//                node_list.get(i).getChildren().get(i1).addChild(new TreeNode(new SalesAdpater.TreeItem(test3.get(i2) + "년", "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
-//            }
-//            }
-//            }
-
-        }
-
-        for (int i = 0; i < node_list.size(); i++) {
-            if (node_list.get(i).getParent() == null) {
-                tView.addNode(root, node_list.get(i));
+            for (int i = 0; i < node_list.size(); i++) {
+                if (node_list.get(i).getParent() == null) {
+                    tView.addNode(root, node_list.get(i));
+                }
             }
+
         }
 
-    }
+        class AscendingObj implements Comparator<Order> {
 
-    class AscendingObj implements Comparator<Order> {
-
-        @Override
-        public int compare(Order o1, Order o2) {
+            @Override
+            public int compare(Order o1, Order o2) {
 //            return o1.getDate() >= o2.getDate();
-            return String.valueOf(o1.getDate()).compareTo(o2.getDate() + "");
+                return String.valueOf(o1.getDate()).compareTo(o2.getDate() + "");
+            }
+
         }
 
-    }
+        class Ascendingstr implements Comparator<String> {
 
-    class Ascendingstr implements Comparator<String> {
-
-        @Override
-        public int compare(String o1, String o2) {
+            @Override
+            public int compare(String o1, String o2) {
 //            return o1.getDate() >= o2.getDate();
-            return o1.compareTo(o2);
-        }
-
-    }
-
-    public List<Sales> getSalesList(final String table, final String data) {
-        List<Sales> list = new ArrayList<>();
-        try {
-            realm = Realm.getDefaultInstance();
-            RealmResults<Sales> results = realm
-                    .where(Sales.class).contains(table, data)
-                    .findAll();
-            list.addAll(realm.copyFromRealm(results));
-        } finally {
-            if (realm != null) {
-                realm.close();
+                return o1.compareTo(o2);
             }
-        }
-        return list;
-    }
 
-    public List<Sales> getAllSalesList() {
-        List<Sales> list = new ArrayList<>();
-        try {
-            realm = Realm.getDefaultInstance();
-            RealmResults<Sales> results = realm
-                    .where(Sales.class)
-                    .findAll();
-            list.addAll(realm.copyFromRealm(results));
-        } finally {
-            if (realm != null) {
-                realm.close();
+        }
+
+        public List<Sales> getSalesList ( final String table, final String data)
+        {//}, final long from, final long to) {
+            List<Sales> list = new ArrayList<>();
+            try {
+                realm = Realm.getDefaultInstance();
+                RealmResults<Sales> results = realm
+                        .where(Sales.class).contains(table, data)//.between(table, from, to)
+                        .findAll();
+                list.addAll(realm.copyFromRealm(results));
+            } finally {
+                if (realm != null) {
+                    realm.close();
+                }
             }
+            return list;
         }
-        return list;
-    }
 
-    public long DiffOfDate(String start, String end) {
-        long diffDays = 0;
-        try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd");
-            Date beginDate = formatter.parse(start);
-            Date endDate = formatter.parse(end);
-
-            // 시간차이를 시간,분,초를 곱한 값으로 나누면 하루 단위가 나옴
-            long diff = endDate.getTime() - beginDate.getTime();
-            diffDays = diff / (24 * 60 * 60 * 1000);
-
-//            System.out.println("날짜차이=" + diffDays);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
+        public List<Sales> getAllSalesList () {
+            List<Sales> list = new ArrayList<>();
+            try {
+                realm = Realm.getDefaultInstance();
+                RealmResults<Sales> results = realm
+                        .where(Sales.class)
+                        .findAll();
+                list.addAll(realm.copyFromRealm(results));
+            } finally {
+                if (realm != null) {
+                    realm.close();
+                }
+            }
+            return list;
         }
-        return diffDays;
-    }
+
 
     public static void insertData(final String date, final String name, final int price, final boolean pay) {
 
