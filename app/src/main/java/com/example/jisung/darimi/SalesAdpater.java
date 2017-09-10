@@ -38,6 +38,11 @@ public class SalesAdpater extends TreeNode.BaseNodeViewHolder<SalesAdpater.TreeI
         TextView v1 = (TextView)view.findViewById(R.id.beom);
         t1.setText(value.s1);
         t2.setText(value.s2);
+        if(value.s1.length()==0){
+            t1.setTextSize(0);
+            t2.setTextSize(0);
+            v1.setTextSize(0);
+        }
 
         if(node.getLevel()==1){
             v1.setPadding(550,0,0,0);
