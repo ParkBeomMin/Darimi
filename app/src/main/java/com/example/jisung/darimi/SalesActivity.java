@@ -568,7 +568,10 @@ public class SalesActivity extends AppCompatActivity {
                         month_list.add(month_list_.get(j));
                     }
                 }
-                Number Ysum = realm.where(Sales.class).contains("date", year_list_.get(i3)).sum("sum");
+                long Ysum = 0;//= realm.where(Sales.class).contains("date", year_list_.get(i3)).sum("sum");
+                for(int j1 = 0; j1 < month_list.size(); j1++) {
+                    Ysum += (long)realm.where(Sales.class).contains("date", month_list.get(j1).getDate().substring(0,6)).sum("sum");
+                }
                 node_list.add(new TreeNode(new SalesAdpater.TreeItem(year_list_.get(i3).substring(0, 4) + "년", Ysum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
                 for (int i4 = 0; i4 < month_list.size(); i4++) {
                     if (i4 == month_list.size() - 1) {
@@ -580,8 +583,10 @@ public class SalesActivity extends AppCompatActivity {
                                 day_list.add(day_list_.get(j));
                             }
                         }
-                        Number Msum = realm.where(Sales.class).contains("date", String.valueOf(month_list.get(i4).getDate()).substring(0, 6)).sum("sum");
-                        node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(String.valueOf(month_list.get(i4).getDate()).substring(4, 6) + "월", Msum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                        long Msum = 0 ;//= realm.where(Sales.class).contains("date", month_list_.get(i3)).sum("sum");
+                        for (int j1 = 0; j1 < day_list.size(); j1++){
+                            Msum += (long)realm.where(Sales.class).contains("date", day_list.get(j1).getDate().substring(0,8)).sum("sum");
+                        }                        node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(String.valueOf(month_list.get(i4).getDate()).substring(4, 6) + "월", Msum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
                         for (int i5 = 0; i5 < day_list.size(); i5++) {
                             if (i5 == day_list.size() - 1) {
                                 ArrayList<Sales> arrayList = new ArrayList<>();
@@ -633,8 +638,10 @@ public class SalesActivity extends AppCompatActivity {
                                     day_list.add(day_list_.get(j));
                                 }
                             }
-                            Number Msum = realm.where(Sales.class).contains("date", String.valueOf(month_list.get(i4).getDate()).substring(0, 8)).sum("sum");
-                            node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(String.valueOf(month_list.get(i4).getDate()).substring(4, 6) + "월", Msum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                            long Msum = 0 ;//= realm.where(Sales.class).contains("date", month_list_.get(i3)).sum("sum");
+                            for (int j1 = 0; j1 < day_list.size(); j1++){
+                                Msum += (long)realm.where(Sales.class).contains("date", day_list.get(j1).getDate().substring(0,8)).sum("sum");
+                            }                            node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(String.valueOf(month_list.get(i4).getDate()).substring(4, 6) + "월", Msum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
                             for (int i5 = 0; i5 < day_list.size(); i5++) {
                                 if (i5 == day_list.size() - 1) {
                                     ArrayList<Sales> arrayList = new ArrayList<>();
@@ -701,7 +708,35 @@ public class SalesActivity extends AppCompatActivity {
                         day_list_.add(day_list.get(j));
                     }
                 }
-                Number Msum = realm.where(Sales.class).contains("date", month_list_.get(i3)).sum("sum");
+
+                RealmResults sumlist  = realm.where(Sales.class).contains("date", month_list_.get(i3)).distinct("date");
+                ArrayList<Sales> sumlist_ = new ArrayList<>(sumlist);
+                for (int j1 = 0; j1 < sumlist_.size(); j1++){
+                    Log.d("BEOM27", "sumlist : " + sumlist_.get(j1).getDate());
+//                    sumlist_.get(j1).setDate(sumlist_.get(j1).getDate().substring(0,8));// = sumlist_.get(j1).getDate().substring(0,8);
+                }
+                ArrayList<Sales> sumlist__ = new ArrayList<>();
+                for(int j = 0; j < sumlist_.size(); j++) {
+                    if(Integer.parseInt(sumlist_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                            Integer.parseInt(sumlist_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                        sumlist__.add(sumlist_.get(j));
+                    }
+                }
+//                HashSet hs_ = new HashSet(sumlist_);
+//                ArrayList<Sales> sumlist__ = new ArrayList<>(hs_);
+                long Msum = 0; //= realm.where(Sales.class).contains("date", month_list_.get(i3)).distinct("date").sum("sum");
+//                for (int j1 = 0; j1 < day_list_.size(); j1++){
+////                    final RealmResults sumlist = realm.where(Sales.class).contains("date",day_list_.get(j1).getDate().substring(0,8)).distinct("date");
+//                    Msum += (long)realm.where(Sales.class).contains("date", day_list_.get(j1).getDate().substring(0,8)).sum("sum");
+//                    Log.d("BEOM27", "day_list_.get("+j1+").getDate().substring(0,8) : " + day_list_.get(j1).getDate().substring(0,8));
+//                    Log.d("BEOM27", "(long)realm.where(Sales.class).contains(\"date\", day_list_.get("+j1+").getDate().substring(0,8)).sum(\"sum\") : " + (long)realm.where(Sales.class).contains("date", day_list_.get(j1).getDate().substring(0,8)).sum("sum"));
+//                    ArrayList<Sales> sumlist_ = new ArrayList<>(sumlist);
+//
+                    for(int j2 = 0; j2 < sumlist__.size(); j2++) {
+                        Msum += sumlist__.get(j2).getSum();
+//                    }
+                }
+
                 node_list.add(new TreeNode(new SalesAdpater.TreeItem(month_list_.get(i3).substring(4, 6) + "월", Msum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
                 Log.d("BEOM25", "day_list : " + day_list_.size());
                 for (int i4 = 0; i4 < day_list_.size(); i4++) {
