@@ -84,17 +84,17 @@ public class SalesActivity extends AppCompatActivity {
     void init() {
         realm.init(this);
         realm = Realm.getDefaultInstance();
-        insertData("201709111113", "박범민", 26000, true);
-        insertData("201709121114", "남궁선", 27000, true);
-        insertData("201709201115", "문소연", 28000, true);
-        insertData("201710091111", "박범민", 20000, true);
-        insertData("201710091112", "정지성", 25000, true);
-        insertData("201710111113", "박범민", 26000, true);
-        insertData("201711121114", "남궁선", 27000, true);
-        insertData("201712201115", "문소연", 28000, true);
-        insertData("201810111113", "박범민", 26000, true);
-        insertData("201811121114", "남궁선", 27000, true);
-        insertData("201812201115", "문소연", 28000, true);
+//        insertData("201709111113", "박범민", 26000, true);
+//        insertData("201709121114", "남궁선", 27000, true);
+//        insertData("201709201115", "문소연", 28000, true);
+//        insertData("201710091111", "박범민", 20000, true);
+//        insertData("201710091112", "정지성", 25000, true);
+//        insertData("201710111113", "박범민", 26000, true);
+//        insertData("201711121114", "남궁선", 27000, true);
+//        insertData("201712201115", "문소연", 28000, true);
+//        insertData("201810111113", "박범민", 26000, true);
+//        insertData("201811121114", "남궁선", 27000, true);
+//        insertData("201812201115", "문소연", 28000, true);
         sales_list = (ArrayList<Sales>) getAllSalesList();
         /*
         test3.add("shirts");
