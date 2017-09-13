@@ -562,39 +562,70 @@ public class SalesActivity extends AppCompatActivity {
             for (int i3 = 0; i3 < year_list_.size(); i3++) {
                 ArrayList<Sales> month_list = new ArrayList<>();
                 ArrayList<Sales> month_list_ = (ArrayList<Sales>) getSalesList("date", year_list_.get(i3));
-                for(int j = 0; j < month_list_.size(); j++) {
-                    if(Integer.parseInt(month_list_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
-                            Integer.parseInt(month_list_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                for (int j = 0; j < month_list_.size(); j++) {
+                    if (Integer.parseInt(month_list_.get(j).getDate().substring(0, 8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                            Integer.parseInt(month_list_.get(j).getDate().substring(0, 8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
                         month_list.add(month_list_.get(j));
                     }
                 }
-                long Ysum = 0;//= realm.where(Sales.class).contains("date", year_list_.get(i3)).sum("sum");
-                for(int j1 = 0; j1 < month_list.size(); j1++) {
-                    Ysum += (long)realm.where(Sales.class).contains("date", month_list.get(j1).getDate().substring(0,6)).sum("sum");
+                RealmResults Ysumlist  = realm.where(Sales.class).contains("date", year_list.get(i3)).distinct("date");
+                ArrayList<Sales> Ysumlist_ = new ArrayList<>(Ysumlist);
+                for (int j1 = 0; j1 < Ysumlist_.size(); j1++){
+                    Log.d("BEOM27", "sumlist : " + Ysumlist_.get(j1).getDate());
+//                    sumlist_.get(j1).setDate(sumlist_.get(j1).getDate().substring(0,8));// = sumlist_.get(j1).getDate().substring(0,8);
                 }
+                ArrayList<Sales> Ysumlist__ = new ArrayList<>();
+                for(int j = 0; j < Ysumlist_.size(); j++) {
+                    if(Integer.parseInt(Ysumlist_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                            Integer.parseInt(Ysumlist_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                        Ysumlist__.add(Ysumlist_.get(j));
+                    }
+                }
+                long Ysum = 0; //= realm.where(Sales.class).contains("date", month_list_.get(i3)).distinct("date").sum("sum");
+                for(int j2 = 0; j2 < Ysumlist__.size(); j2++) {
+                    Ysum += Ysumlist__.get(j2).getSum();
+                }
+//                long Ysum = 0;//= realm.where(Sales.class).contains("date", year_list_.get(i3)).sum("sum");
+//                for (int j1 = 0; j1 < month_list.size(); j1++) {
+//                    Ysum += (long) realm.where(Sales.class).contains("date", month_list.get(j1).getDate().substring(0, 6)).sum("sum");
+//                }
                 node_list.add(new TreeNode(new SalesAdpater.TreeItem(year_list_.get(i3).substring(0, 4) + "년", Ysum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
                 for (int i4 = 0; i4 < month_list.size(); i4++) {
                     if (i4 == month_list.size() - 1) {
                         ArrayList<Sales> day_list = new ArrayList<>();
                         ArrayList<Sales> day_list_ = (ArrayList<Sales>) getSalesList("date", String.valueOf(month_list.get(i4).getDate()).substring(0, 6));
-                        for(int j = 0; j < day_list_.size(); j++) {
-                            if(Integer.parseInt(day_list_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
-                                    Integer.parseInt(day_list_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                        for (int j = 0; j < day_list_.size(); j++) {
+                            if (Integer.parseInt(day_list_.get(j).getDate().substring(0, 8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                                    Integer.parseInt(day_list_.get(j).getDate().substring(0, 8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
                                 day_list.add(day_list_.get(j));
                             }
                         }
-                        long Msum = 0 ;//= realm.where(Sales.class).contains("date", month_list_.get(i3)).sum("sum");
-                        for (int j1 = 0; j1 < day_list.size(); j1++){
-                            Msum += (long)realm.where(Sales.class).contains("date", day_list.get(j1).getDate().substring(0,8)).sum("sum");
-                        }                        node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(String.valueOf(month_list.get(i4).getDate()).substring(4, 6) + "월", Msum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                        RealmResults sumlist  = realm.where(Sales.class).contains("date", month_list.get(i4).getDate().substring(0,6)).distinct("date");
+                        ArrayList<Sales> sumlist_ = new ArrayList<>(sumlist);
+                        for (int j1 = 0; j1 < sumlist_.size(); j1++){
+                            Log.d("BEOM27", "sumlist : " + sumlist_.get(j1).getDate());
+//                    sumlist_.get(j1).setDate(sumlist_.get(j1).getDate().substring(0,8));// = sumlist_.get(j1).getDate().substring(0,8);
+                        }
+                        ArrayList<Sales> sumlist__ = new ArrayList<>();
+                        for(int j = 0; j < sumlist_.size(); j++) {
+                            if(Integer.parseInt(sumlist_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                                    Integer.parseInt(sumlist_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                                sumlist__.add(sumlist_.get(j));
+                            }
+                        }
+                        long Msum = 0; //= realm.where(Sales.class).contains("date", month_list_.get(i3)).distinct("date").sum("sum");
+                        for(int j2 = 0; j2 < sumlist__.size(); j2++) {
+                            Msum += sumlist__.get(j2).getSum();
+                        }
+                        node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(month_list.get(i4).getDate().substring(4, 6) + "월", Msum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
                         for (int i5 = 0; i5 < day_list.size(); i5++) {
                             if (i5 == day_list.size() - 1) {
                                 ArrayList<Sales> arrayList = new ArrayList<>();
                                 ArrayList<Sales> arrayList_ = (ArrayList<Sales>) getSalesList("date", String.valueOf(day_list.get(i5).getDate()).substring(0, 8));
 //                                        , Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)), Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8)));
-                                for(int j = 0; j < arrayList_.size(); j++) {
-                                    if(Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
-                                            Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                                for (int j = 0; j < arrayList_.size(); j++) {
+                                    if (Integer.parseInt(arrayList_.get(j).getDate().substring(0, 8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                                            Integer.parseInt(arrayList_.get(j).getDate().substring(0, 8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
                                         arrayList.add(arrayList_.get(j));
                                     }
                                 }
@@ -610,9 +641,9 @@ public class SalesActivity extends AppCompatActivity {
                                     ArrayList<Sales> arrayList = new ArrayList<>();
                                     ArrayList<Sales> arrayList_ = (ArrayList<Sales>) getSalesList("date", String.valueOf(day_list.get(i5).getDate()).substring(0, 8));
 //                                            , Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)), Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8)));
-                                    for(int j = 0; j < arrayList_.size(); j++) {
-                                        if(Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
-                                                Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                                    for (int j = 0; j < arrayList_.size(); j++) {
+                                        if (Integer.parseInt(arrayList_.get(j).getDate().substring(0, 8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                                                Integer.parseInt(arrayList_.get(j).getDate().substring(0, 8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
                                             arrayList.add(arrayList_.get(j));
                                         }
                                     }
@@ -626,30 +657,44 @@ public class SalesActivity extends AppCompatActivity {
 
                         }
                     } else {
-                        if (String.valueOf(month_list.get(i4).getDate()).substring(0, 8).equals(String.valueOf(month_list.get(i4 + 1).getDate()).substring(0, 8))) {
+                        if (String.valueOf(month_list.get(i4).getDate()).substring(0, 6).equals(String.valueOf(month_list.get(i4 + 1).getDate()).substring(0, 6))) {
                             node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem("", "")).setViewHolder(new SalesAdpater(SalesActivity.this)));
                         } else {
                             ArrayList<Sales> day_list = new ArrayList<>();
                             ArrayList<Sales> day_list_ = (ArrayList<Sales>) getSalesList("date", String.valueOf(month_list.get(i4).getDate()).substring(0, 8));
 //                                    , Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)), Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8)));
-                            for(int j = 0; j < day_list_.size(); j++) {
-                                if(Integer.parseInt(day_list_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
-                                        Integer.parseInt(day_list_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                            for (int j = 0; j < day_list_.size(); j++) {
+                                if (Integer.parseInt(day_list_.get(j).getDate().substring(0, 8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                                        Integer.parseInt(day_list_.get(j).getDate().substring(0, 8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
                                     day_list.add(day_list_.get(j));
                                 }
                             }
-                            long Msum = 0 ;//= realm.where(Sales.class).contains("date", month_list_.get(i3)).sum("sum");
-                            for (int j1 = 0; j1 < day_list.size(); j1++){
-                                Msum += (long)realm.where(Sales.class).contains("date", day_list.get(j1).getDate().substring(0,8)).sum("sum");
-                            }                            node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(String.valueOf(month_list.get(i4).getDate()).substring(4, 6) + "월", Msum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                            RealmResults sumlist  = realm.where(Sales.class).contains("date", month_list_.get(i4).getDate().substring(0,6)).distinct("date");
+                            ArrayList<Sales> sumlist_ = new ArrayList<>(sumlist);
+                            for (int j1 = 0; j1 < sumlist_.size(); j1++){
+                                Log.d("BEOM27", "sumlist : " + sumlist_.get(j1).getDate());
+//                    sumlist_.get(j1).setDate(sumlist_.get(j1).getDate().substring(0,8));// = sumlist_.get(j1).getDate().substring(0,8);
+                            }
+                            ArrayList<Sales> sumlist__ = new ArrayList<>();
+                            for(int j = 0; j < sumlist_.size(); j++) {
+                                if(Integer.parseInt(sumlist_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                                        Integer.parseInt(sumlist_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                                    sumlist__.add(sumlist_.get(j));
+                                }
+                            }
+                            long Msum = 0; //= realm.where(Sales.class).contains("date", month_list_.get(i3)).distinct("date").sum("sum");
+                            for(int j2 = 0; j2 < sumlist__.size(); j2++) {
+                                Msum += sumlist__.get(j2).getSum();
+                            }
+                            node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem((month_list.get(i4).getDate()).substring(4, 6) + "월", Msum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
                             for (int i5 = 0; i5 < day_list.size(); i5++) {
                                 if (i5 == day_list.size() - 1) {
                                     ArrayList<Sales> arrayList = new ArrayList<>();
                                     ArrayList<Sales> arrayList_ = (ArrayList<Sales>) getSalesList("date", String.valueOf(day_list.get(i5).getDate()).substring(0, 8));
 //                                            , Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)), Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8)));
-                                    for(int j = 0; j < arrayList_.size(); j++) {
-                                        if(Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
-                                                Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                                    for (int j = 0; j < arrayList_.size(); j++) {
+                                        if (Integer.parseInt(arrayList_.get(j).getDate().substring(0, 8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                                                Integer.parseInt(arrayList_.get(j).getDate().substring(0, 8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
                                             arrayList.add(arrayList_.get(j));
                                         }
                                     }
@@ -665,9 +710,9 @@ public class SalesActivity extends AppCompatActivity {
                                     } else {
                                         ArrayList<Sales> arrayList = new ArrayList<>();
                                         ArrayList<Sales> arrayList_ = (ArrayList<Sales>) getSalesList("date", String.valueOf(day_list.get(i4).getDate()).substring(0, 8));
-                                        for(int j = 0; j < arrayList_.size(); j++) {
-                                            if(Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
-                                                    Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                                        for (int j = 0; j < arrayList_.size(); j++) {
+                                            if (Integer.parseInt(arrayList_.get(j).getDate().substring(0, 8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                                                    Integer.parseInt(arrayList_.get(j).getDate().substring(0, 8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
                                                 arrayList.add(arrayList_.get(j));
                                             }
                                         }
@@ -702,39 +747,29 @@ public class SalesActivity extends AppCompatActivity {
                 Log.d("BEOM26", "i3 : " + i3);
                 ArrayList<Sales> day_list_ = new ArrayList<>();
                 ArrayList<Sales> day_list = (ArrayList<Sales>) getSalesList("date", month_list_.get(i3));
-                for(int j = 0; j < day_list.size(); j++) {
-                    if(Integer.parseInt(day_list.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
-                            Integer.parseInt(day_list.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                for (int j = 0; j < day_list.size(); j++) {
+                    if (Integer.parseInt(day_list.get(j).getDate().substring(0, 8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                            Integer.parseInt(day_list.get(j).getDate().substring(0, 8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
                         day_list_.add(day_list.get(j));
                     }
                 }
 
-                RealmResults sumlist  = realm.where(Sales.class).contains("date", month_list_.get(i3)).distinct("date");
+                RealmResults sumlist = realm.where(Sales.class).contains("date", month_list_.get(i3)).distinct("date");
                 ArrayList<Sales> sumlist_ = new ArrayList<>(sumlist);
-                for (int j1 = 0; j1 < sumlist_.size(); j1++){
+                for (int j1 = 0; j1 < sumlist_.size(); j1++) {
                     Log.d("BEOM27", "sumlist : " + sumlist_.get(j1).getDate());
 //                    sumlist_.get(j1).setDate(sumlist_.get(j1).getDate().substring(0,8));// = sumlist_.get(j1).getDate().substring(0,8);
                 }
                 ArrayList<Sales> sumlist__ = new ArrayList<>();
-                for(int j = 0; j < sumlist_.size(); j++) {
-                    if(Integer.parseInt(sumlist_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
-                            Integer.parseInt(sumlist_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                for (int j = 0; j < sumlist_.size(); j++) {
+                    if (Integer.parseInt(sumlist_.get(j).getDate().substring(0, 8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                            Integer.parseInt(sumlist_.get(j).getDate().substring(0, 8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
                         sumlist__.add(sumlist_.get(j));
                     }
                 }
-//                HashSet hs_ = new HashSet(sumlist_);
-//                ArrayList<Sales> sumlist__ = new ArrayList<>(hs_);
                 long Msum = 0; //= realm.where(Sales.class).contains("date", month_list_.get(i3)).distinct("date").sum("sum");
-//                for (int j1 = 0; j1 < day_list_.size(); j1++){
-////                    final RealmResults sumlist = realm.where(Sales.class).contains("date",day_list_.get(j1).getDate().substring(0,8)).distinct("date");
-//                    Msum += (long)realm.where(Sales.class).contains("date", day_list_.get(j1).getDate().substring(0,8)).sum("sum");
-//                    Log.d("BEOM27", "day_list_.get("+j1+").getDate().substring(0,8) : " + day_list_.get(j1).getDate().substring(0,8));
-//                    Log.d("BEOM27", "(long)realm.where(Sales.class).contains(\"date\", day_list_.get("+j1+").getDate().substring(0,8)).sum(\"sum\") : " + (long)realm.where(Sales.class).contains("date", day_list_.get(j1).getDate().substring(0,8)).sum("sum"));
-//                    ArrayList<Sales> sumlist_ = new ArrayList<>(sumlist);
-//
-                    for(int j2 = 0; j2 < sumlist__.size(); j2++) {
-                        Msum += sumlist__.get(j2).getSum();
-//                    }
+                for (int j2 = 0; j2 < sumlist__.size(); j2++) {
+                    Msum += sumlist__.get(j2).getSum();
                 }
 
                 node_list.add(new TreeNode(new SalesAdpater.TreeItem(month_list_.get(i3).substring(4, 6) + "월", Msum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
@@ -743,10 +778,10 @@ public class SalesActivity extends AppCompatActivity {
                     if (i4 == day_list_.size() - 1) {
                         ArrayList<Sales> arrayList = new ArrayList<>();
                         ArrayList<Sales> arrayList_ = (ArrayList<Sales>) getSalesList("date", String.valueOf(day_list_.get(i4).getDate()).substring(0, 8));
-                                //, Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)), Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8)));
-                        for(int j = 0; j < arrayList_.size(); j++) {
-                            if(Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
-                                    Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                        //, Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)), Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8)));
+                        for (int j = 0; j < arrayList_.size(); j++) {
+                            if (Integer.parseInt(arrayList_.get(j).getDate().substring(0, 8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                                    Integer.parseInt(arrayList_.get(j).getDate().substring(0, 8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
                                 arrayList.add(arrayList_.get(j));
                             }
                         }
@@ -761,9 +796,9 @@ public class SalesActivity extends AppCompatActivity {
                         } else {
                             ArrayList<Sales> arrayList = new ArrayList<>();
                             ArrayList<Sales> arrayList_ = (ArrayList<Sales>) getSalesList("date", String.valueOf(day_list_.get(i4).getDate()).substring(0, 8));//, Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)), Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8)));
-                            for(int j = 0; j < arrayList_.size(); j++) {
-                                if(Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
-                                        Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                            for (int j = 0; j < arrayList_.size(); j++) {
+                                if (Integer.parseInt(arrayList_.get(j).getDate().substring(0, 8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                                        Integer.parseInt(arrayList_.get(j).getDate().substring(0, 8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
                                     arrayList.add(arrayList_.get(j));
                                 }
                             }
@@ -794,80 +829,79 @@ public class SalesActivity extends AppCompatActivity {
             for (int i3 = 0; i3 < day_list_.size(); i3++) {
                 ArrayList<Sales> arrayList = new ArrayList<>();
                 ArrayList<Sales> arrayList_ = (ArrayList<Sales>) getSalesList("date", day_list_.get(i3));//, Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)), Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8)));
-                for(int j = 0; j < arrayList_.size(); j++) {
-                    if(Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
-                            Integer.parseInt(arrayList_.get(j).getDate().substring(0,8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
+                for (int j = 0; j < arrayList_.size(); j++) {
+                    if (Integer.parseInt(arrayList_.get(j).getDate().substring(0, 8)) >= Integer.parseInt(t1.getText().toString().substring(0, 4) + t1.getText().toString().substring(5, 7) + t1.getText().toString().substring(8)) &&
+                            Integer.parseInt(arrayList_.get(j).getDate().substring(0, 8)) <= Integer.parseInt(t2.getText().toString().substring(0, 4) + t2.getText().toString().substring(5, 7) + t2.getText().toString().substring(8))) {
                         arrayList.add(arrayList_.get(j));
                     }
                 }
-                    Number sum = realm.where(Sales.class).contains("date", day_list_.get(i3)).sum("sum");
-                    node_list.add(new TreeNode(new SalesAdpater.TreeItem(day_list_.get(i3).substring(4, 6) + "월" + day_list_.get(i3).substring(6, 8) + "일", sum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
-                    for (int i4 = 0; i4 < arrayList.size(); i4++) {
-                        node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(arrayList.get(i4).getName(), arrayList.get(i4).getSum() + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
-                    }
+                Number sum = realm.where(Sales.class).contains("date", day_list_.get(i3)).sum("sum");
+                node_list.add(new TreeNode(new SalesAdpater.TreeItem(day_list_.get(i3).substring(4, 6) + "월" + day_list_.get(i3).substring(6, 8) + "일", sum + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
+                for (int i4 = 0; i4 < arrayList.size(); i4++) {
+                    node_list.get(i3).addChild(new TreeNode(new SalesAdpater.TreeItem(arrayList.get(i4).getName(), arrayList.get(i4).getSum() + "원")).setViewHolder(new SalesAdpater(SalesActivity.this)));
                 }
             }
-
-            for (int i = 0; i < node_list.size(); i++) {
-                if (node_list.get(i).getParent() == null) {
-                    tView.addNode(root, node_list.get(i));
-                }
-            }
-
         }
 
-        class AscendingObj implements Comparator<Order> {
+        for (int i = 0; i < node_list.size(); i++) {
+            if (node_list.get(i).getParent() == null) {
+                tView.addNode(root, node_list.get(i));
+            }
+        }
 
-            @Override
-            public int compare(Order o1, Order o2) {
+    }
+
+    class AscendingObj implements Comparator<Order> {
+
+        @Override
+        public int compare(Order o1, Order o2) {
 //            return o1.getDate() >= o2.getDate();
-                return String.valueOf(o1.getDate()).compareTo(o2.getDate() + "");
-            }
-
+            return String.valueOf(o1.getDate()).compareTo(o2.getDate() + "");
         }
 
-        class Ascendingstr implements Comparator<String> {
+    }
 
-            @Override
-            public int compare(String o1, String o2) {
+    class Ascendingstr implements Comparator<String> {
+
+        @Override
+        public int compare(String o1, String o2) {
 //            return o1.getDate() >= o2.getDate();
-                return o1.compareTo(o2);
-            }
-
+            return o1.compareTo(o2);
         }
 
-        public List<Sales> getSalesList ( final String table, final String data)
-        {//}, final long from, final long to) {
-            List<Sales> list = new ArrayList<>();
-            try {
-                realm = Realm.getDefaultInstance();
-                RealmResults<Sales> results = realm
-                        .where(Sales.class).contains(table, data)//.between(table, from, to)
-                        .findAll();
-                list.addAll(realm.copyFromRealm(results));
-            } finally {
-                if (realm != null) {
-                    realm.close();
-                }
-            }
-            return list;
-        }
+    }
 
-        public List<Sales> getAllSalesList () {
-            List<Sales> list = new ArrayList<>();
-            try {
-                realm = Realm.getDefaultInstance();
-                RealmResults<Sales> results = realm
-                        .where(Sales.class)
-                        .findAll();
-                list.addAll(realm.copyFromRealm(results));
-            } finally {
-                if (realm != null) {
-                    realm.close();
-                }
+    public List<Sales> getSalesList(final String table, final String data) {//}, final long from, final long to) {
+        List<Sales> list = new ArrayList<>();
+        try {
+            realm = Realm.getDefaultInstance();
+            RealmResults<Sales> results = realm
+                    .where(Sales.class).contains(table, data)//.between(table, from, to)
+                    .findAll();
+            list.addAll(realm.copyFromRealm(results));
+        } finally {
+            if (realm != null) {
+                realm.close();
             }
-            return list;
         }
+        return list;
+    }
+
+    public List<Sales> getAllSalesList() {
+        List<Sales> list = new ArrayList<>();
+        try {
+            realm = Realm.getDefaultInstance();
+            RealmResults<Sales> results = realm
+                    .where(Sales.class)
+                    .findAll();
+            list.addAll(realm.copyFromRealm(results));
+        } finally {
+            if (realm != null) {
+                realm.close();
+            }
+        }
+        return list;
+    }
 
 
     public static void insertData(final String date, final String name, final int price, final boolean pay) {
