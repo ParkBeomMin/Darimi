@@ -113,11 +113,11 @@
                     android:padding="10dp">
 
                     <TextView
-                        android:textColor="@color/White"
-                        android:background="@drawable/sale_start_border"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/sale_start_border"
                         android:text="시작"
+                        android:textColor="@color/White"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -160,11 +160,11 @@
                     android:padding="10dp">
 
                     <TextView
-                        android:textColor="@color/White"
-                        android:background="@drawable/sale_start_border"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/sale_start_border"
                         android:text="끝"
+                        android:textColor="@color/White"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -269,51 +269,53 @@
                                 android:orientation="horizontal">
 
                                 <LinearLayout
-                                    android:layout_weight="1"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="match_parent">
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1">
 
                                     <TextView
-                                        android:gravity="bottom"
-                                        android:textStyle="bold"
-                                        android:textSize="20sp"
                                         android:id="@+id/sales_month_tv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
-                                        android:text="8" /><TextView
                                         android:gravity="bottom"
-                                        android:text="August"
+                                        android:text="8"
+                                        android:textSize="20sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
                                         android:layout_width="wrap_content"
-                                        android:layout_height="match_parent" />
+                                        android:layout_height="match_parent"
+                                        android:gravity="bottom"
+                                        android:text="August" />
 
                                 </LinearLayout>
-                                 <ImageButton
-                                     android:background="@drawable/border"
+
+                                <ImageButton
                                     android:id="@+id/sales_calendar_left_btn"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:background="@drawable/border"
                                     android:onClick="onClick"
                                     android:src="@drawable/ic_chevron_left_black_24dp" />
 
 
-
                                 <ImageButton
-                                    android:background="@drawable/border"
                                     android:id="@+id/sales_calendar_right_btn"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:background="@drawable/border"
                                     android:onClick="onClick"
                                     android:src="@drawable/ic_chevron_right_black_24dp" />
                             </LinearLayout>
 
                             <GridView
-                                android:overScrollMode="never"
                                 android:id="@+id/sales_calendar"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:listSelector="@color/Gray"
-                                android:numColumns="7">
+                                android:numColumns="7"
+                                android:overScrollMode="never">
 
                             </GridView>
                         </LinearLayout>
@@ -335,44 +337,65 @@
                         android:orientation="vertical">
 
                         <LinearLayout
-                            android:padding="5dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/Key"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:padding="5dp">
 
                             <TextView
-                                android:textColor="@color/White"
-                                android:background="@color/Key"
-                                android:layout_marginLeft="10dp"
+                                android:id="@+id/sales_all_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
                                 android:layout_weight="1"
-                                android:text="매출내역" />
+                                android:background="@color/Key"
+                                android:text="전체매출"
+                                android:textColor="@color/White" />
+
+                            <TextView
+                                android:id="@+id/sales_card_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_weight="1"
+                                android:background="@color/Key"
+                                android:text="카드"
+                                android:textColor="@color/White" />
+
+                            <TextView
+                                android:id="@+id/sales_cash_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_weight="1"
+                                android:background="@color/Key"
+                                android:text="현금"
+                                android:textColor="@color/White" />
 
                             <Button
-                                android:layout_marginRight="5dp"
-                                android:background="@drawable/sale_btn"
                                 android:id="@+id/sales_list_day_btn"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
+                                android:layout_marginRight="5dp"
+                                android:background="@drawable/sale_btn"
                                 android:onClick="sales_list_filter_Click"
                                 android:text="일" />
 
                             <Button
-                                android:layout_marginRight="5dp"
-                                android:background="@drawable/sale_btn"
                                 android:id="@+id/sales_list_month_btn"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
+                                android:layout_marginRight="5dp"
+                                android:background="@drawable/sale_btn"
                                 android:onClick="sales_list_filter_Click"
                                 android:text="월" />
 
                             <Button
-                                android:background="@drawable/sale_btn"
                                 android:id="@+id/sales_list_year_btn"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
+                                android:background="@drawable/sale_btn"
                                 android:onClick="sales_list_filter_Click"
                                 android:text="년" />
                         </LinearLayout>
@@ -385,6 +408,7 @@
                             android:orientation="vertical">
 
                         </LinearLayout>
+
                     </LinearLayout>
 
                 </LinearLayout>
