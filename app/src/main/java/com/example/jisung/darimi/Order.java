@@ -16,7 +16,7 @@ public class Order extends RealmObject{
     private String date;
     private int work_state;
     private boolean sending;
-    private boolean pay;
+    private int pay;
 
     public Order() {
     }
@@ -70,11 +70,11 @@ public class Order extends RealmObject{
         this.call = call;
     }
 
-    public boolean isPay() {
+    public int getPay() {
         return pay;
     }
 
-    public void setPay(boolean pay) {
+    public void setPay(int pay) {
         this.pay = pay;
     }
 

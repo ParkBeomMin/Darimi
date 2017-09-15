@@ -77,7 +77,7 @@ public class darimiDataCon {
     }
 
 
-    public static void makeOrder(Realm realm, final String data, final String date, final String call, final String name, final boolean pay) {
+    public static void makeOrder(Realm realm, final String data, final String date, final String call, final String name, final int pay) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -112,6 +112,16 @@ public class darimiDataCon {
             public void execute(Realm realm) {
                 RealmResults<Order> result = realm.where(Order.class).equalTo("date", date).findAll();
                 result.get(0).setWork_state(1);
+            }
+        });
+    }
+
+    public static void updatePayOrder(Realm realm, final String date, final int pay){
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Order result = realm.where(Order.class).equalTo("date", date).findFirst();
+                result.setPay(pay);
             }
         });
     }

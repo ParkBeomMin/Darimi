@@ -69,6 +69,8 @@ public class OrderActivity extends AppCompatActivity {
     private DragListView mDragListView;
     private Button orderBtn;
 
+    private int payState =0;
+
     private Custom custom;
 
     int tmp=0;
@@ -135,7 +137,7 @@ public class OrderActivity extends AppCompatActivity {
             public void onClick(View view) {
 
 
-                darimiDataCon.makeOrder(realm,itemParser.parserList(selectItems_list),dateKey(),client_num.getText().toString(),client_name.getText().toString(),true);
+                darimiDataCon.makeOrder(realm,itemParser.parserList(selectItems_list),dateKey(),client_num.getText().toString(),client_name.getText().toString(),payState);
 
                 Intent intent = new Intent(OrderActivity.this,SettingActivity.class);
                 startActivity(intent);
