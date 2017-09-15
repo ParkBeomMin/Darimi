@@ -13,12 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/myTheme"
+
         >
 
         <activity
             android:name=".OrderActivity"
             android:windowSoftInputMode="adjustNothing"
-            android:screenOrientation="landscape">
+            android:screenOrientation="sensorLandscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,14 +29,14 @@
         <activity
             android:windowSoftInputMode="adjustNothing"
             android:name=".ManageActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".SalesActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:windowSoftInputMode="adjustNothing"
             android:name=".SettingActivity"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="sensorLandscape"></activity>
     </application>
 
 </manifest>
