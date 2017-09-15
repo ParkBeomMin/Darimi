@@ -62,69 +62,22 @@ public class CalendarAdapter extends BaseAdapter {
         }
         Integer today = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
         String todays = String.valueOf(today);
-        Log.d("BEOM", "getYear : " + get_Title_Year);
-        Log.d("BEOM", "Calender.Year : " + Calendar.getInstance().get(Calendar.YEAR));
-        Log.d("BEOM", "getMonth : " + get_Title_Month);
-        Log.d("BEOM", "Calender.Month : " + Calendar.getInstance().get(Calendar.MONTH));
-        Log.d("BEOM", "todays : " + todays);
-        Log.d("BEOM", "getItem : " + getItem(i));
         if (todays.equals(getItem(i)) && get_Title_Year.equals(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)))
                 && get_Title_Month.equals(String.valueOf(Calendar.getInstance().get(Calendar.MONTH) + 1))) {
             Log.d("BEOM", "TODAY COLOR CHANGE");
             calendar_day.setBackgroundResource(R.drawable.circle_border);
-//            calendar_day.setBackgroundColor(Color.BLUE);
         }
-//        else if (get_Finish_Year.equals(get_Title_Year) && get_Finish_Month.equals(get_Title_Month) && get_Finish_Day.equals(getItem(i))) {
-//            calendar_day.setBackgroundColor(Color.RED);
-//            for(int j = Integer.parseInt(get_Start_Day); j < Integer.parseInt(get_Finish_Day); j++){
-//                Log.d("BEOM1", "j = " + j);
-//                Log.d("BEOM1", "getItem = " + Integer.parseInt((String) getItem(i)));
-//                if(j==Integer.parseInt((String) getItem(i))){
-//                    calendar_day.setBackgroundColor(Color.RED);
-//                }
-//            }
-
-//        }
         else {
             calendar_day.setBackgroundColor(Color.WHITE);
         }
-//        try {
-//            long term = diffOfDate(get_Start_Year + get_Start_Month + get_Start_Day, get_Finish_Year + get_Finish_Month + get_Finish_Day);
-//            while (term > 0) {
-//                if ((get_Start_Year.equals(get_Title_Year) && get_Start_Month.equals(get_Title_Month) && get_Start_Day.equals(getItem(i))) ||
-//                        (get_Finish_Year.equals(get_Title_Year) && get_Finish_Month.equals(get_Title_Month) && get_Finish_Day.equals(getItem(i)))) {
+//        for (int j = Integer.parseInt(get_Start_Day); j <= Integer.parseInt(get_Finish_Day); j++) {
+//            if ((get_Title_Year.equals(get_Start_Year) && get_Title_Month.equals(get_Start_Month)) &&
+//                    (get_Title_Year.equals(get_Finish_Year) && get_Title_Month.equals(get_Finish_Month))) {
 //
-//                    calendar_day.setBackgroundColor(Color.RED);
+//                if (String.valueOf(j).equals(getItem(i))) {
+//                    calendar_day.setBackgroundResource(R.drawable.circle_border);
 //                }
-//                term--;
 //            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        for (int j = Integer.parseInt(get_Start_Day); j <= Integer.parseInt(get_Finish_Day); j++) {
-            Log.d("BEOM1", "j = " + j);
-            Log.d("BEOM1", "get_Title_Year = " + get_Title_Year);
-            Log.d("BEOM1", "get_Title_Month = " + get_Title_Month);
-            Log.d("BEOM1", "get_Start_Year = " + get_Start_Year);
-            Log.d("BEOM1", "get_Start_Month = " + get_Start_Month);
-            Log.d("BEOM1", "get_Start_Day = " + get_Start_Day);
-            Log.d("BEOM1", "get_Finish_Year = " + get_Finish_Year);
-            Log.d("BEOM1", "get_Finish_Month = " + get_Finish_Month);
-            Log.d("BEOM1", "get_Finish_Day = " + get_Finish_Day);
-
-            if ((get_Title_Year.equals(get_Start_Year) && get_Title_Month.equals(get_Start_Month)) &&
-                    (get_Title_Year.equals(get_Finish_Year) && get_Title_Month.equals(get_Finish_Month))) {
-
-                if (String.valueOf(j).equals(getItem(i))) {
-//                    calendar_day.setBackgroundColor(Color.RED);
-                    calendar_day.setBackgroundResource(R.drawable.circle_border);
-                }
-            }
-        }
-//        if (get_Finish_Year.equals(get_Title_Year) && get_Finish_Month.equals(get_Title_Month) && get_Finish_Day.equals(getItem(i))) {
-////            for(int j = Integer.parseInt(get_Start_Day); j < Integer.parseInt(get_Finish_Day); j++) {
-//            calendar_day.setBackgroundColor(Color.RED);
-//        }
 //        }
         return view;
     }
