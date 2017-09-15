@@ -9,7 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,28 +38,38 @@ public class SalesAdpater extends TreeNode.BaseNodeViewHolder<SalesAdpater.TreeI
         TextView t1 = (TextView)view.findViewById(R.id.sales_list_item_name_tv);
         TextView t2 = (TextView)view.findViewById(R.id.sales_list_item_sale_tv);
         TextView v1 = (TextView)view.findViewById(R.id.beom);
+        RelativeLayout l1 = (RelativeLayout) view.findViewById(R.id.sales_list_item_lin);
         t1.setText(value.s1);
         t2.setText(value.s2);
         if(value.s1.length()==0){
-            t1.setTextSize(0);
-            t2.setTextSize(0);
-            v1.setTextSize(0);
+//            t1.setTextSize(0);
+//            t2.setTextSize(0);
+//            v1.setTextSize(0);
+//            v1.setVisibility(View.GONE);
+            l1.setVisibility(View.GONE);
+        }else{
+            l1.setVisibility(View.VISIBLE);
         }
 
         if(node.getLevel()==1){
-            v1.setPadding(550,0,0,0);
+//            v1.setPadding(550,0,0,0);
+            l1.setBackgroundResource(R.color.Sales_list_root);
+            t1.setBackgroundResource(R.color.Sales_list_root);
+            t2.setBackgroundResource(R.color.Sales_list_root);
+            v1.setBackgroundResource(R.color.Sales_list_root);
+            t2.setText(value.s2);
+            v1.setVisibility(View.VISIBLE);
+            v1.setText("(단위 : 원)");
+
         }
         if(node.getLevel()==2){
             t1.setPadding(50,0,0,0);
-            v1.setPadding(500,0,0,0);
         }
         if(node.getLevel()==3){
             t1.setPadding(100,0,0,0);
-            v1.setPadding(450,0,0,0);
         }
         if(node.getLevel()==4){
             t1.setPadding(150,0,0,0);
-            v1.setPadding(400,0,0,0);
         }
 //
 //        View set_term = inflater.inflate(R.layout.activity_sales, null);

@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@color/Key"
+        android:background="@drawable/left_side_bar"
         android:onClick="EonClick"
         android:orientation="vertical"
         android:weightSum="9">
@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@color/Key"
+            android:background="@android:color/transparent"
             android:src="@mipmap/ic_launcher_round" />
 
         <TextView
@@ -30,12 +30,12 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.2"
-            android:background="@color/Key2"
+            android:background="@android:color/transparent"
             android:onClick="onClick"
             android:text="주문" />
 
         <TextView
-            android:background="@color/Key"
+            android:background="@android:color/transparent"
             android:id="@+id/manageA"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -44,7 +44,7 @@
             android:text="고객관리" />
 
         <TextView
-            android:background="@color/Key"
+            android:background="@android:color/transparent"
             android:id="@+id/salesA"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -53,7 +53,7 @@
             android:text="매출" />
 
         <TextView
-            android:background="@color/Key"
+            android:background="@android:color/transparent"
             android:id="@+id/settingA"
             android:layout_width="match_parent"
             android:layout_height="0dp"

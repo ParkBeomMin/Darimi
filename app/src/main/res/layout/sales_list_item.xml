@@ -1,24 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/sales_list_item_lin"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+                android:padding="5dp"
+    >
 
     <TextView
-        android:layout_marginLeft="15dp"
-        android:layout_weight="1"
+        android:textSize="15sp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerInParent="true"
         android:id="@+id/sales_list_item_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="beommin" />
-<TextView
-    android:visibility="invisible"
-    android:id="@+id/beom"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"/>
+        android:layout_marginLeft="15dp"
+        android:text="beommin"/>
+
+
+
     <TextView
+        android:layout_centerInParent="true"
+        android:textSize="15sp"
+
+        android:layout_toLeftOf="@+id/beom"
         android:id="@+id/sales_list_item_sale_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="4000" />
-</LinearLayout>
+        android:text="4000"/>
+
+    <TextView
+        android:textSize="12sp"
+
+        android:layout_centerInParent="true"
+android:gravity="bottom"
+        android:layout_alignParentRight="true"
+        android:id="@+id/beom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableRight="@drawable/ic_expand_more_black_24dp"
+        android:visibility="invisible"/>
+
+</RelativeLayout>
