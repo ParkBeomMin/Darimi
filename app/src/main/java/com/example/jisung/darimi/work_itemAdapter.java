@@ -127,7 +127,7 @@ public class work_itemAdapter extends BaseAdapter {
 //                list.get(i).setWork_state(2);
                 if(!isAll) {
                     Log.d("test1",list.get(i).getDate());
-                    darimiDataCon.makeSales(realm,list.get(i).getDate(),list.get(i).getName(),list.get(i).getOrderPrice(),list.get(i).isPay());
+                    darimiDataCon.makeSales(realm,list.get(i).getDate(),list.get(i).getName(),list.get(i).getOrderPrice(),list.get(i).getPay());
                     darimiDataCon.removeOrder(realm,list.get(i).getDate());
                     list.remove(i);
                 }

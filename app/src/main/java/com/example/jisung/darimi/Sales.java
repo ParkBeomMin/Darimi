@@ -14,12 +14,12 @@ public class Sales extends RealmObject{
     private String date;
     private String name;
     private int sum;
-    private boolean pay;
+    private int pay;
 
     public Sales() {
     }
 
-    public Sales(String date, String name, int sum, boolean pay) {
+    public Sales(String date, String name, int sum, int pay) {
         this.date = date;
         this.name = name;
         this.sum = sum;
@@ -38,7 +38,7 @@ public class Sales extends RealmObject{
         return sum;
     }
 
-    public boolean isPay() {
+    public int getPay() {
         return pay;
     }
 
@@ -54,7 +54,7 @@ public class Sales extends RealmObject{
         this.sum = sum;
     }
 
-    public void setPay(boolean pay) {
+    public void setPay(int pay) {
         this.pay = pay;
     }
 }
