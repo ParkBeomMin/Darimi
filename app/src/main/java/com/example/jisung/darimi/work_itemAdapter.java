@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -28,6 +29,7 @@ import io.realm.RealmList;
 public class work_itemAdapter extends BaseAdapter {
 
     ArrayList<Order> list,nextlist;
+    work_nameAdapter noti;
     Context context;
     Realm realm;
     boolean isAll=false;
@@ -100,6 +102,7 @@ public class work_itemAdapter extends BaseAdapter {
                 }
                 else{
                     Log.d("test111",list.get(i).getDate()+list.get(i).getName()+list.get(i).getOrderPrice()+list.get(i).getPay());
+                    noti.listChange(list.get(i));
                     darimiDataCon.makeSales(realm,list.get(i).getDate(),list.get(i).getName(),list.get(i).getOrderPrice(),list.get(i).getPay());
                     darimiDataCon.removeOrder(realm,list.get(i).getDate());
                     list.remove(i);
@@ -145,6 +148,13 @@ public class work_itemAdapter extends BaseAdapter {
 
         SmsManager mSmsManager = SmsManager.getDefault();
         mSmsManager.sendTextMessage(smsNumber, null, smsText, sentIntent, deliveredIntent);
+    }
+    public void sortToName(String name){
+        int tmp=0;
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).getName().equals(name))
+                Collections.swap(list,tmp++,i);
+        }
     }
 
 

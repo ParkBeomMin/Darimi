@@ -10,11 +10,18 @@ import io.realm.annotations.PrimaryKey;
  * Created by jeongjiseong on 2017. 8. 7..
  */
 
-public class Categol extends RealmObject{
-//    @PrimaryKey
+public class Categol {
+
     private String cate_name;
     private int id;
     private boolean choose =false;
+
+    public Categol(String cate_name, int id, boolean choose) {
+        this.cate_name = cate_name;
+        this.id = id;
+        this.choose = choose;
+    }
+
 
     public Categol() {
     }

@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.GridView;
 import android.widget.ListView;
@@ -21,6 +23,8 @@ public class SettingActivity extends AppCompatActivity {
     String time;
     TextView time_N;
     Intent intent;
+    Button searchBtn;
+    EditText nameE;
     ListView work_list_view,Awork_list_view;
     ExpandableListView work_name_view;
     ArrayList<work_date_list> date_list;
@@ -35,6 +39,14 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         init();
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String name = nameE.getText().toString();
+                work_adapter.sortToName(name);
+                Awork_adapter.sortToName(name);
+            }
+        });
 
     }
 
@@ -43,9 +55,10 @@ public class SettingActivity extends AppCompatActivity {
         Intent gintent = getIntent();
         time = gintent.getStringExtra("time");
         time_N = (TextView) findViewById(R.id.time);
+        nameE = (EditText)findViewById(R.id.nameSearch);
 
         time_N.setText(time);
-
+        searchBtn =(Button)findViewById(R.id.search_btn);
         allWork = new ArrayList<Order>(realm.where(Order.class).findAll());
 
         work_list_view = (ListView) findViewById(R.id.work_list);
@@ -69,14 +82,18 @@ public class SettingActivity extends AppCompatActivity {
         Awork_adapter = new work_itemAdapter(Aworks,this);
         Awork_adapter.realm=realm;
 
+
         work_list_view.setAdapter(work_adapter);
         Awork_list_view.setAdapter(Awork_adapter);
 
 
         nameAdapter = new work_nameAdapter(date_list, this);
-        nameAdapter.orders = Bworks;
-        nameAdapter.adapter=work_adapter;
+        nameAdapter.Bworks = Bworks;
+        nameAdapter.Aworks = Aworks;
+        nameAdapter.Aadapter=Awork_adapter;
+        nameAdapter.Badapter=work_adapter;
         nameAdapter.Alls =allWork;
+        Awork_adapter.noti = nameAdapter;
         work_name_view.setAdapter(nameAdapter);
     }
 
