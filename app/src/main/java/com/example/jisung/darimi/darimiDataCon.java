@@ -145,7 +145,7 @@ public class darimiDataCon {
         });
     }
 
-    public static void makeSales(Realm realm, final String date, final String name, final int price, final boolean pay) {
+    public static void makeSales(Realm realm, final String date, final String name, final int price, final int pay) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {

@@ -313,7 +313,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:listSelector="@color/Gray"
                                 android:numColumns="7"
                                 android:overScrollMode="never">
 
@@ -343,7 +342,8 @@
                             android:orientation="horizontal"
                             android:padding="5dp">
 
-                            <TextView
+                            <Button
+                                android:onClick="onClick"
                                 android:id="@+id/sales_all_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -353,7 +353,8 @@
                                 android:text="전체매출"
                                 android:textColor="@color/White" />
 
-                            <TextView
+                            <Button
+                                android:onClick="onClick"
                                 android:id="@+id/sales_card_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -363,7 +364,8 @@
                                 android:text="카드"
                                 android:textColor="@color/White" />
 
-                            <TextView
+                            <Button
+                                android:onClick="onClick"
                                 android:id="@+id/sales_cash_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
