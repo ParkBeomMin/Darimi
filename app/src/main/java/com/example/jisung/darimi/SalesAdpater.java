@@ -42,10 +42,13 @@ public class SalesAdpater extends TreeNode.BaseNodeViewHolder<SalesAdpater.TreeI
         t1.setText(value.s1);
         t2.setText(value.s2);
         if(value.s1.length()==0){
-            t1.setTextSize(0);
-            t2.setTextSize(0);
-            v1.setTextSize(0);
-            v1.setVisibility(View.GONE);
+//            t1.setTextSize(0);
+//            t2.setTextSize(0);
+//            v1.setTextSize(0);
+//            v1.setVisibility(View.GONE);
+            l1.setVisibility(View.GONE);
+        }else{
+            l1.setVisibility(View.VISIBLE);
         }
 
         if(node.getLevel()==1){
@@ -61,15 +64,12 @@ public class SalesAdpater extends TreeNode.BaseNodeViewHolder<SalesAdpater.TreeI
         }
         if(node.getLevel()==2){
             t1.setPadding(50,0,0,0);
-            v1.setPadding(500,0,0,0);
         }
         if(node.getLevel()==3){
             t1.setPadding(100,0,0,0);
-            v1.setPadding(450,0,0,0);
         }
         if(node.getLevel()==4){
             t1.setPadding(150,0,0,0);
-            v1.setPadding(400,0,0,0);
         }
 //
 //        View set_term = inflater.inflate(R.layout.activity_sales, null);

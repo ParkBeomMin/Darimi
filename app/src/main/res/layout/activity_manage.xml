@@ -12,6 +12,7 @@
     tools:context="com.example.jisung.darimi.ManageActivity">
 
     <LinearLayout
+        android:background="@drawable/left_side_bar"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -19,6 +20,8 @@
         android:weightSum="9">
 
         <ImageView
+            android:background="@android:color/transparent"
+
             android:id="@+id/logo"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -26,6 +29,8 @@
             android:src="@mipmap/ic_launcher_round" />
 
         <TextView
+            android:background="@android:color/transparent"
+
             android:id="@+id/orderA"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -34,6 +39,8 @@
             android:text="주문" />
 
         <TextView
+            android:background="@android:color/transparent"
+
             android:id="@+id/manageA"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -42,6 +49,8 @@
             android:text="고객관리" />
 
         <TextView
+            android:background="@android:color/transparent"
+
             android:id="@+id/salesA"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -50,6 +59,8 @@
             android:text="매출" />
 
         <TextView
+            android:background="@android:color/transparent"
+
             android:id="@+id/settingA"
             android:layout_width="match_parent"
             android:layout_height="0dp"
