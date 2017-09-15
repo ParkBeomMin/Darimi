@@ -132,18 +132,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.1dp"
                     android:background="@color/Background"/>
-                <EditText
-                    android:pointerIcon="zoom_in"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="0.7"
-                    android:paddingLeft="20dp"
-                    android:hint="이름검색"/>
+
                 <ExpandableListView
                     android:id="@+id/work_name_list"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="7.5"></ExpandableListView>
+                    android:layout_weight="8.2"></ExpandableListView>
             </LinearLayout>
             <LinearLayout
                 android:layout_marginLeft="10dp"
@@ -169,66 +163,45 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
                     android:weightSum="10">
-                    <TextView
-                        android:gravity="center"
+                    <EditText
+                        android:id="@+id/nameSearch"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="8"
+                        android:paddingLeft="20dp"
+                        android:hint="이름검색"/>
+                    <Button
+                        android:id="@+id/search_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:text="검색"
                         android:textColor="@color/White"
-                        android:background="@drawable/round_btn_key2"
-                        android:id="@+id/class_all"
-                        android:layout_weight="2"
-                        android:layout_width="0dp"
-                        android:onClick="work_onclick"
-                        android:layout_height="match_parent"
-                        android:text="전체"/>
-                    <TextView
-                        android:gravity="center"
-                        android:id="@+id/class_proceed"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:text="진행"
-                        android:onClick="work_onclick"
-                        />
-                    <TextView
-                        android:gravity="center"
-                        android:onClick="work_onclick"
-                        android:id="@+id/class_comple"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:text="작업완료"/>
-                    <TextView
-                        android:visibility="gone"
-                        android:gravity="center"
-                        android:onClick="work_onclick"
-                        android:id="@+id/class_extire"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:text="수령완료"/>
-                    <TextView
-
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        />
-                    <!--스피너로 바꿔야함-->
-
+                        android:background="@color/Key"/>
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.1dp"
                     android:background="@color/Background"/>
-                <GridView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="8.3"
-                    android:id="@+id/work_list"
-                    android:numColumns="2"></GridView>
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <ListView
+                        android:id="@+id/work_list"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"></ListView>
+                    <ListView
+                        android:id="@+id/Bwork_list"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"></ListView>
+                </LinearLayout>
             </LinearLayout>
 
 

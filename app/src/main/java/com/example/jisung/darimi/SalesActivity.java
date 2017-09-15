@@ -87,11 +87,11 @@ public class SalesActivity extends AppCompatActivity {
     void init() {
         realm.init(this);
         realm = Realm.getDefaultInstance();
-        insertData("201709151113", "박범민", 26000, R.integer.BCard);
-        insertData("201709151114", "남궁선", 27000, R.integer.ACash);
-        insertData("201709201115", "문소연", 28000, R.integer.BCash);
-        insertData("201710091111", "박범민", 20000, R.integer.ACard);
-        insertData("201710091112", "정지성", 25000, R.integer.BCash);
+//        insertData("201709151113", "박범민", 26000, R.integer.BCard);
+//        insertData("201709151114", "남궁선", 27000, R.integer.ACash);
+//        insertData("201709201115", "문소연", 28000, R.integer.BCash);
+//        insertData("201710091111", "박범민", 20000, R.integer.ACard);
+//        insertData("201710091112", "정지성", 25000, R.integer.BCash);
 //        insertData("201710111113", "박범민", 26000, true);
 //        insertData("201711121114", "남궁선", 27000, true);
 //        insertData("201712201115", "문소연", 28000, true);

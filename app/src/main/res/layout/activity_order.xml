@@ -202,6 +202,8 @@
                         android:text="고객명 : " />
 
                     <EditText
+                        android:singleLine="true"
+                        android:inputType="text"
                         android:id="@+id/client_name_E"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -209,6 +211,7 @@
                         android:gravity="center_vertical" />
 
                     <Button
+                        android:onClick="searchBtn"
                         android:padding="5dp"
                         android:textColor="@color/White"
                         android:id="@+id/client_search"
@@ -240,6 +243,7 @@
                         android:text="전화번호 : " />
 
                     <EditText
+                        android:inputType="number"
                         android:id="@+id/client_number_E"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -247,6 +251,7 @@
                         android:gravity="center_vertical" />
 
                     <Button
+                        android:onClick="searchBtn"
                         android:padding="5dp"
                         android:textColor="@color/White"
                         android:id="@+id/number_search"
@@ -384,12 +389,14 @@
                     android:weightSum="1"
                     android:background="@color/Background">
                     <Button
+                        android:onClick="payClick"
                         android:text="선불"
                         android:id="@+id/prepay"
                         android:layout_weight="0.5"
                         android:layout_width="0dp"
                         android:layout_height="match_parent" />
                     <Button
+                        android:onClick="payClick"
                         android:text="후불"
                         android:id="@+id/afterpay"
                         android:layout_weight="0.5"

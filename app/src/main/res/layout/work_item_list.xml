@@ -56,9 +56,9 @@
             android:layout_height="match_parent"
             android:layout_weight="3"></ListView>
 
-        <ImageView
-
-            android:id="@+id/work_state"
+        <TextView
+            android:gravity="center"
+            android:id="@+id/pay_state"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_gravity="center|bottom"
@@ -69,32 +69,12 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/Background"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:orientation="horizontal"
-        android:weightSum="2">
+
         <Button
-            android:background="@color/White"
-            android:id="@+id/work_comp"
-            android:text="완료"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        <View
-            android:background="@color/Background"
-            android:layout_width="0.5dp"
-            android:layout_height="match_parent"/>
-        <Button
-            android:background="@color/White"
-            android:id="@+id/work_recepit"
-            android:text="수령"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-    </LinearLayout>
+            android:background="@color/Key2"
+            android:id="@+id/stateBtn"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"/>
     </LinearLayout>
 </LinearLayout>

@@ -17,6 +17,7 @@
 
         <activity
             android:name=".OrderActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,12 +26,14 @@
             </intent-filter>
         </activity>
         <activity
+            android:windowSoftInputMode="adjustNothing"
             android:name=".ManageActivity"
             android:screenOrientation="landscape" />
         <activity
             android:name=".SalesActivity"
             android:screenOrientation="landscape" />
         <activity
+            android:windowSoftInputMode="adjustNothing"
             android:name=".SettingActivity"
             android:screenOrientation="landscape"></activity>
     </application>

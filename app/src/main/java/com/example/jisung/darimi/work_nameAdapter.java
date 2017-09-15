@@ -23,7 +23,7 @@ public class work_nameAdapter extends BaseExpandableListAdapter {
 
     ArrayList<work_date_list> list;
     Context context;
-    ArrayList<Order> Alls,orders;
+    ArrayList<Order> Alls,orders,Aorders;
     work_itemAdapter adapter;
 
     public work_nameAdapter(ArrayList<work_date_list> list, Context context) {

@@ -116,6 +116,35 @@ public class darimiDataCon {
         });
     }
 
+    public static String findClientName(Realm realm,final String num){
+        final String[] name = new String[1];
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Custom custom = realm.where(Custom.class).equalTo("call",num).findFirst();
+                if(custom==null)
+                    name[0] = "";
+                else
+                    name[0] =custom.getName();
+            }
+        });
+        return name[0];
+    }
+
+    public static ArrayList<String> findClientCall(Realm realm,final String name){
+        final ArrayList<String> nums =new ArrayList<String>();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<Custom> customs = realm.where(Custom.class).equalTo("name",name).findAll();
+                for(int i=0;i<customs.size();i++)
+                    nums.add(customs.get(i).getCall());
+            }
+        });
+        return nums;
+    }
+
+
     public static void updatePayOrder(Realm realm, final String date, final int pay){
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -149,6 +178,10 @@ public class darimiDataCon {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
+                Log.d("BEOM30", "date : " + date);
+                Log.d("BEOM30", "name : " + name);
+                Log.d("BEOM30", "price : " + price);
+                Log.d("BEOM30", "pay : " + pay);
                 Sales sales = realm.createObject(Sales.class, date);
                 sales.setName(name);
                 sales.setPay(pay);

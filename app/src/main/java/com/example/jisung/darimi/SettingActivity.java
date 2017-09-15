@@ -19,14 +19,14 @@ import io.realm.Realm;
 
 public class SettingActivity extends AppCompatActivity {
     String time;
-    TextView time_N, c_all, c_pro, c_com, c_ext;
+    TextView time_N;
     Intent intent;
-    GridView work_list_view;
+    ListView work_list_view,Awork_list_view;
     ExpandableListView work_name_view;
     ArrayList<work_date_list> date_list;
     ArrayList<Order> allWork;
-    ArrayList<Order> works;
-    work_itemAdapter work_adapter;
+    ArrayList<Order> Bworks,Aworks;
+    work_itemAdapter work_adapter,Awork_adapter;
     work_nameAdapter nameAdapter;
     Realm realm;
 
@@ -43,58 +43,68 @@ public class SettingActivity extends AppCompatActivity {
         Intent gintent = getIntent();
         time = gintent.getStringExtra("time");
         time_N = (TextView) findViewById(R.id.time);
-        c_all = (TextView) findViewById(R.id.class_all);
-        c_pro = (TextView) findViewById(R.id.class_proceed);
-        c_com = (TextView) findViewById(R.id.class_comple);
-        c_ext = (TextView) findViewById(R.id.class_extire);
+
         time_N.setText(time);
 
         allWork = new ArrayList<Order>(realm.where(Order.class).findAll());
 
-        work_list_view = (GridView) findViewById(R.id.work_list);
+        work_list_view = (ListView) findViewById(R.id.work_list);
+        Awork_list_view =(ListView) findViewById(R.id.Bwork_list);
         work_name_view = (ExpandableListView) findViewById(R.id.work_name_list);
 
-        works = new ArrayList<Order>();
+        Bworks = new ArrayList<Order>();
+        Aworks= new ArrayList<Order>();
         for (int i = 0; i < allWork.size(); i++) {
-            works.add(allWork.get(i));
+            if(allWork.get(i).getWork_state()==0)
+                Bworks.add(allWork.get(i));
+            else
+                Aworks.add(allWork.get(i));
         }
         date_list = new ArrayList<work_date_list>();
         workToname();
 
-        work_adapter = new work_itemAdapter(works, this);
+        work_adapter = new work_itemAdapter(Bworks, this);
         work_adapter.realm = realm;
+        work_adapter.nextlist = Aworks;
+        Awork_adapter = new work_itemAdapter(Aworks,this);
+        Awork_adapter.realm=realm;
+
         work_list_view.setAdapter(work_adapter);
+        Awork_list_view.setAdapter(Awork_adapter);
+
 
         nameAdapter = new work_nameAdapter(date_list, this);
-        nameAdapter.orders = works;
+        nameAdapter.orders = Bworks;
         nameAdapter.adapter=work_adapter;
         nameAdapter.Alls =allWork;
         work_name_view.setAdapter(nameAdapter);
     }
 
     public void workToname() {
-        Collections.sort(works, new sortWorks());
-        for (int i = 0; i < works.size(); i++) {
-            Log.d("test2",works.get(i).getDate());
+        Collections.sort(allWork, new sortWorks());
+        for (int i = 0; i < allWork.size(); i++) {
+            Log.d("test2",allWork.get(i).getDate());
         }
-        String tmp = works.get(0).getDate().substring(0,8);
-        for (int i = 0; i < works.size(); i++) {
+        String tmp="";
+        if(allWork.size()!=0)
+            tmp = allWork.get(0).getDate().substring(0,8);
+        for (int i = 0; i < allWork.size(); i++) {
             Log.d("test1", tmp);
             work_date_list data = new work_date_list();
             ArrayList<Order> orders = new ArrayList<Order>();
-            while (tmp.equals(works.get(i).getDate().substring(0,8))) {
+            while (tmp.equals(allWork.get(i).getDate().substring(0,8))) {
                 Log.d("test1", tmp);
-                tmp = works.get(i).getDate().substring(0,8);
+                tmp = allWork.get(i).getDate().substring(0,8);
                 data.setDate(tmp);
-                orders.add(works.get(i));
+                orders.add(allWork.get(i));
                 i++;
-                if (i == works.size())
+                if (i == allWork.size())
                     break;
             }
             data.setOrders(orders);
             date_list.add(data);
             Log.d("test1", data.getDate());
-            if (i == works.size())
+            if (i == allWork.size())
                 break;
         }
     }
@@ -121,93 +131,7 @@ public class SettingActivity extends AppCompatActivity {
         }
     }
 
-    public void work_onclick(View view) {
-        switch (view.getId()) {
-            case R.id.class_all:
-                c_all.setBackground(getDrawable(R.drawable.round_btn_key2));
-                c_pro.setBackgroundColor(getColor(R.color.White));
-                c_com.setBackgroundColor(getColor(R.color.White));
-                c_ext.setBackgroundColor(getColor(R.color.White));
-                c_all.setTextColor(getColor(R.color.White));
-                c_pro.setTextColor(getColor(R.color.text));
-                c_com.setTextColor(getColor(R.color.text));
-                c_ext.setTextColor(getColor(R.color.text));
-                works.clear();
-                for (int i = 0; i < allWork.size(); i++) {
-                    works.add(allWork.get(i));
-                }
-                work_adapter.notifyDataSetChanged();
-//                works = loadList(0);
-                break;
-            case R.id.class_proceed:
-                c_all.setBackgroundColor(getColor(R.color.White));
-                c_pro.setBackground(getDrawable(R.drawable.round_btn_key2));
-                c_pro.setTextColor(getColor(R.color.White));
-                c_com.setBackgroundColor(getColor(R.color.White));
-                c_ext.setBackgroundColor(getColor(R.color.White));
-                c_all.setTextColor(getColor(R.color.text));
-                c_pro.setTextColor(getColor(R.color.White));
-                c_com.setTextColor(getColor(R.color.text));
-                c_ext.setTextColor(getColor(R.color.text));
-//                works = loadList(1);
-                works.clear();
-                for (int i = 0; i < allWork.size(); i++) {
-                    if (allWork.get(i).getWork_state() == 0)
-                        works.add(allWork.get(i));
-                }
-                work_adapter.notifyDataSetChanged();
-                break;
-            case R.id.class_comple:
-                c_all.setBackgroundColor(getColor(R.color.White));
-                c_pro.setBackgroundColor(getColor(R.color.White));
-                c_com.setBackground(getDrawable(R.drawable.round_btn_key2));
-                c_com.setTextColor(getColor(R.color.White));
-                c_ext.setBackgroundColor(getColor(R.color.White));
-                c_all.setTextColor(getColor(R.color.text));
-                c_pro.setTextColor(getColor(R.color.text));
-                c_com.setTextColor(getColor(R.color.White));
-                c_ext.setTextColor(getColor(R.color.text));
-                works.clear();
-                for (int i = 0; i < allWork.size(); i++) {
-                    if (allWork.get(i).getWork_state() == 1)
-                        works.add(allWork.get(i));
-                }
-                work_adapter.notifyDataSetChanged();
 
-//                works = loadList(2);
-                break;
-            case R.id.class_extire:
-                c_all.setBackgroundColor(getColor(R.color.White));
-                c_pro.setBackgroundColor(getColor(R.color.White));
-                c_com.setBackgroundColor(getColor(R.color.White));
-                c_ext.setBackground(getDrawable(R.drawable.round_btn_key2));
-                c_all.setTextColor(getColor(R.color.text));
-                c_pro.setTextColor(getColor(R.color.text));
-                c_com.setTextColor(getColor(R.color.text));
-                c_ext.setTextColor(getColor(R.color.White));
-//                works = loadList(3);
-                break;
-            default:
-                break;
-        }
-    }
-
-    //    public ArrayList<Order> loadList(int i){
-//        ArrayList<Order> list;
-//        list = new ArrayList<Order>();
-//        switch (i){
-//            case 0:
-//                break;
-//            case 1:
-//                break;
-//            case 2:
-//                break;
-//            case 3:
-//                break;
-//        }
-//        System.gc();
-//        return list;
-//    }
     class sortWorks implements Comparator<Order> {
 
         @Override

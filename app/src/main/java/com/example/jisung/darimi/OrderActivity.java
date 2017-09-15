@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -41,6 +42,11 @@ import java.util.SimpleTimeZone;
 import io.realm.Realm;
 import io.realm.RealmList;
 import it.sephiroth.android.library.widget.HListView;
+
+import static com.example.jisung.darimi.R.integer.ACard;
+import static com.example.jisung.darimi.R.integer.ACash;
+import static com.example.jisung.darimi.R.integer.BCard;
+import static com.example.jisung.darimi.R.integer.BCash;
 
 public class OrderActivity extends AppCompatActivity {
     private TextView time_N,total,order_time,item_total_num;
@@ -136,7 +142,15 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
+                if(payState==0){
+                    Toast.makeText(OrderActivity.this, "결재 방법을 선택해주새요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Log.d("BEOM30", "itemParser.parserList(selectItems_list) : " + itemParser.parserList(selectItems_list));
+                Log.d("BEOM30", "dateKey() : " + dateKey());
+                Log.d("BEOM30", "client_num.getText().toString() : " + client_num.getText().toString());
+                Log.d("BEOM30", "client_name.getText().toString() : " + client_name.getText().toString());
+                Log.d("BEOM30", "payState : " + payState);
                 darimiDataCon.makeOrder(realm,itemParser.parserList(selectItems_list),dateKey(),client_num.getText().toString(),client_name.getText().toString(),payState);
 
                 Intent intent = new Intent(OrderActivity.this,SettingActivity.class);
@@ -148,7 +162,35 @@ public class OrderActivity extends AppCompatActivity {
     }
 
 
-
+    public void searchBtn(View v){
+        if(v.getId()==R.id.number_search)
+            client_name.setText(darimiDataCon.findClientName(realm,client_num.getText().toString()));
+        else if(v.getId()==R.id.client_search){
+            ArrayList<String> nums = new ArrayList<String>();
+            nums=darimiDataCon.findClientCall(realm,client_name.getText().toString());
+            if(nums.size()==0)
+                return;
+            else if(nums.size()==1)
+                client_num.setText(nums.get(0));
+            else{
+                View view = View.inflate(this, R.layout.clientnumlist, null);
+                final Dialog dialog = new Dialog(this);
+                dialog.setContentView(view);
+                ListView listView = (ListView)view.findViewById(R.id.numlist);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_single_choice,nums);
+                listView.setAdapter(adapter);
+                final ArrayList<String> finalNums = nums;
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        client_num.setText(finalNums.get(i));
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+            }
+        }
+    }
     private boolean isinitInstall(){
         SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
         boolean is = pref.getBoolean("init",true);
@@ -356,6 +398,44 @@ public class OrderActivity extends AppCompatActivity {
 
             edit_act=false;//그 외의 부분인 경우 비활성화
         }
+    }
+
+    public void payClick(final View v){
+        View r_view = View.inflate(this, R.layout.paymethod, null);
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(r_view);
+        Button card = (Button)r_view.findViewById(R.id.card);
+        Button cash = (Button)r_view.findViewById(R.id.cash);
+        card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(v.getId()==R.id.prepay) {
+                    payState = 1;
+                    Toast.makeText(OrderActivity.this, "카드 결제입니다", Toast.LENGTH_SHORT).show();
+                }
+                if(v.getId()==R.id.afterpay){
+                    payState=2;
+                    Toast.makeText(OrderActivity.this, "현금 결제입니다", Toast.LENGTH_SHORT).show();
+                }
+                Log.d("test111",payState+"");
+                dialog.dismiss();
+            }
+        });
+        cash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(v.getId()==R.id.prepay){
+                    payState=3;
+                    Toast.makeText(OrderActivity.this, "카드 결제입니다", Toast.LENGTH_SHORT).show();
+                }
+                if(v.getId()==R.id.afterpay){
+                    payState=4;
+                    Toast.makeText(OrderActivity.this, "현금 결제입니다", Toast.LENGTH_SHORT).show();
+                }
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     void nowTime(){

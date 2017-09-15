@@ -27,7 +27,7 @@ import io.realm.RealmList;
 
 public class work_itemAdapter extends BaseAdapter {
 
-    ArrayList<Order> list;
+    ArrayList<Order> list,nextlist;
     Context context;
     Realm realm;
     boolean isAll=false;
@@ -60,41 +60,66 @@ public class work_itemAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.work_item_list, null);
 
 
-        TextView date = (TextView)view.findViewById(R.id.work_date);
+        final TextView date = (TextView)view.findViewById(R.id.work_date);
         TextView client = (TextView)view.findViewById(R.id.client_name);
         final ImageButton msgBtn = (ImageButton)view.findViewById(R.id.send_msg);
         ListView work_list=(ListView)view.findViewById(R.id.work_item_list);
-        ImageView work_state = (ImageView)view.findViewById(R.id.work_state);
-        Button comBtn = (Button)view.findViewById(R.id.work_comp);
-        Button recepitBtn = (Button)view.findViewById(R.id.work_recepit);
+        TextView pay = (TextView)view.findViewById(R.id.pay_state);
+        Button state = (Button)view.findViewById(R.id.stateBtn);
+//        Log.d("test111",list.get(i).getPay()+"pau");
+
+        switch (list.get(i).getPay()){
+            case 4:
+                pay.setText("후불");
+                break;
+            case 3:
+                pay.setText("후불");
+                break;
+            case 1:
+                pay.setText("선불");
+                break;
+            case 2:
+                pay.setText("선불");
+                break;
+            default:
+                break;
+        }
+
+        if(list.get(i).getWork_state()==0)
+            state.setText("작업완료");
+        else
+            state.setText("지불 & 수령완료");
+
+        state.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(list.get(i).getWork_state()==0){
+                    darimiDataCon.updateStateOrder(realm,list.get(i).getDate());
+                    nextlist.add(list.get(i));
+                    list.remove(list.get(i));
+                }
+                else{
+                    Log.d("test111",list.get(i).getDate()+list.get(i).getName()+list.get(i).getOrderPrice()+list.get(i).getPay());
+                    darimiDataCon.makeSales(realm,list.get(i).getDate(),list.get(i).getName(),list.get(i).getOrderPrice(),list.get(i).getPay());
+                    darimiDataCon.removeOrder(realm,list.get(i).getDate());
+                    list.remove(i);
+                }
+                notifyDataSetChanged();
+
+            }
+        });
 
         client_itemAdapter adapter = new client_itemAdapter(view.getContext(),itemParser.parserString(list.get(i).getData()));
         work_list.setAdapter(adapter);
         Log.d("test1",list.get(i).getData());
         client.setText(list.get(i).getName());
         date.setText(dateSet.b_date(list.get(i).getDate()));
-//        client.setText(list.get(i).getCustom().getName());
+
         if(list.get(i).isSending())
             msgBtn.setImageResource(R.color.list_item_background);
 
         work_list.setAdapter(adapter);
-        switch (list.get(i).getWork_state()){
-            case 0:
-//                comBtn.setBackground();
-                break;
-            case 1:
-                comBtn.setClickable(false);
-                comBtn.setBackground(context.getDrawable(R.color.list_item_background));
-                break;
-            case 3:
-                comBtn.setClickable(false);
-                recepitBtn.setClickable(false);
-//                comBtn.setBackground();
-//                recepitBtn.setBackground();
-                break;
-            default:
-                break;
-        }
+
 
 
         msgBtn.setOnClickListener(new View.OnClickListener() {
@@ -110,30 +135,7 @@ public class work_itemAdapter extends BaseAdapter {
             }
         });
 
-        comBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                if(!isAll) {
-                    darimiDataCon.updateStateOrder(realm,list.get(i).getDate());
-
-                }
-                notifyDataSetChanged();
-            }
-        });
-        recepitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                list.get(i).setWork_state(2);
-                if(!isAll) {
-                    Log.d("test1",list.get(i).getDate());
-                    darimiDataCon.makeSales(realm,list.get(i).getDate(),list.get(i).getName(),list.get(i).getOrderPrice(),list.get(i).getPay());
-                    darimiDataCon.removeOrder(realm,list.get(i).getDate());
-                    list.remove(i);
-                }
-                notifyDataSetChanged();
-            }
-        });
 
         return view;
     }
