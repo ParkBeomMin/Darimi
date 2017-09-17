@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by jisung on 2017-09-09.
@@ -23,8 +24,8 @@ public class work_nameAdapter extends BaseExpandableListAdapter {
 
     ArrayList<work_date_list> list;
     Context context;
-    ArrayList<Order> Alls,orders,Aorders;
-    work_itemAdapter adapter;
+    ArrayList<Order> Alls,Aworks,Bworks;
+    work_itemAdapter Aadapter,Badapter;
 
     public work_nameAdapter(ArrayList<work_date_list> list, Context context) {
         this.list = list;
@@ -59,6 +60,18 @@ public class work_nameAdapter extends BaseExpandableListAdapter {
     }
 
 
+    public void listChange(Order order){
+        for(int i=0;i<list.size();i++) {
+            for (int j = 0; j < list.get(i).getOrders().size(); j++) {
+                if (list.get(i).getOrders().get(j).equals(order)) {
+                    list.get(i).getOrders().remove(j);
+                    notifyDataSetChanged();
+                    return;
+                }
+
+            }
+        }
+    }
     @Override
     public long getGroupId(int groupPosition) {
         return groupPosition;
@@ -94,13 +107,20 @@ public class work_nameAdapter extends BaseExpandableListAdapter {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                orders.clear();
-                for(int i=0;i<Alls.size();i++){
-                    if(Alls.get(i).getName().equals(list.get(groupPosition).getOrders().get(childPosition).getName()))
-                        orders.add(Alls.get(i));
+                int tmp=0;
+                for(int i=0;i<Bworks.size();i++){
+                    if(Bworks.get(i).getName().equals(list.get(groupPosition).getOrders().get(childPosition).getName()))
+                        Collections.swap(Bworks,tmp++,i);
 
                 }
-                adapter.notifyDataSetChanged();
+                tmp=0;
+                for(int i=0;i<Aworks.size();i++){
+                    if(Aworks.get(i).getName().equals(list.get(groupPosition).getOrders().get(childPosition).getName()))
+                        Collections.swap(Aworks,tmp++,i);
+
+                }
+                Aadapter.notifyDataSetChanged();
+                Badapter.notifyDataSetChanged();
             }
         });
         return convertView;

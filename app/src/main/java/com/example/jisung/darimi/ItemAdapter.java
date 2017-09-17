@@ -9,10 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,6 +73,8 @@ public class ItemAdapter extends DragItemAdapter<Item, ItemAdapter.ViewHolder> {
     class ViewHolder extends DragItemAdapter.ViewHolder {
         TextView name,price;
         ImageView img,mark;
+        Spinner spinner;
+
 
 
 
@@ -98,23 +102,43 @@ public class ItemAdapter extends DragItemAdapter<Item, ItemAdapter.ViewHolder> {
                 params.width = (int) (display.getWidth() * 0.3);
                 params.height = (int) (display.getHeight() * 0.3);
                 dialog.getWindow().setAttributes(params);//대화상자 크기 설정
-
                 final EditText eitem_name = (EditText) e_view.findViewById(R.id.edit_name);
                 final EditText eitem_price = (EditText) e_view.findViewById(R.id.edit_price);
-                Button selcet_img = (Button) e_view.findViewById(R.id.change_img);
+                spinner=(Spinner)e_view.findViewById(R.id.cateSpiner);
                 Button comple = (Button) e_view.findViewById(R.id.edit_com);
                 //대화상자 초기화
-
-
-                selcet_img.setOnClickListener(new View.OnClickListener() {
+                spinner.setSelection(cate-1);
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
-                    public void onClick(View view) {
-                            /*
-                            이미지 선택 및 저장
-                            */
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            String str = (String)spinner.getSelectedItem();
+                        switch (str){
+                            case "상의":
+                                cate =1;
+                                break;
+                            case "하의":
+                                cate =2;
+                                break;
+                            case "겉옷":
+                                cate=3;
+                                break;
+                            case "정장":
+                                cate=4;
+                                break;
+                            case "신발":
+                                cate=5;
+                                break;
+                            case "기타":
+                                cate=6;
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
 
                     }
-                });//파일 선택
+                });
                 comple.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

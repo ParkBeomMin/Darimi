@@ -61,6 +61,8 @@ public class OrderActivity extends AppCompatActivity {
     private ArrayList<Items> selectItems_list;
     private ArrayList<Categol> cate_list;
 
+    ItemAdapter listAdapter;
+
     private SelectItemAdapter selected_adapter;
     private CateAdapter cate_adapter;
     private ItemBaseAdapter item_adapter;
@@ -142,10 +144,16 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+
+                if(client_num.getText().toString().length()<10||client_name.getText().toString().length()<2){
+                    Toast.makeText(OrderActivity.this, "고객 정보를 확인해주세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if(payState==0){
                     Toast.makeText(OrderActivity.this, "결재 방법을 선택해주새요.", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 Log.d("BEOM30", "itemParser.parserList(selectItems_list) : " + itemParser.parserList(selectItems_list));
                 Log.d("BEOM30", "dateKey() : " + dateKey());
                 Log.d("BEOM30", "client_num.getText().toString() : " + client_num.getText().toString());
@@ -205,7 +213,6 @@ public class OrderActivity extends AppCompatActivity {
         Realm.init(this);
         realm = Realm.getDefaultInstance();
         if(isinitInstall()) {
-            darimiDataInit.categolDataInit(realm);
             darimiDataInit.itemDataInit(realm);
         }
 
@@ -223,7 +230,14 @@ public class OrderActivity extends AppCompatActivity {
 
         item_list = new ArrayList<Item>();
         selectItems_list = new ArrayList<Items>();
-        cate_list = new ArrayList<Categol>(realm.where(Categol.class).findAll());
+        cate_list = new ArrayList<Categol>();
+        cate_list.add(new Categol("즐겨찾기",0,true));
+        cate_list.add(new Categol("상의",1,false));
+        cate_list.add(new Categol("하의",2,false));
+        cate_list.add(new Categol("겉옷",3,false));
+        cate_list.add(new Categol("정장",4,false));
+        cate_list.add(new Categol("신발",5,false));
+        cate_list.add(new Categol("기타",6,false));
         All_item=new ArrayList<Item>(realm.where(Item.class).findAll().sort("seq"));
 
 
@@ -252,7 +266,6 @@ public class OrderActivity extends AppCompatActivity {
             public void onItemClick(it.sephiroth.android.library.widget.AdapterView<?> adapterView, View view, int i, long l) {
                 TextView t = (TextView)view.findViewById(R.id.cate_name);
                 t.setBackgroundColor(getResources().getColor(R.color.Gray));
-                realm.beginTransaction();
                 cate_list.get(tmp).setChoose(false);
                 cate_list.get(i).setChoose(true);
                 item_list.clear();
@@ -269,7 +282,7 @@ public class OrderActivity extends AppCompatActivity {
                             item_list.add(All_item.get(j));
                     }
                 }
-                realm.commitTransaction();
+
                 cate_adapter.notifyDataSetChanged();
                 item_adapter.notifyDataSetChanged();
                 tmp = i;
@@ -330,6 +343,9 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void onItemDragEnded(int fromPosition, int toPosition) {
                 darimiDataCon.updateItemSeq(realm,item_list.get(fromPosition).getName(),item_list.get(toPosition).getName());
+                Collections.sort(item_list,new sortWorks());
+                item_adapter.notifyDataSetChanged();
+                listAdapter.notifyDataSetChanged();
                 if (fromPosition != toPosition) {
                     Toast.makeText(OrderActivity.this, "End - position: " + toPosition, Toast.LENGTH_SHORT).show();
                 }
@@ -340,7 +356,7 @@ public class OrderActivity extends AppCompatActivity {
 
     private void setupGridVerticalRecyclerView() {
         mDragListView.setLayoutManager(new GridLayoutManager(this, 3));
-        ItemAdapter listAdapter = new ItemAdapter(item_list, R.layout.order_item, R.id.item_layout, true);
+        listAdapter = new ItemAdapter(item_list, R.layout.order_item, R.id.item_layout, true);
         listAdapter.realm = realm;
         listAdapter.cate = tmp;
         mDragListView.setAdapter(listAdapter, true);

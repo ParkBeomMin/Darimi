@@ -7,82 +7,8 @@ import io.realm.Realm;
  */
 
 public class darimiDataInit {
-    public static void categolDataInit(Realm realm){
-
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                Categol cate = realm.createObject(Categol.class);
-                cate.setChoose(true);
-                cate.setCate_name("즐겨찾기");
-                cate.setId(0);
-            }
-
-        });        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                Categol cate = realm.createObject(Categol.class);
-                cate.setChoose(false);
-                cate.setCate_name("상의");
-                cate.setId(1);
-            }
-
-        });
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                Categol cate = realm.createObject(Categol.class);
-                cate.setChoose(false);
-                cate.setCate_name("하의");
-                cate.setId(2);
-            }
-
-        });
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                Categol cate = realm.createObject(Categol.class);
-                cate.setChoose(false);
-                cate.setCate_name("겉옷");
-                cate.setId(3);
-            }
-
-        });
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                Categol cate = realm.createObject(Categol.class);
-                cate.setChoose(false);
-                cate.setCate_name("정장");
-                cate.setId(4);
-            }
-
-        });
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                Categol cate = realm.createObject(Categol.class);
-                cate.setChoose(false);
-                cate.setCate_name("신발");
-                cate.setId(5);
-            }
-
-        });
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                Categol cate = realm.createObject(Categol.class);
-                cate.setChoose(false);
-                cate.setCate_name("기타");
-                cate.setId(6);
-            }
-
-        });
 
 
-
-
-    }
 
     public static void itemDataInit(Realm realm){
 
