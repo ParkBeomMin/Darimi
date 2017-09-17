@@ -161,6 +161,12 @@
                     android:layout_weight="8.7">
 
                     <GridView
+                        android:id="@+id/add_grid"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:numColumns="3"
+                        android:columnWidth="100dp"></GridView>
+                    <GridView
                         android:id="@+id/item_list"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

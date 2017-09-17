@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:weightSum="10"
-    android:background="@color/White"
+    android:background="#00000000"
     android:padding="10dp"
     android:layout_margin="8dp">
     <!--실제 돌려봐서 항목 크기에 맞게 조절할 것-->
