@@ -91,11 +91,11 @@ public class SalesActivity extends AppCompatActivity {
     void init() {
         realm.init(this);
         realm = Realm.getDefaultInstance();
-        insertData("201709151113", "박범민", 26000, 1);
-        insertData("201709151114", "남궁선", 27000, 3);
-        insertData("201709201115", "문소연", 28000, 2);
-        insertData("201710091111", "박범민", 20000, 1);
-        insertData("201710091112", "정지성", 25000, 4);
+//        insertData("201709151113", "박범민", 26000, 1);
+//        insertData("201709151114", "남궁선", 27000, 3);
+//        insertData("201709201115", "문소연", 28000, 2);
+//        insertData("201710091111", "박범민", 20000, 1);
+//        insertData("201710091112", "정지성", 25000, 4);
 //        insertData("201710111113", "박범민", 26000, true);
 //        insertData("201711121114", "남궁선", 27000, true);
 //        insertData("201712201115", "문소연", 28000, true);
@@ -1124,7 +1124,7 @@ setCategolBack(b2,b3,b1, t2, t3, t1);
         TextView tvToastMsg = new TextView(context);
         tvToastMsg.setText(msg);
 //        tvToastMsg.setBackgroundResource(Color.WHITE);
-        tvToastMsg.setTextColor(getResources().getColor(R.color.Key));
+//        tvToastMsg.setTextColor(getResources().getColor(R.color.Key));
         tvToastMsg.setTextSize(16);
         final Toast toastMsg = Toast.makeText(context, "", Toast.LENGTH_SHORT);
         toastMsg.setView(tvToastMsg);

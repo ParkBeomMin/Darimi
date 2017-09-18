@@ -492,7 +492,7 @@ public class OrderActivity extends AppCompatActivity {
         TextView tvToastMsg = new TextView(context);
         tvToastMsg.setText(msg);
 //        tvToastMsg.setBackgroundResource(Color.WHITE);
-        tvToastMsg.setTextColor(getResources().getColor(R.color.Key));
+//        tvToastMsg.setTextColor(getResources().getColor(R.color.Key));
         tvToastMsg.setTextSize(16);
         final Toast toastMsg = Toast.makeText(context, "", Toast.LENGTH_SHORT);
         toastMsg.setView(tvToastMsg);
