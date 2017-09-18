@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,6 +20,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ExpandableListView;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -88,11 +90,11 @@ public class SalesActivity extends AppCompatActivity {
     void init() {
         realm.init(this);
         realm = Realm.getDefaultInstance();
-//        insertData("201709151113", "박범민", 26000, R.integer.BCard);
-//        insertData("201709151114", "남궁선", 27000, R.integer.ACash);
-//        insertData("201709201115", "문소연", 28000, R.integer.BCash);
-//        insertData("201710091111", "박범민", 20000, R.integer.ACard);
-//        insertData("201710091112", "정지성", 25000, R.integer.BCash);
+        insertData("201709151113", "박범민", 26000, 1);
+        insertData("201709151114", "남궁선", 27000, 3);
+        insertData("201709201115", "문소연", 28000, 2);
+        insertData("201710091111", "박범민", 20000, 1);
+        insertData("201710091112", "정지성", 25000, 4);
 //        insertData("201710111113", "박범민", 26000, true);
 //        insertData("201711121114", "남궁선", 27000, true);
 //        insertData("201712201115", "문소연", 28000, true);
@@ -354,10 +356,13 @@ public class SalesActivity extends AppCompatActivity {
     };
 
     public void onClick(View v) {
-        Button b1, b2, b3;
-        b1 = (Button)findViewById(R.id.sales_all_tv);
-        b2 = (Button)findViewById(R.id.sales_card_tv);
-        b3 = (Button)findViewById(R.id.sales_cash_tv);
+        ImageButton b1, b2, b3; TextView t1, t2, t3;
+        b1 = (ImageButton)findViewById(R.id.sales_all_tv);
+        b2 = (ImageButton)findViewById(R.id.sales_card_tv);
+        b3 = (ImageButton)findViewById(R.id.sales_cash_tv);
+        t1 = (TextView)findViewById(R.id.sales_all_tv2);
+        t2 = (TextView)findViewById(R.id.sales_card_tv2);
+        t3 = (TextView)findViewById(R.id.sales_cash_tv2);
 
         switch (v.getId()) {
             case R.id.manageA:
@@ -448,24 +453,25 @@ public class SalesActivity extends AppCompatActivity {
                 CATEGORIZATION = 0;
                 sales_list = (ArrayList<Sales>) getAllSalesList(CATEGORIZATION);
                 set_list(start_tv, finish_tv, FILTER, sales_list);
-setCategolBack(b1,b2,b3);                break;
+setCategolBack(b1,b2,b3, t1, t2, t3);                break;
             case R.id.sales_card_tv:
                 Log.d("BEOM29", "card btn");
                 CATEGORIZATION = 1;
                 ArrayList<Sales> sales_card_list = new ArrayList<>();
                 sales_card_list = (ArrayList<Sales>) getAllSalesList(CATEGORIZATION);
+                Log.d("BEOM29", "sales_card_list.size() : " + sales_card_list.size());
                 for (int i = 0; i < sales_card_list.size(); i++) {
                     Log.d("BEOM29", "sales_card_list.get(" + i + ").getDate() : " + sales_card_list.get(i).getDate());
                 }
                 set_list(start_tv, finish_tv, FILTER, sales_card_list);
-setCategolBack(b2,b3,b1);
+setCategolBack(b2,b3,b1, t2, t3, t1);
                 break;
             case R.id.sales_cash_tv:
                 CATEGORIZATION = 2;
                 ArrayList<Sales> sales_cash_list = new ArrayList<>();
                 sales_cash_list = (ArrayList<Sales>) getAllSalesList(CATEGORIZATION);
                 set_list(start_tv, finish_tv, FILTER, sales_cash_list);
-                setCategolBack(b3,b2,b1);
+                setCategolBack(b3,b2,b1, t3, t2, t1);
 
                 break;
 
@@ -474,13 +480,16 @@ setCategolBack(b2,b3,b1);
         }
     }
 
-    void setCategolBack(Button b1, Button b2, Button b3) {
-        b1.setBackgroundResource(R.color.White);
-        b1.setTextColor(getResources().getColor(R.color.Key));
-        b2.setBackgroundResource(R.color.Key);
-        b2.setTextColor(getResources().getColor(R.color.White));
-        b3.setBackgroundResource(R.color.Key);
-        b3.setTextColor(getResources().getColor(R.color.White));
+    void setCategolBack(ImageButton b1, ImageButton b2, ImageButton b3, TextView t1, TextView t2, TextView t3) {
+        b1.setImageResource(R.drawable.sales_categol_btn);
+//        b1.setBackgroundResource(R.drawable.sales_categol_btn);
+        t1.setTextColor(getResources().getColor(R.color.Key));
+        b2.setImageResource(R.color.Key);
+//        b2.setBackgroundResource(R.color.Key);
+        t2.setTextColor(getResources().getColor(R.color.White));
+        b3.setImageResource(R.color.Key);
+//        b3.setBackgroundResource(R.color.Key);
+        t3.setTextColor(getResources().getColor(R.color.White));
 
     }
 
@@ -875,6 +884,13 @@ setCategolBack(b2,b3,b1);
             return o1.compareTo(o2);
         }
     }
+    class AscendingObj implements Comparator<Sales> {
+        @Override
+        public int compare(Sales sales, Sales t1) {
+            return sales.getDate().compareTo(t1.getDate());
+        }
+    }
+
 
     public List<Sales> getSalesList(final String table, final String data, final int categol) {
         List<Sales> list = new ArrayList<>();
@@ -890,15 +906,15 @@ setCategolBack(b2,b3,b1);
                     realm.close();
                 }
             }
-            return list;
+//            return list;
         } else if (categol == 1) {
             try {
                 realm = Realm.getDefaultInstance();
                 RealmResults<Sales> results = realm
-                        .where(Sales.class).contains(table, data).equalTo("pay", R.integer.ACard)
+                        .where(Sales.class).contains(table, data).equalTo("pay", 1)
                         .findAll();
                 RealmResults<Sales> results1 = realm
-                        .where(Sales.class).contains(table, data).equalTo("pay", R.integer.BCard)
+                        .where(Sales.class).contains(table, data).equalTo("pay", 2)
                         .findAll();
                 list.addAll(realm.copyFromRealm(results));
                 list.addAll(realm.copyFromRealm(results1));
@@ -907,15 +923,15 @@ setCategolBack(b2,b3,b1);
                     realm.close();
                 }
             }
-            return list;
+//            return list;
         } else {
             try {
                 realm = Realm.getDefaultInstance();
                 RealmResults<Sales> results = realm
-                        .where(Sales.class).contains(table, data).equalTo("pay", R.integer.ACash)
+                        .where(Sales.class).contains(table, data).equalTo("pay", 3)
                         .findAll();
                 RealmResults<Sales> results1 = realm
-                        .where(Sales.class).contains(table, data).equalTo("pay", R.integer.BCash)
+                        .where(Sales.class).contains(table, data).equalTo("pay", 4)
                         .findAll();
                 list.addAll(realm.copyFromRealm(results));
                 list.addAll(realm.copyFromRealm(results1));
@@ -924,8 +940,11 @@ setCategolBack(b2,b3,b1);
                     realm.close();
                 }
             }
-            return list;
+//            return list;
         }
+        AscendingObj ascending = new AscendingObj();
+        Collections.sort(list, ascending);
+        return list;
     }
 
     public List<Sales> getAllSalesList(int categol) {
@@ -942,15 +961,15 @@ setCategolBack(b2,b3,b1);
                     realm.close();
                 }
             }
-            return list;
+//            return list;
         } else if (categol == 1) {
             try {
                 realm = Realm.getDefaultInstance();
                 RealmResults<Sales> results = realm
-                        .where(Sales.class).equalTo("pay", R.integer.BCard)
+                        .where(Sales.class).equalTo("pay", 1)
                         .findAll();
                 RealmResults<Sales> results1 = realm
-                        .where(Sales.class).equalTo("pay", R.integer.ACard)
+                        .where(Sales.class).equalTo("pay", 2)
                         .findAll();
                 list.addAll(realm.copyFromRealm(results));
                 list.addAll(realm.copyFromRealm(results1));
@@ -962,15 +981,15 @@ setCategolBack(b2,b3,b1);
             for (int i = 0; i < list.size(); i++) {
                 Log.d("BEOM29", list.get(i).getDate());
             }
-            return list;
+//            return list;
         } else {
             try {
                 realm = Realm.getDefaultInstance();
                 RealmResults<Sales> results = realm
-                        .where(Sales.class).equalTo("pay", R.integer.ACash)
+                        .where(Sales.class).equalTo("pay", 3)
                         .findAll();
                 RealmResults<Sales> results1 = realm
-                        .where(Sales.class).equalTo("pay", R.integer.BCash)
+                        .where(Sales.class).equalTo("pay", 4)
                         .findAll();
                 list.addAll(realm.copyFromRealm(results));
                 list.addAll(realm.copyFromRealm(results1));
@@ -980,8 +999,12 @@ setCategolBack(b2,b3,b1);
                 }
             }
 
-            return list;
+//            return list;
         }
+
+        AscendingObj ascending = new AscendingObj();
+        Collections.sort(list, ascending);
+        return list;
     }
 
 
@@ -1011,12 +1034,12 @@ setCategolBack(b2,b3,b1);
                     realm.close();
                 }
             }
-            return list;
+//            return list;
         } else if (categol == 1) {
             try {
                 realm = Realm.getDefaultInstance();
-                RealmResults<Sales> results = realm.where(Sales.class).contains(table, date).equalTo("pay", R.integer.ACard).distinct(table);
-                RealmResults<Sales> results1 = realm.where(Sales.class).contains(table, date).equalTo("pay", R.integer.BCard).distinct(table);
+                RealmResults<Sales> results = realm.where(Sales.class).contains(table, date).equalTo("pay", 1).distinct(table);
+                RealmResults<Sales> results1 = realm.where(Sales.class).contains(table, date).equalTo("pay", 2).distinct(table);
                 list.addAll(realm.copyFromRealm(results));
                 list.addAll(realm.copyFromRealm(results1));
             } finally {
@@ -1027,13 +1050,13 @@ setCategolBack(b2,b3,b1);
             for (int i = 0; i < list.size(); i++) {
                 Log.d("BEOM29", list.get(i).getDate());
             }
-            return list;
+//            return list;
         } else {
             try {
                 realm = Realm.getDefaultInstance();
 
-                RealmResults<Sales> results = realm.where(Sales.class).contains(table, date).equalTo("pay", R.integer.ACash).distinct(table);
-                RealmResults<Sales> results1 = realm.where(Sales.class).contains(table, date).equalTo("pay", R.integer.BCash).distinct(table);
+                RealmResults<Sales> results = realm.where(Sales.class).contains(table, date).equalTo("pay", 3).distinct(table);
+                RealmResults<Sales> results1 = realm.where(Sales.class).contains(table, date).equalTo("pay", 4).distinct(table);
                 list.addAll(realm.copyFromRealm(results));
                 list.addAll(realm.copyFromRealm(results1));
             } finally {
@@ -1042,8 +1065,12 @@ setCategolBack(b2,b3,b1);
                 }
             }
 
-            return list;
+//            return list;
         }
+
+        AscendingObj ascending = new AscendingObj();
+        Collections.sort(list, ascending);
+        return list;
     }
 
     public Number getCustomSum(String table, String date, int categol) {
@@ -1058,24 +1085,24 @@ setCategolBack(b2,b3,b1);
                     realm.close();
                 }
             }
-            return num;
+//            return num;
         } else if (categol == 1) {
             try {
                 realm = Realm.getDefaultInstance();
-                Number results = realm.where(Sales.class).contains(table, date).equalTo("pay", R.integer.ACard).sum("sum");
-                Number results1 = realm.where(Sales.class).contains(table, date).equalTo("pay", R.integer.BCard).sum("sum");
+                Number results = realm.where(Sales.class).contains(table, date).equalTo("pay",1).sum("sum");
+                Number results1 = realm.where(Sales.class).contains(table, date).equalTo("pay", 2).sum("sum");
                 num = (long) results + (long) results1;
             } finally {
                 if (realm != null) {
                     realm.close();
                 }
             }
-            return num;
+//            return num;
         } else {
             try {
                 realm = Realm.getDefaultInstance();
-                Number results = realm.where(Sales.class).contains(table, date).equalTo("pay", R.integer.ACash).sum("sum");
-                Number results1 = realm.where(Sales.class).contains(table, date).equalTo("pay", R.integer.BCash).sum("sum");
+                Number results = realm.where(Sales.class).contains(table, date).equalTo("pay", 3).sum("sum");
+                Number results1 = realm.where(Sales.class).contains(table, date).equalTo("pay", 4).sum("sum");
                 num = (long) results + (long) results1;
             } finally {
                 if (realm != null) {
@@ -1083,7 +1110,8 @@ setCategolBack(b2,b3,b1);
                 }
             }
 
-            return num;
+//            return num;
         }
+        return num;
     }
 }

@@ -133,6 +133,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
+                <ImageView
+                    android:src="@drawable/search"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"/>
 
                 <Button
                     android:id="@+id/add_custom_btn"
