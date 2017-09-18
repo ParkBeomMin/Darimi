@@ -33,7 +33,7 @@ public class work_itemAdapter extends BaseAdapter {
     Context context;
     Realm realm;
     boolean isAll=false;
-
+ManageActivity m = new ManageActivity();
 
     public work_itemAdapter(ArrayList<Order> list, Context context) {
         this.list = list;
@@ -133,7 +133,8 @@ public class work_itemAdapter extends BaseAdapter {
                     sendSMS(list.get(i).getCall(), msg);//미전송 케이스 처리
                     msgBtn.setBackgroundResource(R.color.list_item_background);
                     darimiDataCon.updateMsgOrder(realm,list.get(i).getDate());
-                    Toast.makeText(context, "문자가 전송되었습니다.", Toast.LENGTH_SHORT).show();
+                    m.setCustomToast(context, "문자가 전송되었습니다.");
+//                    Toast.makeText(context, "문자가 전송되었습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.Image;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -299,12 +300,12 @@ public class SalesActivity extends AppCompatActivity {
         @Override
         public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
             if (i > Integer.parseInt(finish_tv.getText().toString().substring(0, 4)) || i1 + 1 > Integer.parseInt(finish_tv.getText().toString().substring(5, 7))) {
-
-                Toast.makeText(SalesActivity.this, "시작 날짜가 끝나는 날짜보다 클 수는 없습니다", Toast.LENGTH_LONG).show();
+setCustomToast(SalesActivity.this, "시작 날짜가 끝나는 날짜보다 클 수는 없습니다");
+//                Toast.makeText(SalesActivity.this, "시작 날짜가 끝나는 날짜보다 클 수는 없습니다", Toast.LENGTH_LONG).show();
             } else if (i == Integer.parseInt(finish_tv.getText().toString().substring(0, 4)) && i1 + 1 == Integer.parseInt(finish_tv.getText().toString().substring(5, 7))
                     && i2 > Integer.parseInt(finish_tv.getText().toString().substring(8))) {
-
-                Toast.makeText(SalesActivity.this, "시작 날짜가 끝나는 날짜보다 클 수는 없습니다", Toast.LENGTH_LONG).show();
+setCustomToast(SalesActivity.this, "시작 날짜가 끝나는 날짜보다 클 수는 없습니다");
+//                Toast.makeText(SalesActivity.this, "시작 날짜가 끝나는 날짜보다 클 수는 없습니다", Toast.LENGTH_LONG).show();
             } else {
                 if (i1 + 1 < 10 && i2 < 10) {
                     start_tv.setText(i + ".0" + (i1 + 1) + ".0" + i2);
@@ -329,11 +330,12 @@ public class SalesActivity extends AppCompatActivity {
         @Override
         public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
             if ((i < Integer.parseInt(start_tv.getText().toString().substring(0, 4))) || (i1 + 1 < Integer.parseInt(start_tv.getText().toString().substring(5, 7)))) {
-                Toast.makeText(SalesActivity.this, "끝나는 날짜가 시작 날짜보다 작을 수는 없습니다1", Toast.LENGTH_LONG).show();
+                setCustomToast(SalesActivity.this, "끝나는 날짜가 시작 날짜보다 작을 수는 없습니다");
+//                Toast.makeText(SalesActivity.this, "끝나는 날짜가 시작 날짜보다 작을 수는 없습니다1", Toast.LENGTH_LONG).show();
             } else if ((i == Integer.parseInt(start_tv.getText().toString().substring(0, 4))) && (i1 + 1 == Integer.parseInt(start_tv.getText().toString().substring(5, 7)))
                     && (i2 < Integer.parseInt(start_tv.getText().toString().substring(8)))) {
-
-                Toast.makeText(SalesActivity.this, "끝나는 날짜가 시작 날짜보다 작을 수는 없습니다2", Toast.LENGTH_LONG).show();
+setCustomToast(SalesActivity.this, "끝나는 날짜가 시작 날짜보다 작을 수는 없습니다");
+//                Toast.makeText(SalesActivity.this, "끝나는 날짜가 시작 날짜보다 작을 수는 없습니다2", Toast.LENGTH_LONG).show();
             } else {
                 if (i1 + 1 < 10 && i2 < 10) {
                     finish_tv.setText(i + ".0" + (i1 + 1) + ".0" + i2);
@@ -394,7 +396,8 @@ public class SalesActivity extends AppCompatActivity {
                 String start_month_ = start_day_.substring(5, 7);
                 String start_day_of_month_ = start_day_.substring(8);
                 if (start_day_.equals(finish_tv.getText().toString())) {
-                    Toast.makeText(this, "시작 날짜가 끝나는 날짜보다 클 수는 없습니다", Toast.LENGTH_LONG).show();
+                    setCustomToast(SalesActivity.this, "시작 날짜가 끝나는 날짜보다 클 수는 없습니다");
+//                    Toast.makeText(this, "시작 날짜가 끝나는 날짜보다 클 수는 없습니다", Toast.LENGTH_LONG).show();
                 } else {
                     set_calendar_term(start_year_, start_month_, start_day_of_month_, start_tv, 1, 1);
                 }
@@ -406,7 +409,8 @@ public class SalesActivity extends AppCompatActivity {
                 String finish_month = finish_day.substring(5, 7);
                 String finish_day_of_month = finish_day.substring(8);
                 if (finish_day.equals(start_tv.getText().toString())) {
-                    Toast.makeText(this, "끝나는 날짜가 시작 날짜보다 작을 수 없습니다.", Toast.LENGTH_LONG).show();
+                    setCustomToast(SalesActivity.this, "끝나는 날짜가 시작 날짜보다 작을 수 없습니다.");
+//                    Toast.makeText(this, "끝나는 날짜가 시작 날짜보다 작을 수 없습니다.", Toast.LENGTH_LONG).show();
                 } else {
                     set_calendar_term(finish_year, finish_month, finish_day_of_month, finish_tv, 0, 2);
                 }
@@ -1113,5 +1117,23 @@ setCategolBack(b2,b3,b1, t2, t3, t1);
 //            return num;
         }
         return num;
+    }
+
+    public void setCustomToast(Context context, String msg) {
+
+        TextView tvToastMsg = new TextView(context);
+        tvToastMsg.setText(msg);
+//        tvToastMsg.setBackgroundResource(Color.WHITE);
+        tvToastMsg.setTextColor(getResources().getColor(R.color.Key));
+        tvToastMsg.setTextSize(16);
+        final Toast toastMsg = Toast.makeText(context, "", Toast.LENGTH_SHORT);
+        toastMsg.setView(tvToastMsg);
+        toastMsg.show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                toastMsg.cancel();
+            }
+        }, 1000);
     }
 }

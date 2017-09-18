@@ -3,6 +3,7 @@ package com.example.jisung.darimi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -232,10 +233,11 @@ public class ManageActivity extends AppCompatActivity {
                         */
                         if (custom_name.length() != 0 && custom_call.length() != 0) {
                             if (adapter.isInitialSound(custom_name.charAt(0))) {
-                                Toast.makeText(ManageActivity.this, "이름을 제대로 입력해주세요.", Toast.LENGTH_LONG).show();
+                                setCustomToast(ManageActivity.this, "이름을 제대로 입력해주세요.");
+//                                Toast.makeText(ManageActivity.this, "이름을 제대로 입력해주세요.", Toast.LENGTH_LONG).show();
                             } else if (custom_call.length() <= 9) {
-
-                                Toast.makeText(ManageActivity.this, "전화번호를 제대로 입력해주세요.", Toast.LENGTH_LONG).show();
+setCustomToast(ManageActivity.this, "전화번호를 제대로 입력해주세요.");
+//                                Toast.makeText(ManageActivity.this, "전화번호를 제대로 입력해주세요.", Toast.LENGTH_LONG).show();
                             } else {
                                 int flag = Check_call(custom_call);
 
@@ -251,12 +253,14 @@ public class ManageActivity extends AppCompatActivity {
 
                                     dialog.dismiss();
                                 }else {
-                                    Toast.makeText(getApplicationContext(), "이미 존재하는 전화번호 입니다.", Toast.LENGTH_LONG).show();
+                                    setCustomToast(ManageActivity.this, "이미 존재하는 전화번호 입니다.");
+//                                    Toast.makeText(getApplicationContext(), "이미 존재하는 전화번호 입니다.", Toast.LENGTH_LONG).show();
 
                                 }
                             }
                         } else {
-                            Toast.makeText(ManageActivity.this, "모든 항목을 입력해주세요.", Toast.LENGTH_LONG).show();
+                            setCustomToast(ManageActivity.this, "모든 항목을 입력해주세요.");
+//                            Toast.makeText(ManageActivity.this, "모든 항목을 입력해주세요.", Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -445,5 +449,22 @@ public class ManageActivity extends AppCompatActivity {
             }
         }
         return 0;
+    }
+    public void setCustomToast(Context context, String msg) {
+
+        TextView tvToastMsg = new TextView(context);
+        tvToastMsg.setText(msg);
+//        tvToastMsg.setBackgroundResource(Color.WHITE);
+        tvToastMsg.setTextColor(getResources().getColor(R.color.Key));
+        tvToastMsg.setTextSize(16);
+        final Toast toastMsg = Toast.makeText(context, "", Toast.LENGTH_SHORT);
+        toastMsg.setView(tvToastMsg);
+        toastMsg.show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                toastMsg.cancel();
+            }
+        }, 1000);
     }
 }

@@ -94,7 +94,8 @@ public class CustomAdapter extends BaseAdapter {
                 realm.cancelTransaction();
                 CustomAdapter.this.notifyDataSetChanged();
                 filter(charText);
-                Toast.makeText(c, "삭제되었습니다.", Toast.LENGTH_LONG).show();
+                m.setCustomToast(c, "삭제되었습니다.");
+//                Toast.makeText(c, "삭제되었습니다.", Toast.LENGTH_LONG).show();
             }
         });
         custom_list_modify_btn.setOnClickListener(new View.OnClickListener() {
@@ -128,7 +129,8 @@ public class CustomAdapter extends BaseAdapter {
                         ManageActivity m1 = new ManageActivity();
 
                         if (modify_custom_name_edt.length() == 0 && modify_custom_call_edt.length() == 0) {
-                            Toast.makeText(c, "변동사항이 없습니다.", Toast.LENGTH_LONG).show();
+                            m.setCustomToast(c, "변동사항이 없습니다.");
+//                            Toast.makeText(c, "변동사항이 없습니다.", Toast.LENGTH_LONG).show();
                         } else {
                             //searchList.remove(searchList.indexOf(arrayList.get(position)));
                             int num = getCount();//arrayList.size()  1;
@@ -147,7 +149,8 @@ public class CustomAdapter extends BaseAdapter {
                                     filter(charText);
                                     dialog.dismiss();
                                 } else {
-                                    Toast.makeText(c, "전화번호가 이미 존재합니다.", Toast.LENGTH_LONG).show();
+                                    m.setCustomToast(c, "전화번호가 이미 존재합니다.");
+//                                    Toast.makeText(c, "전화번호가 이미 존재합니다.", Toast.LENGTH_LONG).show();
                                 }
                             } else if (modify_custom_call_edt.length() == 0) {
                                 searchList.remove(searchList.indexOf(arrayList.get(position)));
@@ -273,4 +276,6 @@ public class CustomAdapter extends BaseAdapter {
         }
         return false;
     }
+
+
 }
