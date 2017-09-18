@@ -1,70 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:weightSum="14"
-    tools:context="com.example.jisung.darimi.SalesActivity">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="horizontal"
+              android:weightSum="14"
+              tools:context="com.example.jisung.darimi.SalesActivity">
 
     <LinearLayout
-        android:background="@drawable/left_side_bar"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:background="@drawable/left_side_bar"
         android:orientation="vertical"
         android:weightSum="9">
 
 
-    <ImageView
-        android:background="@android:color/transparent"
+        <ImageView
+            android:id="@+id/logo"
 
-        android:id="@+id/logo"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:src="@mipmap/ic_launcher_round" />
-    <TextView
-        android:background="@android:color/transparent"
-        android:id="@+id/orderA"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.2"
-        android:onClick="onClick"
-        android:text="주문" />
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:src="@mipmap/ic_launcher_round"/>
 
-    <TextView
-        android:background="@android:color/transparent"
+        <TextView
+            android:id="@+id/orderA"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:background="@android:color/transparent"
+            android:onClick="onClick"
+            android:text="주문"/>
 
-        android:id="@+id/manageA"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.2"
-        android:onClick="onClick"
-        android:text="고객관리" />
+        <TextView
+            android:id="@+id/manageA"
 
-    <TextView
-        android:background="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:background="@android:color/transparent"
+            android:onClick="onClick"
+            android:text="고객관리"/>
 
-        android:id="@+id/salesA"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.2"
-        android:onClick="onClick"
-        android:text="매출" />
+        <TextView
+            android:id="@+id/salesA"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:background="@color/Key2"
+            android:onClick="onClick"
+            android:text="매출"/>
 
-    <TextView
-        android:background="@android:color/transparent"
+        <TextView
+            android:id="@+id/settingA"
 
-        android:id="@+id/settingA"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.2"
-        android:onClick="onClick"
-        android:text="설정" />
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:background="@android:color/transparent"
+            android:onClick="onClick"
+            android:text="설정"/>
 
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="10dp"
+        android:layout_height="match_parent"
+        android:background="@color/Background"
+        android:orientation="vertical"
+        android:weightSum="9">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/White"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:background="@android:color/transparent"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:background="@android:color/transparent"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:background="@color/Key2"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:background="@android:color/transparent"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -73,6 +116,7 @@
         android:layout_weight="13"
         android:orientation="vertical"
         android:weightSum="9.2">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -86,19 +130,19 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.5"
-                android:text="계산기" />
+                android:text="계산기"/>
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="11.5" />
+                android:layout_weight="11.5"/>
 
             <TextView
                 android:id="@+id/time"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:text="시간" />
+                android:text="시간"/>
         </LinearLayout>
 
         <LinearLayout
@@ -131,7 +175,7 @@
                         android:text="시작"
                         android:textColor="@color/White"
                         android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -139,13 +183,14 @@
                         android:orientation="horizontal">
 
                         <ImageButton
+                            android:id="@+id/sales_start_left_btn"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_gravity="center"
                             android:background="@color/White"
-                            android:id="@+id/sales_start_left_btn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:onClick="onClick"
-                            android:src="@drawable/ic_chevron_left_black_24dp" />
+                            android:scaleType="fitXY"
+                            android:src="@drawable/left_btn"/>
 
                         <TextView
                             android:id="@+id/sales_start_tv"
@@ -153,16 +198,17 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="2017.08.04"
-                            android:textSize="30sp" />
+                            android:textSize="30sp"/>
 
                         <ImageButton
+                            android:id="@+id/sales_start_right_btn"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_gravity="center"
                             android:background="@color/White"
-                            android:id="@+id/sales_start_right_btn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:onClick="onClick"
-                            android:src="@drawable/ic_chevron_right_black_24dp" />
+                            android:scaleType="fitXY"
+                            android:src="@drawable/right_btn"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -182,7 +228,7 @@
                         android:text="끝"
                         android:textColor="@color/White"
                         android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -190,13 +236,14 @@
                         android:orientation="horizontal">
 
                         <ImageButton
+                            android:id="@+id/sales_finish_left_btn"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_gravity="center"
                             android:background="@color/White"
-                            android:id="@+id/sales_finish_left_btn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:onClick="onClick"
-                            android:src="@drawable/ic_chevron_left_black_24dp" />
+                            android:scaleType="fitXY"
+                            android:src="@drawable/left_btn"/>
 
                         <TextView
                             android:id="@+id/sales_finish_tv"
@@ -204,16 +251,17 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="2017.08.04"
-                            android:textSize="30sp" />
+                            android:textSize="30sp"/>
 
                         <ImageButton
+                            android:id="@+id/sales_finish_right_btn"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_gravity="center"
                             android:background="@color/White"
-                            android:id="@+id/sales_finish_right_btn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:onClick="onClick"
-                            android:src="@drawable/ic_chevron_right_black_24dp" />
+                            android:scaleType="fitXY"
+                            android:src="@drawable/right_btn"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -233,7 +281,7 @@
                         android:text="총매출"
                         android:textColor="@color/White"
                         android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/total_sale_tv"
@@ -243,7 +291,7 @@
                         android:text="100,000원"
                         android:textColor="@color/White"
                         android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -283,7 +331,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="left"
-                                android:text="2017" />
+                                android:text="2017"/>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -303,37 +351,37 @@
                                         android:gravity="bottom"
                                         android:text="8"
                                         android:textSize="35sp"
-                                        android:textStyle="bold" />
+                                        android:textStyle="bold"/>
 
                                     <TextView
-                                        android:textColor="@color/DeepGray"
                                         android:id="@+id/sales_month_tv_2"
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
                                         android:gravity="bottom"
-                                        android:text="August" />
+                                        android:text="August"
+                                        android:textColor="@color/DeepGray"/>
 
                                 </LinearLayout>
 
                                 <ImageButton
-                                    android:layout_gravity="bottom"
                                     android:id="@+id/sales_calendar_left_btn"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="bottom"
                                     android:background="@drawable/border"
                                     android:onClick="onClick"
-                                    android:src="@drawable/ic_chevron_left_black_24dp" />
+                                    android:src="@drawable/ic_chevron_left_black_24dp"/>
 
 
                                 <ImageButton
-                                    android:layout_gravity="bottom"
-                                    android:layout_marginRight="30dp"
                                     android:id="@+id/sales_calendar_right_btn"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="bottom"
+                                    android:layout_marginRight="30dp"
                                     android:background="@drawable/border"
                                     android:onClick="onClick"
-                                    android:src="@drawable/ic_chevron_right_black_24dp" />
+                                    android:src="@drawable/ic_chevron_right_black_24dp"/>
                             </LinearLayout>
 
                             <GridView
@@ -365,76 +413,130 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="50dp"
                             android:background="@color/Key"
                             android:orientation="horizontal"
-                            android:padding="5dp">
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="5dp"
+                            >
 
-                            <Button
-                                android:onClick="onClick"
-                                android:id="@+id/sales_all_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
+                            <RelativeLayout
                                 android:layout_weight="1"
-                                android:background="@color/White"
-                                android:text="전체매출"
-                                android:textColor="@color/Key" />
-
-                            <Button
-                                android:onClick="onClick"
-                                android:id="@+id/sales_card_tv"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_weight="1"
-                                android:background="@color/Key"
-                                android:text="카드"
-                                android:textColor="@color/White" />
+                                android:layout_height="wrap_content">
 
-                            <Button
-                                android:onClick="onClick"
-                                android:id="@+id/sales_cash_tv"
+                                <ImageButton
+                                    android:id="@+id/sales_all_tv"
+                                    android:layout_width="150dp"
+                                    android:layout_height="60dp"
+                                    android:background="@color/Key"
+                                    android:onClick="onClick"
+                                    android:scaleType="centerCrop"
+                                    android:scaleY="3"
+                                    android:src="@drawable/sales_categol_btn"
+                                    />
+
+                                <TextView
+                                    android:background="@android:color/transparent"
+                                    android:id="@+id/sales_all_tv2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:text="전체매출"
+                                    android:textColor="@color/Key"/>
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_weight="1"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
+                                android:layout_height="wrap_content">
+
+                                <ImageButton
+                                    android:id="@+id/sales_card_tv"
+                                    android:layout_width="150dp"
+                                    android:layout_height="60dp"
+                                    android:background="@color/Key"
+                                    android:onClick="onClick"
+                                    android:scaleType="centerCrop"
+                                    android:scaleY="3"
+                                    />
+
+                                <TextView
+                                    android:id="@+id/sales_card_tv2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:background="@android:color/transparent"
+                                    android:text="카드"
+                                    android:textColor="@color/White"/>
+                            </RelativeLayout>
+
+                            <RelativeLayout
                                 android:layout_weight="1"
-                                android:background="@color/Key"
-                                android:text="현금"
-                                android:textColor="@color/White" />
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
 
-                            <Button
-                                android:textColor="@color/White"
-                                android:id="@+id/sales_list_day_btn"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_marginRight="5dp"
-                                android:background="@drawable/sale_selec_btn"
-                                android:onClick="sales_list_filter_Click"
-                                android:text="일" />
+                                <ImageButton
+                                    android:id="@+id/sales_cash_tv"
+                                    android:layout_width="150dp"
+                                    android:layout_height="60dp"
+                                    android:background="@color/Key"
+                                    android:onClick="onClick"
+                                    android:scaleType="centerCrop"
+                                    android:scaleY="3"
+                                    />
 
-                            <Button
-                                android:id="@+id/sales_list_month_btn"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_marginRight="5dp"
-                                android:background="@drawable/sale_btn"
-                                android:onClick="sales_list_filter_Click"
-                                android:text="월" />
+                                <TextView
+                                    android:id="@+id/sales_cash_tv2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:background="@android:color/transparent"
+                                    android:text="현금"
+                                    android:textColor="@color/White"/>
+                            </RelativeLayout>
 
-                            <Button
-                                android:id="@+id/sales_list_year_btn"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:background="@drawable/sale_btn"
-                                android:onClick="sales_list_filter_Click"
-                                android:text="년" />
+<LinearLayout
+    android:layout_gravity="center_vertical"
+    android:background="@color/Key"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <Button
+        android:id="@+id/sales_list_day_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/sale_selec_btn"
+        android:onClick="sales_list_filter_Click"
+        android:text="일"
+        android:textColor="@color/White"/>
+
+    <Button
+        android:id="@+id/sales_list_month_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/sale_btn"
+        android:onClick="sales_list_filter_Click"
+        android:text="월"/>
+
+    <Button
+        android:id="@+id/sales_list_year_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/sale_btn"
+        android:onClick="sales_list_filter_Click"
+        android:text="년"/>
+
+</LinearLayout>
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/sales_list"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="459dp"
                             android:background="@drawable/border"
                             android:orientation="vertical">
 
