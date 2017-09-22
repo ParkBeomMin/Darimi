@@ -33,6 +33,7 @@ public class work_itemAdapter extends BaseAdapter {
     Context context;
     Realm realm;
     boolean isAll=false;
+    TextView txt;
 ManageActivity m = new ManageActivity();
 
     public work_itemAdapter(ArrayList<Order> list, Context context) {
@@ -68,7 +69,7 @@ ManageActivity m = new ManageActivity();
         ListView work_list=(ListView)view.findViewById(R.id.work_item_list);
         TextView pay = (TextView)view.findViewById(R.id.pay_state);
         Button state = (Button)view.findViewById(R.id.stateBtn);
-//        Log.d("test111",list.get(i).getPay()+"pau");
+        txt.setText(list.size()+"건");
 
         switch (list.get(i).getPay()){
             case 4:
@@ -89,8 +90,11 @@ ManageActivity m = new ManageActivity();
 
         if(list.get(i).getWork_state()==0)
             state.setText("작업완료");
-        else
+
+        else{
+            msgBtn.setBackgroundResource(R.drawable.msg_2);
             state.setText("지불 & 수령완료");
+        }
 
         state.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +103,7 @@ ManageActivity m = new ManageActivity();
                     darimiDataCon.updateStateOrder(realm,list.get(i).getDate());
                     nextlist.add(list.get(i));
                     list.remove(list.get(i));
+
                 }
                 else{
                     Log.d("test111",list.get(i).getDate()+list.get(i).getName()+list.get(i).getOrderPrice()+list.get(i).getPay());
@@ -107,6 +112,7 @@ ManageActivity m = new ManageActivity();
                     darimiDataCon.removeOrder(realm,list.get(i).getDate());
                     list.remove(i);
                 }
+                txt.setText(list.size()+"건");
                 notifyDataSetChanged();
 
             }
@@ -119,7 +125,7 @@ ManageActivity m = new ManageActivity();
         date.setText(dateSet.b_date(list.get(i).getDate()));
 
         if(list.get(i).isSending())
-            msgBtn.setImageResource(R.color.list_item_background);
+            msgBtn.setImageResource(R.drawable.msg_3);
 
         work_list.setAdapter(adapter);
 
@@ -131,7 +137,7 @@ ManageActivity m = new ManageActivity();
                 if (list.get(i).getWork_state() == 1) {
                     String msg = "세탁이 완료되었습니다. 수령바랍니다.";
                     sendSMS(list.get(i).getCall(), msg);//미전송 케이스 처리
-                    msgBtn.setBackgroundResource(R.color.list_item_background);
+                    msgBtn.setBackgroundResource(R.drawable.msg_3);
                     darimiDataCon.updateMsgOrder(realm,list.get(i).getDate());
                     m.setCustomToast(context, "문자가 전송되었습니다.");
 //                    Toast.makeText(context, "문자가 전송되었습니다.", Toast.LENGTH_SHORT).show();

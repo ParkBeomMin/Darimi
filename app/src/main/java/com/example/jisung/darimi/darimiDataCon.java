@@ -17,15 +17,16 @@ import static com.example.jisung.darimi.R.id.date;
  */
 
 public class darimiDataCon {
-    public static int itemSeqSet(Context context){
+    public static int itemSeqSet(Context context) {
         SharedPreferences pref = context.getSharedPreferences("seq", context.MODE_PRIVATE);
-        int is = pref.getInt("num",0);
+        int is = pref.getInt("num", 0);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putInt("num",++is);
+        editor.putInt("num", ++is);
         editor.commit();
         return is;
     }
-    public static void makeItem(Realm realm, final Context context, final String name, final String price, final int img, final int c_id ){
+
+    public static void makeItem(Realm realm, final Context context, final String name, final String price, final int img, final int c_id) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -40,17 +41,30 @@ public class darimiDataCon {
             }
         });
     }
-    public static void updateItemSeq(Realm realm,final String to, final String from){
+
+    public static void updateItemSeq(Realm realm, final String to, final String from) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                Item item1 =realm.where(Item.class).equalTo("name",to).findFirst();
-                Item item2 =realm.where(Item.class).equalTo("name",from).findFirst();
+                Item item1 = realm.where(Item.class).equalTo("name", to).findFirst();
+                Item item2 = realm.where(Item.class).equalTo("name", from).findFirst();
                 long tmp = item2.getSeq();
                 item2.setSeq(item1.getSeq());
                 item1.setSeq(tmp);
             }
         });
+    }
+
+    public static void changeItemPostion(Realm realm, final ArrayList<Item> datas, final int start, final int end) {
+
+        if (start < end) {
+            for (int i = end; i > start; i--)
+                updateItemSeq(realm, datas.get(i).getName(), datas.get(i - 1).getName());
+        } else {
+            for (int i = start; i > end; i--)
+                updateItemSeq(realm, datas.get(i).getName(), datas.get(i - 1).getName());
+        }
+
     }
 
     public static void makeItems(Realm realm, final Item item, final int i) {
@@ -81,13 +95,13 @@ public class darimiDataCon {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                Log.d("test3","realmBefore");
+                Log.d("test3", "realmBefore");
                 Custom result = realm.where(Custom.class).equalTo("call", call).findFirst();
-                Log.d("test3","realm");
-                if(result==null){
-                    Custom custom = realm.createObject(Custom.class,call);
+                Log.d("test3", "realm");
+                if (result == null) {
+                    Custom custom = realm.createObject(Custom.class, call);
                     custom.setName(name);
-                    Log.d("test3","realmCreate");
+                    Log.d("test3", "realmCreate");
                 }
             }
         });
@@ -106,7 +120,8 @@ public class darimiDataCon {
             }
         });
     }
-    public static void updateStateOrder(Realm realm,final String date) {
+
+    public static void updateStateOrder(Realm realm, final String date) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -116,28 +131,28 @@ public class darimiDataCon {
         });
     }
 
-    public static String findClientName(Realm realm,final String num){
+    public static String findClientName(Realm realm, final String num) {
         final String[] name = new String[1];
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                Custom custom = realm.where(Custom.class).equalTo("call",num).findFirst();
-                if(custom==null)
+                Custom custom = realm.where(Custom.class).equalTo("call", num).findFirst();
+                if (custom == null)
                     name[0] = "";
                 else
-                    name[0] =custom.getName();
+                    name[0] = custom.getName();
             }
         });
         return name[0];
     }
 
-    public static ArrayList<String> findClientCall(Realm realm,final String name){
-        final ArrayList<String> nums =new ArrayList<String>();
+    public static ArrayList<String> findClientCall(Realm realm, final String name) {
+        final ArrayList<String> nums = new ArrayList<String>();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                RealmResults<Custom> customs = realm.where(Custom.class).equalTo("name",name).findAll();
-                for(int i=0;i<customs.size();i++)
+                RealmResults<Custom> customs = realm.where(Custom.class).equalTo("name", name).findAll();
+                for (int i = 0; i < customs.size(); i++)
                     nums.add(customs.get(i).getCall());
             }
         });
@@ -145,7 +160,7 @@ public class darimiDataCon {
     }
 
 
-    public static void updatePayOrder(Realm realm, final String date, final int pay){
+    public static void updatePayOrder(Realm realm, final String date, final int pay) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -155,7 +170,7 @@ public class darimiDataCon {
         });
     }
 
-    public static void updateMsgOrder(Realm realm,final String date){
+    public static void updateMsgOrder(Realm realm, final String date) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -164,7 +179,8 @@ public class darimiDataCon {
             }
         });
     }
-    public static void removeOrder(Realm realm,final String date) {
+
+    public static void removeOrder(Realm realm, final String date) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {

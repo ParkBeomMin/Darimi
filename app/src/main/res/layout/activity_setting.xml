@@ -191,16 +191,66 @@
                     android:orientation="horizontal"
                     android:weightSum="2">
 
-                    <ListView
-                        android:id="@+id/work_list"
-                        android:layout_weight="1"
+                    <LinearLayout
+                        android:padding="10dp"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"></ListView>
-                    <ListView
-                        android:id="@+id/Bwork_list"
                         android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_height="match_parent">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:text="진행"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent" />
+
+                            <TextView
+                                android:layout_marginLeft="20dp"
+                                android:text="0건"
+                                android:id="@+id/p_num"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent" />
+                        </LinearLayout>
+                        <ListView
+                            android:id="@+id/work_list"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"></ListView>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:padding="10dp"
+                        android:orientation="vertical"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"></ListView>
+                        android:layout_weight="1"
+                        android:layout_height="match_parent">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:text="완료"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent" />
+
+                            <TextView
+                                android:layout_marginLeft="20dp"
+                                android:text="0건"
+                                android:id="@+id/c_num"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent" />
+                        </LinearLayout>
+                        <ListView
+                            android:id="@+id/Bwork_list"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"></ListView>
+                    </LinearLayout>
+
                 </LinearLayout>
             </LinearLayout>
 

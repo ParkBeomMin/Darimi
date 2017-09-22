@@ -21,7 +21,7 @@ import io.realm.Realm;
 
 public class SettingActivity extends AppCompatActivity {
     String time;
-    TextView time_N;
+    TextView time_N,c_num,p_num;
     Intent intent;
     Button searchBtn;
     EditText nameE;
@@ -32,6 +32,7 @@ public class SettingActivity extends AppCompatActivity {
     ArrayList<Order> Bworks,Aworks;
     work_itemAdapter work_adapter,Awork_adapter;
     work_nameAdapter nameAdapter;
+
     Realm realm;
 
     @Override
@@ -56,6 +57,9 @@ public class SettingActivity extends AppCompatActivity {
         time = gintent.getStringExtra("time");
         time_N = (TextView) findViewById(R.id.time);
         nameE = (EditText)findViewById(R.id.nameSearch);
+
+        c_num = (TextView)findViewById(R.id.c_num);
+        p_num = (TextView)findViewById(R.id.p_num);
 
         time_N.setText(time);
         searchBtn =(Button)findViewById(R.id.search_btn);
@@ -86,6 +90,8 @@ public class SettingActivity extends AppCompatActivity {
         work_list_view.setAdapter(work_adapter);
         Awork_list_view.setAdapter(Awork_adapter);
 
+        work_adapter.txt = p_num;
+        Awork_adapter.txt = c_num;
 
         nameAdapter = new work_nameAdapter(date_list, this);
         nameAdapter.Bworks = Bworks;
@@ -95,6 +101,7 @@ public class SettingActivity extends AppCompatActivity {
         nameAdapter.Alls =allWork;
         Awork_adapter.noti = nameAdapter;
         work_name_view.setAdapter(nameAdapter);
+
     }
 
     public void workToname() {
