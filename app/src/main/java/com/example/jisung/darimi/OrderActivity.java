@@ -1,11 +1,17 @@
 package com.example.jisung.darimi;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +29,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -31,6 +38,8 @@ import android.widget.Toast;
 
 import com.woxthebox.draglistview.DragListView;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,11 +50,10 @@ import io.realm.Realm;
 import it.sephiroth.android.library.widget.HListView;
 
 
-
 public class OrderActivity extends AppCompatActivity {
     private TextView time_N, total, order_time, item_total_num;
     private EditText client_name, client_num;
-    private Button editActBtn,addBtn;
+    private Button editActBtn, addBtn;
     private String today_date, today_time;
     private Intent intent;
     int total_Price = 0, total_item;
@@ -78,11 +86,13 @@ public class OrderActivity extends AppCompatActivity {
     private Custom custom;
 
     int tmp = 0;
-    int cate=0;
+    int cate = 0;
     int catmp;
 
-
+    final int REQ_CODE_SELECT_IMAGE = 100;
     Realm realm;
+    ImageView img;
+    Bitmap bit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +109,7 @@ public class OrderActivity extends AppCompatActivity {
         item_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
-                if(exitEdit())
+                if (exitEdit())
                     return;
                 nowTime();
                 order_time.setText(today_date);
@@ -142,7 +152,7 @@ public class OrderActivity extends AppCompatActivity {
         orderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(exitEdit())
+                if (exitEdit())
                     return;
 
                 if (client_num.getText().toString().length() < 10 || client_name.getText().toString().length() < 2) {
@@ -154,7 +164,7 @@ public class OrderActivity extends AppCompatActivity {
                     return;
                 }
 
-                 darimiDataCon.makeOrder(realm, itemParser.parserList(selectItems_list), dateKey(), client_num.getText().toString(), client_name.getText().toString(), payState);
+                darimiDataCon.makeOrder(realm, itemParser.parserList(selectItems_list), dateKey(), client_num.getText().toString(), client_name.getText().toString(), payState);
 
                 Intent intent = new Intent(OrderActivity.this, SettingActivity.class);
                 startActivity(intent);
@@ -165,49 +175,66 @@ public class OrderActivity extends AppCompatActivity {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(exitEdit())
+                if (exitEdit())
                     return;
                 View e_view = View.inflate(view.getContext(), R.layout.item_setting, null);   //뷰 가져오기
                 Display display;
+
 
                 display = ((WindowManager) view.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
                 final Dialog dialog = new Dialog(view.getContext()); //대화상자 생성
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(e_view); //대화상자 뷰 설정
                 WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
-                params.width = (int) (display.getWidth() * 0.3);
-                params.height = (int) (display.getHeight() * 0.3);
+                params.width = (int) (display.getWidth() * 0.4);
+                params.height = (int) (display.getHeight() * 0.4);
                 dialog.getWindow().setAttributes(params);//대화상자 크기 설정
                 final EditText eitem_name = (EditText) e_view.findViewById(R.id.edit_name);
                 final EditText eitem_price = (EditText) e_view.findViewById(R.id.edit_price);
-                spinner=(Spinner)e_view.findViewById(R.id.cateSpiner);
+                img = (ImageView) e_view.findViewById(R.id.item_img);
+
+                img.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Intent.ACTION_PICK);
+
+                        intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+
+                        intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                        startActivityForResult(intent, REQ_CODE_SELECT_IMAGE);
+
+                    }
+                });
+
+                spinner = (Spinner) e_view.findViewById(R.id.cateSpiner);
                 Button comple = (Button) e_view.findViewById(R.id.edit_com);
                 //대화상자 초기화
-                catmp=cate;
-                if(cate!=0)
-                    spinner.setSelection(cate-1);
+                catmp = cate;
+                if (cate != 0)
+                    spinner.setSelection(cate - 1);
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        String str = (String)spinner.getSelectedItem();
-                        switch (str){
+                        String str = (String) spinner.getSelectedItem();
+                        switch (str) {
                             case "상의":
-                                catmp =1;
+                                catmp = 1;
                                 break;
                             case "하의":
-                                catmp =2;
+                                catmp = 2;
                                 break;
                             case "겉옷":
-                                catmp=3;
+                                catmp = 3;
                                 break;
                             case "정장":
-                                catmp=4;
+                                catmp = 4;
                                 break;
                             case "신발":
-                                catmp=5;
+                                catmp = 5;
                                 break;
                             case "기타":
-                                catmp=6;
+                                catmp = 6;
                                 break;
                         }
                     }
@@ -220,7 +247,8 @@ public class OrderActivity extends AppCompatActivity {
                 comple.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        darimiDataCon.makeItem(realm,view.getContext(),eitem_name.getText().toString(),eitem_price.getText().toString(),R.drawable.images3,catmp);
+                        darimiDataCon.makeItem(realm, view.getContext(), eitem_name.getText().toString(), eitem_price.getText().toString(),ImgConvert.bitmapToByteArray(bit)
+                                , catmp);
 //                        O.setCustomToast(view.getContext(), "항목이 추가되었습니다.");
 
                         dialog.dismiss();
@@ -245,6 +273,91 @@ public class OrderActivity extends AppCompatActivity {
 
     }
 
+    @Override
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
+        Toast.makeText(getBaseContext(), "resultCode : " + resultCode, Toast.LENGTH_SHORT).show();
+
+
+        if (requestCode == REQ_CODE_SELECT_IMAGE)
+
+        {
+
+            if (resultCode == Activity.RESULT_OK)
+
+            {
+
+                try {
+
+                    //Uri에서 이미지 이름을 얻어온다.
+
+                    //String name_Str = getImageNameToUri(data.getData());
+
+
+                    //이미지 데이터를 비트맵으로 받아온다.
+
+                    Bitmap image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+
+
+                    //배치해놓은 ImageView에 set
+
+                    img.setImageBitmap(image_bitmap);
+                    bit = image_bitmap;
+
+
+                    //Toast.makeText(getBaseContext(), "name_Str : "+name_Str , Toast.LENGTH_SHORT).show();
+
+
+                } catch (FileNotFoundException e) {
+
+                    // TODO Auto-generated catch block
+
+                    e.printStackTrace();
+
+                } catch (IOException e) {
+
+                    // TODO Auto-generated catch block
+
+                    e.printStackTrace();
+
+                } catch (Exception e)
+
+                {
+
+                    e.printStackTrace();
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+    public String getImageNameToUri(Uri data)
+
+    {
+
+        String[] proj = {MediaStore.Images.Media.DATA};
+
+        Cursor cursor = managedQuery(data, proj, null, null, null);
+
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+
+
+        cursor.moveToFirst();
+
+
+        String imgPath = cursor.getString(column_index);
+
+        String imgName = imgPath.substring(imgPath.lastIndexOf("/") + 1);
+
+        return imgName;
+
+    }
 
     public void searchBtn(View v) {
         if (v.getId() == R.id.number_search)
@@ -305,7 +418,7 @@ public class OrderActivity extends AppCompatActivity {
         order_time = (TextView) findViewById(R.id.item_order_time);
         item_total_num = (TextView) findViewById(R.id.item_total_num);
 
-        addBtn = (Button)findViewById(R.id.item_add_btn);
+        addBtn = (Button) findViewById(R.id.item_add_btn);
         item_list = new ArrayList<Item>();
         selectItems_list = new ArrayList<Items>();
         cate_list = new ArrayList<Categol>();
@@ -342,9 +455,9 @@ public class OrderActivity extends AppCompatActivity {
         cate_view.setOnItemClickListener(new it.sephiroth.android.library.widget.AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(it.sephiroth.android.library.widget.AdapterView<?> adapterView, View view, int i, long l) {
-                if(exitEdit())
+                if (exitEdit())
                     return;
-                cate =i;
+                cate = i;
                 TextView t = (TextView) view.findViewById(R.id.cate_name);
                 t.setBackgroundColor(getResources().getColor(R.color.Gray));
                 cate_list.get(tmp).setChoose(false);
@@ -420,7 +533,7 @@ public class OrderActivity extends AppCompatActivity {
 
             @Override
             public void onItemDragEnded(int fromPosition, int toPosition) {
-                darimiDataCon.changeItemPostion(realm,item_list,fromPosition,toPosition);
+                darimiDataCon.changeItemPostion(realm, item_list, fromPosition, toPosition);
                 Collections.sort(item_list, new sortWorks());
                 All_item = new ArrayList<Item>(realm.where(Item.class).findAll().sort("seq"));
                 item_list.clear();
@@ -477,9 +590,13 @@ public class OrderActivity extends AppCompatActivity {
 
     public void EonClick(View v) {
         if (v.getId() == R.id.item_edit_btn || v.getId() == R.id.edit_area) {
-            if(edit_act)
-                if(exitEdit())
+            if (edit_act)
+                if (exitEdit())
                     return;
+            if(tmp==0){
+                Toast.makeText(this, "즐겨찾기 항목에서는 편집모드를 사용할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                return;
+            }
             mDragListView.setVisibility(View.VISIBLE);
             item_view.setVisibility(View.INVISIBLE);
             edit_act = true;
@@ -487,25 +604,25 @@ public class OrderActivity extends AppCompatActivity {
             Toast.makeText(this, "편집모드가 설정되었습니다.", Toast.LENGTH_SHORT).show();
 
         } else {
-            if(exitEdit())
+            if (exitEdit())
                 return;
         }
     }
-    public boolean exitEdit(){
-        if(edit_act) {
+
+    public boolean exitEdit() {
+        if (edit_act) {
             mDragListView.setVisibility(View.INVISIBLE);
             item_view.setVisibility(View.VISIBLE);
             item_adapter.notifyDataSetChanged();
             edit_act = false;
             Toast.makeText(this, "편집모드가 해제되었습니다.", Toast.LENGTH_SHORT).show();
             return true;
-        }
-        else
+        } else
             return false;
     }
 
     public void payClick(final View v) {
-        if(exitEdit())
+        if (exitEdit())
             return;
         View r_view = View.inflate(this, R.layout.paymethod, null);
         final Dialog dialog = new Dialog(this);

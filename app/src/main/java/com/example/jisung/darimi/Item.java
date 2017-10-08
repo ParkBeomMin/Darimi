@@ -12,7 +12,7 @@ public class Item extends RealmObject {
     private String name;
     private String price;
     private long seq;
-    private int img;
+    private byte[] img;
     private boolean mark;
     private int c_id;
 
@@ -36,7 +36,7 @@ public class Item extends RealmObject {
     }
 
 
-    public Item(String name, String price, long seq, int img, boolean mark) {
+    public Item(String name, String price, long seq, byte[] img, boolean mark) {
         this.name = name;
         this.price = price;
         this.seq = seq;
@@ -44,7 +44,7 @@ public class Item extends RealmObject {
         this.mark = mark;
     }
 
-    public Item(String name, String price, long seq, int img, boolean mark, int c_id) {
+    public Item(String name, String price, long seq, byte[] img, boolean mark, int c_id) {
         this.name = name;
         this.price = price;
         this.seq = seq;
@@ -69,11 +69,11 @@ public class Item extends RealmObject {
         this.price = price;
     }
 
-    public int getImg() {
+    public byte[] getImg() {
         return img;
     }
 
-    public void setImg(int img) {
+    public void setImg(byte[] img) {
         this.img = img;
     }
 

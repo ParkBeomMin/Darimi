@@ -62,7 +62,7 @@ public class ItemBaseAdapter extends BaseAdapter {
 
         name.setText(list.get(i).getName());
         price.setText(list.get(i).getPrice());
-        img.setImageResource(list.get(i).getImg());
+        img.setImageBitmap(ImgConvert.byteArrayToBitmap(list.get(i).getImg()));
         mark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

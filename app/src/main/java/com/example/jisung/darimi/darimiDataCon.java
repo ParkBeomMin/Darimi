@@ -26,7 +26,7 @@ public class darimiDataCon {
         return is;
     }
 
-    public static void makeItem(Realm realm, final Context context, final String name, final String price, final int img, final int c_id) {
+    public static void makeItem(Realm realm, final Context context, final String name, final String price, final byte[] img, final int c_id) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {

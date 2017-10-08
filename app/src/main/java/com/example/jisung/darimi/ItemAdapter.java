@@ -59,7 +59,7 @@ public class ItemAdapter extends DragItemAdapter<Item, ItemAdapter.ViewHolder> {
         String text = mItemList.get(position).getName();
         holder.name.setText(text);
         holder.price.setText(mItemList.get(position).getPrice());
-        holder.img.setImageResource(mItemList.get(position).getImg());
+        holder.img.setImageBitmap(ImgConvert.byteArrayToBitmap(mItemList.get(position).getImg()));
         holder.itemView.setTag(mItemList.get(position));
         if(mItemList.get(position).isMark())
             holder.mark.setImageResource(R.drawable.item_marked);
