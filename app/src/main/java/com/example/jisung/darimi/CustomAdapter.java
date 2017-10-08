@@ -65,8 +65,10 @@ public class CustomAdapter extends BaseAdapter {
         TextView num = (TextView) view.findViewById(R.id.custom_list_num_tv);
         TextView name = (TextView) view.findViewById(R.id.custom_list_name_tv);
         TextView call = (TextView) view.findViewById(R.id.custom_list_call_tv);
-        Button custom_list_modify_btn = (Button) view.findViewById(R.id.custom_list_modify_btn);
-        Button custom_list_delete_btn = (Button) view.findViewById(R.id.custom_list_delete_btn);
+//        Button custom_list_modify_btn = (Button) view.findViewById(R.id.custom_list_modify_btn);
+//        Button custom_list_delete_btn = (Button) view.findViewById(R.id.custom_list_delete_btn);
+        TextView custom_list_modify_btn = (TextView) view.findViewById(R.id.custom_list_modify_btn);
+        TextView custom_list_delete_btn = (TextView) view.findViewById(R.id.custom_list_delete_btn);
 
         final Custom one;
         one = arrayList.get(i);

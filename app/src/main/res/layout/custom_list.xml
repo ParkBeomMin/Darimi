@@ -5,15 +5,18 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:paddingBottom="10dp"
-    android:paddingTop="10dp">
+    android:paddingTop="10dp"
+    >
 
     <TextView
         android:id="@+id/custom_list_num_tv"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:gravity="center"
-        android:text="1"/>
+        android:text="1"
+        android:textColor="#636870"
+
+        android:layout_weight="0.25"/>
 
     <View
 
@@ -22,11 +25,13 @@
         android:background="@color/Gray"/>
 
     <TextView
+        android:paddingLeft="25dp"
+        android:layout_weight="0.2"
+        android:textColor="#636870"
         android:id="@+id/custom_list_name_tv"
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.85"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:text="홍길동"/>
 
     <View
@@ -35,38 +40,43 @@
         android:background="@color/Gray"/>
 
     <TextView
+        android:paddingLeft="25dp"
+        android:layout_weight="1"
+        android:textColor="#636870"
         android:id="@+id/custom_list_call_tv"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="0.4"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:text="010-2434-7280"/>
 
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/modify"/>
 
-    <Button
-        android:id="@+id/custom_list_modify_btn"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginRight="2dp"
-        android:layout_weight="1"
-        android:background="@color/White"
-        android:text="수정"
-        android:textColor="@color/DeepGray"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/modify"/>
+
+        <TextView
+            android:gravity="center"
+            android:id="@+id/custom_list_modify_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:background="@color/White"
+            android:text="수정"
+            android:textColor="@color/DeepGray"/>
+
 
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:src="@drawable/delete"/>
 
-    <Button
+    <TextView
+        android:gravity="center"
+        android:layout_marginRight="25dp"
         android:id="@+id/custom_list_delete_btn"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:background="@color/White"
         android:text="삭제"
         android:textColor="@color/Red"/>
