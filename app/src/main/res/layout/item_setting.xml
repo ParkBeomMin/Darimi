@@ -3,60 +3,93 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:weightSum="10"
+    android:paddingTop="20dp"
+    android:layout_gravity="center"
+    android:background="@color/darkBack"
     android:layout_height="match_parent">
 
+    <TextView
+android:layout_gravity="center"
+        android:textSize="30dp"
+        android:gravity="bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="메뉴추가"
+        android:textColor="@color/White"
+        android:background="@color/darkBack"/>
     <LinearLayout
-        android:layout_margin="15dp"
+        android:background="@color/darkBack"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal"
-        android:weightSum="2"
+        android:weightSum="3"
+        android:layout_marginRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="7">
+
         <ImageView
             android:id="@+id/item_img"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
-            />
+            android:layout_margin="20dp"
+            android:layout_weight="1" />
+
         <LinearLayout
+            android:paddingRight="20dp"
+            android:background="@color/darkBack"
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:orientation="vertical"
             android:layout_height="match_parent"
             android:weightSum="7">
+
             <View
+                 android:background="@color/darkBack"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="0.5"/>
             <LinearLayout
+                android:background="@color/darkBack"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
                 android:weightSum="4"
                 android:orientation="horizontal">
                 <TextView
+                    android:textColor="#c4c4c4"
+                    android:background="@color/darkBack"
                     android:text="이름"
+                    android:gravity="center"
+
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent" />
                 <EditText
+                    android:textColor="@color/White"
                     android:id="@+id/edit_name"
                     android:layout_width="0dp"
                     android:layout_weight="3"
                     android:layout_height="match_parent" />
             </LinearLayout>
             <LinearLayout
+                android:background="@color/darkBack"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
                 android:weightSum="4"
                 android:orientation="horizontal">
                 <TextView
+                    android:textColor="#c4c4c4"
+                    android:gravity="center"
+                    android:background="@color/darkBack"
                     android:text="가격"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent" />
                 <EditText
+                    android:textColor="@color/White"
+                    android:background="@color/darkBack"
                     android:inputType="number"
                     android:id="@+id/edit_price"
                     android:layout_width="0dp"
@@ -64,17 +97,24 @@
                     android:layout_height="match_parent" />
             </LinearLayout>
             <LinearLayout
+                android:background="@color/darkBack"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
                 android:weightSum="4"
                 android:orientation="horizontal">
                 <TextView
+                    android:gravity="center"
+
+                    android:background="@color/darkBack"
                     android:text="분류"
+                    android:textColor="#c4c4c4"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent" />
                 <Spinner
+                    android:textColor="@color/White"
+                    android:background="@color/darkBack"
                     style="@style/Base.Widget.AppCompat.DropDownItem.Spinner"
                     android:entries="@array/categoly"
                     android:id="@+id/cateSpiner"
@@ -89,6 +129,8 @@
     <Button
         android:background="@color/app_color"
         android:text="완료"
+        android:textSize="20dp"
+        android:textColor="@color/White"
         android:id="@+id/edit_com"
         android:layout_width="match_parent"
         android:layout_height="0dp"

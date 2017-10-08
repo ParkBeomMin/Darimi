@@ -41,6 +41,15 @@ public class darimiDataCon {
             }
         });
     }
+    public static void deleteItem(Realm realm,final  String name){
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Item item = realm.where(Item.class).equalTo("name",name).findFirst();
+                item.deleteFromRealm();
+            }
+        });
+    }
 
     public static void updateItemSeq(Realm realm, final String to, final String from) {
         realm.executeTransaction(new Realm.Transaction() {

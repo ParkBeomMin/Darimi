@@ -79,6 +79,7 @@ public class OrderActivity extends AppCompatActivity {
     private DragListView mDragListView;
     private Button orderBtn;
 
+
     private Spinner spinner;
 
     private int payState = 0;
@@ -88,6 +89,7 @@ public class OrderActivity extends AppCompatActivity {
     int tmp = 0;
     int cate = 0;
     int catmp;
+    Boolean deleteMode =false;
 
     final int REQ_CODE_SELECT_IMAGE = 100;
     Realm realm;
@@ -609,6 +611,38 @@ public class OrderActivity extends AppCompatActivity {
         }
     }
 
+    public void DonClick(View v){
+
+
+    }
+    public boolean exitDeleteMode(){
+        if(!deleteMode) {
+            deleteMode = true;
+            Toast.makeText(this, "삭제 모드가 설정되었습니다.", Toast.LENGTH_SHORT).show();
+            item_view.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    darimiDataCon.deleteItem(realm,item_list.get(position).getName());
+                    item_list.remove(position);
+
+                    return false;
+                }
+            });
+            return false;
+        }
+        else{
+            Toast.makeText(this, "삭제 모드가 해제되었습니다.", Toast.LENGTH_SHORT).show();
+            item_view.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    return false;
+                }
+            });
+            deleteMode = false;
+            return true;
+        }
+
+    }
     public boolean exitEdit() {
         if (edit_act) {
             mDragListView.setVisibility(View.INVISIBLE);
@@ -626,6 +660,21 @@ public class OrderActivity extends AppCompatActivity {
             return;
         View r_view = View.inflate(this, R.layout.paymethod, null);
         final Dialog dialog = new Dialog(this);
+        Display display;
+        display = ((WindowManager) this.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+
+
+
+
+
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(r_view); //대화상자 뷰 설정
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = (int) (display.getWidth() * 0.43);
+        params.height = (int) (display.getHeight() * 0.3);
+        dialog.getWindow().setAttributes(params);//대화상자 크기 설정
+
+
         dialog.setContentView(r_view);
         Button card = (Button) r_view.findViewById(R.id.card);
         Button cash = (Button) r_view.findViewById(R.id.cash);

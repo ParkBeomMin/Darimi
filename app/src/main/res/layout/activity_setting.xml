@@ -169,7 +169,7 @@
                 android:weightSum="10">
                 <TextView
                     android:paddingLeft="20dp"
-                    android:textSize="20dp"
+                    android:textSize="25dp"
                     android:gravity="center_vertical"
                     android:textColor="@color/Key"
                     android:layout_width="match_parent"
@@ -227,6 +227,9 @@
                         android:paddingLeft="20dp"
                         android:hint="이름검색"/>
                     <Button
+                        android:layout_marginRight="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_margin="10dp"
                         android:id="@+id/search_btn"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -240,29 +243,42 @@
                     android:layout_height="0.1dp"
                     android:background="@color/Background"/>
                 <LinearLayout
+                    android:background="@color/Background"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="8.3"
                     android:orientation="horizontal"
                     android:weightSum="2">
 
+                    <!--<View-->
+                        <!--android:layout_width="0.5dp"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:background="@color/workfont1"/>-->
                     <LinearLayout
-                        android:padding="10dp"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:orientation="vertical"
+                        android:background="@color/Background"
                         android:layout_height="match_parent">
                         <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:paddingLeft="10dp"
+                            android:background="@color/Background"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
                             android:orientation="horizontal">
 
                             <TextView
+                                android:textColor="@color/workfont1"
+                                android:background="@color/Background"
                                 android:text="진행"
+                                android:textStyle="bold"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent" />
 
                             <TextView
+                                android:textColor="@color/workfont1"
+                                android:background="@color/Background"
                                 android:layout_marginLeft="20dp"
                                 android:text="0건"
                                 android:id="@+id/p_num"
@@ -270,29 +286,42 @@
                                 android:layout_height="match_parent" />
                         </LinearLayout>
                         <ListView
+                            android:background="@color/Background"
                             android:id="@+id/work_list"
                             android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"></ListView>
 
                     </LinearLayout>
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/workfont1"/>
                     <LinearLayout
-                        android:padding="10dp"
+                        android:background="@color/Background"
                         android:orientation="vertical"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="match_parent">
                         <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:paddingLeft="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
+                            android:background="@color/Background"
                             android:orientation="horizontal">
 
                             <TextView
+                                android:textStyle="bold"
+                                android:textColor="@color/workfont1"
                                 android:text="완료"
+                                android:background="@color/Background"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent" />
 
                             <TextView
+                                android:textColor="@color/workfont1"
+                                android:background="@color/Background"
                                 android:layout_marginLeft="20dp"
                                 android:text="0건"
                                 android:id="@+id/c_num"
@@ -300,13 +329,18 @@
                                 android:layout_height="match_parent" />
                         </LinearLayout>
                         <ListView
+                            android:background="@color/Background"
                             android:id="@+id/Bwork_list"
                             android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"></ListView>
                     </LinearLayout>
-
+                    <!--<View-->
+                        <!--android:layout_width="0.5dp"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:background="@color/workfont1"/>-->
                 </LinearLayout>
+
             </LinearLayout>
 
 

@@ -102,6 +102,7 @@ public class SettingActivity extends AppCompatActivity {
         Awork_adapter.noti = nameAdapter;
         work_name_view.setAdapter(nameAdapter);
 
+
     }
 
     public void workToname() {

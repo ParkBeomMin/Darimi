@@ -19,6 +19,12 @@
     <color name="basic_gray">#EAEAEA</color>
     <color name="key3">#303F9F</color>
     <color name="key4">#1f2550</color>
+    <color name="itemBack">#f9f9f9</color>
+    <color name="darkBack">#555b66</color>
+    <color name="workfont1">#a6a6a6</color>
+    <color name="workfont2">#c4c4c4</color>
+    <color name="workfont3">#606060 </color>
+    <color name="datetodo">#e5e5e5</color>
 
     <color name="Gray">#EAEAEA</color>
     <color name="Sales_list_root">#dfdfdf</color>

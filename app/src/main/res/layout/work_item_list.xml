@@ -4,80 +4,84 @@
     android:layout_height="match_parent"
     android:background="@color/Background"
     android:padding="1dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:orientation="vertical"
-        android:weightSum="10">
-    <LinearLayout
-        android:paddingLeft="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.5"
-        android:orientation="horizontal"
-        android:weightSum="10">
-        <ImageView
-            android:src="@drawable/msg_1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        <TextView
-            android:id="@+id/work_date"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="5"/>
-        <ImageButton
-            android:scaleType="fitCenter"
-            android:src="@drawable/msg_1"
-            android:id="@+id/send_msg"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-    </LinearLayout>
-    <TextView
-        android:paddingLeft="20dp"
-        android:id="@+id/client_name"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2.5"/>
+        android:weightSum="10.5">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
-        android:orientation="horizontal"
-        android:weightSum="4">
-
-        <ListView
-            android:paddingLeft="20dp"
-            android:id="@+id/work_item_list"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"></ListView>
-
-        <TextView
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
             android:gravity="center"
-            android:id="@+id/pay_state"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center|bottom"
-            android:layout_weight="1" />
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="20dp">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/Background"/>
+            <TextView
+                android:textColor="@color/workfont2"
+                android:id="@+id/work_date"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/send_msg"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/msg_1" />
+        </LinearLayout>
+
+        <TextView
+            android:textColor="@color/workfont3"
+            android:id="@+id/client_name"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2.5"
+            android:paddingLeft="15dp"
+            android:textSize="35dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <ListView
+                android:id="@+id/work_item_list"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:paddingLeft="15dp"></ListView>
+
+            <TextView
+                android:background="@drawable/pay_back"
+                android:id="@+id/pay_state"
+                android:layout_width="0dp"
+                android:textColor="@color/workfont3"
+                android:layout_height="40dp"
+                android:layout_gravity="center|bottom"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="20dp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/Background" />
 
         <Button
-            android:background="@color/Key2"
+            android:textColor="@color/White"
             android:id="@+id/stateBtn"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"/>
+            android:layout_weight="2"
+            android:background="@color/Key2" />
     </LinearLayout>
 </LinearLayout>

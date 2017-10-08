@@ -6,30 +6,33 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:weightSum="10">
+    android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5"
+        android:layout_height="60dp"
         android:orientation="horizontal"
         android:weightSum="10">
 
         <LinearLayout
             android:layout_marginLeft="20dp"
             android:layout_width="0dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:orientation="vertical"
             android:weightSum="2">
 
             <TextView
+                android:textSize="15dp"
+                android:textColor="#636870"
                 android:id="@+id/item_name"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
             <TextView
+                android:textColor="#bfbfbf"
                 android:id="@+id/item_price"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -39,26 +42,31 @@
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.5" />
-
-        <TextView
-            android:background="@drawable/round_back"
-            android:id="@+id/item_num"
-            android:gravity="center"
-            android:layout_margin="15dp"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="2" />
 
         <TextView
-            android:layout_gravity="center_vertical"
-            android:gravity="right"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/round_back"
+            android:id="@+id/item_num"
+            android:gravity="center"
+            android:layout_width="35dp"
+            android:layout_height="35dp" />
+
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="right"
+            android:gravity="center_vertical"
             android:id="@+id/item_total_price"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2" />
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
         <Button
+            android:layout_gravity="right"
             android:background="@drawable/exit_btn"
             android:id="@+id/item_cancel"
             android:layout_width="0dp"
@@ -71,44 +79,46 @@
         android:visibility="gone"
         android:id="@+id/num_setting_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5"
-        android:background="@color/Background"
+        android:layout_height="60dp"
+        android:background="#e5e5e5"
         android:orientation="horizontal"
+
         android:weightSum="10">
 
 
         <TextView
-            android:background="@color/Background"
+            android:background="#e5e5e5"
             android:layout_marginLeft="20dp"
             android:layout_width="0dp"
             android:gravity="center_vertical"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="2.5"
+            android:textSize="15dp"
+            android:textColor="#636870"
             android:text="수량변경" />
 
 
         <TextView
-            android:layout_margin="10dp"
+            android:layout_marginLeft="10dp"
             android:gravity="center"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:background="@drawable/round_write"
             android:id="@+id/item_num_set"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+ />
 
         <View
-            android:background="@color/Background"
+            android:background="#e5e5e5"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.5"/>
         <Button
-            android:background="@drawable/round_btn_key4"
+            android:background="#555b66"
             android:textColor="@color/White"
-            android:text="수량 더하기"
+            android:text="더하기"
             android:id="@+id/item_add_btn"
             android:layout_width="0dp"
-            android:textSize="7dp"
+            android:textSize="10dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:layout_marginBottom="15dp"
@@ -118,10 +128,10 @@
             android:onClick="onClick" />
 
         <Button
-            android:textSize="7dp"
-            android:background="@drawable/round_btn_key4"
             android:textColor="@color/White"
-            android:text="수량 빼기"
+            android:textSize="10dp"
+            android:background="#555b66"
+            android:text="빼기"
             android:id="@+id/item_sub_btn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -133,12 +143,13 @@
             android:onClick="onClick" />
 
         <Button
-            android:background="@color/Key2"
+            android:background="@drawable/upper"
             android:id="@+id/set_exit_btn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.5"
-            android:onClick="onClick" />
+            android:onClick="onClick"
+            style="?android:attr/borderlessButtonStyle"/>
     </LinearLayout>
 </LinearLayout>
 

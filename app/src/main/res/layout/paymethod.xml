@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-
+    android:padding="15dp"
+    android:background="@color/darkBack"
     android:weightSum="5"
     android:orientation="vertical"
     android:layout_height="match_parent">
@@ -10,7 +11,8 @@
         android:textColor="@color/White"
         android:gravity="center"
         android:text="지불방법"
-        android:background="#444"
+        android:textSize="20dp"
+        android:background="@color/darkBack"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
@@ -21,27 +23,29 @@
         android:layout_weight="4"
         android:orientation="horizontal"
         android:weightSum="2"
+        android:background="@color/darkBack"
         >
         <Button
             android:textColor="@color/White"
-            android:background="#444"
-            android:text="카드"
+            android:background="@drawable/cardimg"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+
             android:id="@+id/card"/>
         <View
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@color/White"
             android:layout_width="0.5dp"
             android:layout_height="match_parent"/>
         <Button
             android:textColor="@color/White"
-            android:background="#444"
+            android:background="@drawable/cashimg"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/cash"
-            android:text="현금"/>
+            android:id="@+id/cash"/>
 
     </LinearLayout>
 

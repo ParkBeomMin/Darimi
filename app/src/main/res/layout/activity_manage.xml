@@ -184,6 +184,7 @@
                     android:textColor="@color/White" />
 
                 <EditText
+                    android:paddingLeft="20dp"
                     android:textColor="#636870"
                     android:textColorHint="@color/Background"
                     android:hint="이름검색"
