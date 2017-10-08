@@ -11,7 +11,7 @@
     <color name="app_color">#8EAE3C</color>
 
     <color name="Background">#ececec</color>
-    <color name="Key">#6791c8</color>
+    <color name="Key">#4d92cb</color>
     <color name="Key2">#8ebd48</color>
     <color name="Red">#ff0000</color>
     <color name="DeepGray">#65686f</color>
@@ -22,6 +22,9 @@
 
     <color name="Gray">#EAEAEA</color>
     <color name="Sales_list_root">#dfdfdf</color>
+    <color name="sales_text_color">#eaeaea</color>
+    <color name="sales_text_color2">#636870</color>
+    <color name="sales_text_color3">#8e8e8e</color>
 
 
 </resources>

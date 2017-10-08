@@ -56,10 +56,19 @@ public class CalendarAdapter extends BaseAdapter {
         TextView calendar_day = (TextView) view.findViewById(R.id.calendar_day_tv);
         String day = arrayList.get(i);
         calendar_day.setText(day);
-        calendar_day.setTextColor(Color.BLACK);
+//        calendar_day.setTextColor( R.color.sales_text_color2);
+//        b2.setTextColor(getResources().getColor(R.color.sales_text_color2));
+
         if(i==0 || i==7 || i==14 || i==21 || i==28 || i==35 || i==42){
-            calendar_day.setTextColor(Color.RED);
+//            calendar_day.setTextColor(Color.RED);            calendar_day.setTextColor(Color.RED);
+            calendar_day.setTextColor(Color.parseColor("#ba4a4a"));
+
         }
+
+        if(i==1 || i==2 || i==3 || i==4 || i==5 || i==6) {
+            calendar_day.setTextColor(Color.parseColor("#636870"));
+        }
+
         Integer today = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
         String todays = String.valueOf(today);
         if (todays.equals(getItem(i)) && get_Title_Year.equals(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)))
