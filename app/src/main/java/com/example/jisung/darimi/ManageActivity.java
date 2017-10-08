@@ -125,6 +125,7 @@ public class ManageActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
+
             @Override
             public void afterTextChanged(Editable editable) {
                 String text = custom_search_edt.getText().toString()
@@ -204,17 +205,17 @@ public class ManageActivity extends AppCompatActivity {
                 final View add_custom = inflater.inflate(R.layout.add_custom, null);
                 final EditText add_custom_name_edt = (EditText) add_custom.findViewById(R.id.add_custom_name_edt);
                 final EditText add_custom_call_edt = (EditText) add_custom.findViewById(R.id.add_custom_call_edt);
-                final ImageButton add_custom_cancel_btn = (ImageButton) add_custom.findViewById(R.id.add_custom_close_btn);
+//                final ImageButton add_custom_cancel_btn = (ImageButton) add_custom.findViewById(R.id.add_custom_close_btn);
                 final Button add_custom_confirm_btn = (Button) add_custom.findViewById(R.id.add_custom_confirm_btn);
                 final AlertDialog dialog = new AlertDialog.Builder(ManageActivity.this).create();
                 dialog.setView(add_custom);
                 dialog.show();
-                add_custom_cancel_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
+//                add_custom_cancel_btn.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        dialog.dismiss();
+//                    }
+//                });
                 add_custom_confirm_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -236,12 +237,12 @@ public class ManageActivity extends AppCompatActivity {
                                 setCustomToast(ManageActivity.this, "이름을 제대로 입력해주세요.");
 //                                Toast.makeText(ManageActivity.this, "이름을 제대로 입력해주세요.", Toast.LENGTH_LONG).show();
                             } else if (custom_call.length() <= 9) {
-setCustomToast(ManageActivity.this, "전화번호를 제대로 입력해주세요.");
+                                setCustomToast(ManageActivity.this, "전화번호를 제대로 입력해주세요.");
 //                                Toast.makeText(ManageActivity.this, "전화번호를 제대로 입력해주세요.", Toast.LENGTH_LONG).show();
                             } else {
                                 int flag = Check_call(custom_call);
 
-                                if(flag==0) {
+                                if (flag == 0) {
                                     Custom new_Custom = new Custom(custom_name, custom_call);
                                     insertuserData(custom_name, custom_call);
                                     adapter.searchList.add(new_Custom);
@@ -252,7 +253,7 @@ setCustomToast(ManageActivity.this, "전화번호를 제대로 입력해주세�
                                     custom_search_edt.setText(custom_name);
 
                                     dialog.dismiss();
-                                }else {
+                                } else {
                                     setCustomToast(ManageActivity.this, "이미 존재하는 전화번호 입니다.");
 //                                    Toast.makeText(getApplicationContext(), "이미 존재하는 전화번호 입니다.", Toast.LENGTH_LONG).show();
 
@@ -439,17 +440,18 @@ setCustomToast(ManageActivity.this, "전화번호를 제대로 입력해주세�
         });
     }
 
-    public int Check_call(String call){
+    public int Check_call(String call) {
         ArrayList<Custom> arrayList = (ArrayList<Custom>) getCustomList();
-        for(int i = 0; i < arrayList.size(); i++) {
-            if(arrayList.get(i).getCall().equals(call)){
+        for (int i = 0; i < arrayList.size(); i++) {
+            if (arrayList.get(i).getCall().equals(call)) {
                 Log.d("BEOM22", "arrayList.get(i).getCall() : " + arrayList.get(i).getCall());
-                Log.d("BEOM22","custom_call : " + call);
+                Log.d("BEOM22", "custom_call : " + call);
                 return 1;
             }
         }
         return 0;
     }
+
     public void setCustomToast(Context context, String msg) {
 
         TextView tvToastMsg = new TextView(context);

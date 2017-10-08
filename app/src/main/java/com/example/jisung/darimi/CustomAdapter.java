@@ -106,18 +106,18 @@ public class CustomAdapter extends BaseAdapter {
                 final TextView modify_custom_title = (TextView) modify_custom.findViewById(R.id.add_custom_title_tv);
                 final EditText modify_custom_name_edt = (EditText) modify_custom.findViewById(R.id.add_custom_name_edt);
                 final EditText modify_custom_call_edt = (EditText) modify_custom.findViewById(R.id.add_custom_call_edt);
-                final ImageButton modify_custom_cancel_btn = (ImageButton) modify_custom.findViewById(R.id.add_custom_close_btn);
+//                final ImageButton modify_custom_cancel_btn = (ImageButton) modify_custom.findViewById(R.id.add_custom_close_btn);
                 final Button modify_custom_confirm_btn = (Button) modify_custom.findViewById(R.id.add_custom_confirm_btn);
                 modify_custom_title.setText("고객정보수정");
                 final AlertDialog dialog = new AlertDialog.Builder(c).create();
                 dialog.setView(modify_custom);
                 dialog.show();
-                modify_custom_cancel_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
+//                modify_custom_cancel_btn.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        dialog.dismiss();
+//                    }
+//                });
                 modify_custom_confirm_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

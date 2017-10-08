@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Darimi</string>
+    <string name="edittext_hint"><font size="15">"'-'를 생략해서 기재"</font></string>
 </resources>
