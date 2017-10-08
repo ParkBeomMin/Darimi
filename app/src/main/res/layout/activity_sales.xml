@@ -27,55 +27,55 @@
             android:src="@mipmap/ic_launcher_round"/>
 
         <TextView
-            android:textColor="@color/White"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
             android:id="@+id/orderA"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.2"
             android:background="@android:color/transparent"
+            android:gravity="center_vertical"
             android:onClick="onClick"
-            android:text="주문"/>
+            android:paddingLeft="10dp"
+            android:text="주문"
+            android:textColor="@color/White"/>
 
         <TextView
-            android:textColor="@color/White"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
             android:id="@+id/manageA"
-
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.2"
+
             android:background="@android:color/transparent"
+            android:gravity="center_vertical"
             android:onClick="onClick"
+            android:paddingLeft="10dp"
             android:text="고객관리/등록"
+            android:textColor="@color/White"
             />
 
         <TextView
-            android:textColor="@color/White"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
             android:id="@+id/settingA"
-
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.2"
+
             android:background="@android:color/transparent"
-            android:onClick="onClick"
-            android:text="작업"/>
-        <TextView
-            android:textColor="@color/White"
             android:gravity="center_vertical"
+            android:onClick="onClick"
             android:paddingLeft="10dp"
+            android:text="작업"
+            android:textColor="@color/White"/>
+
+        <TextView
             android:id="@+id/salesA"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.2"
             android:background="@color/Key2"
+            android:gravity="center_vertical"
             android:onClick="onClick"
-            android:text="매출"/>
-
+            android:paddingLeft="10dp"
+            android:text="매출"
+            android:textColor="@color/White"/>
 
 
     </LinearLayout>
@@ -188,8 +188,8 @@
                         android:background="@drawable/sale_start_border"
                         android:text="시작"
                         android:textColor="@color/White"
-                        android:textSize="20sp"
-                        android:textStyle="bold"/>
+                        android:textSize="17sp"
+                        />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -198,8 +198,8 @@
 
                         <ImageButton
                             android:id="@+id/sales_start_left_btn"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:background="@color/White"
                             android:onClick="onClick"
@@ -207,17 +207,20 @@
                             android:src="@drawable/left_btn"/>
 
                         <TextView
+                            android:textColor="@color/sales_text_color2"
                             android:id="@+id/sales_start_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
                             android:text="2017.08.04"
-                            android:textSize="30sp"/>
+                            android:textSize="20sp"/>
 
                         <ImageButton
                             android:id="@+id/sales_start_right_btn"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:background="@color/White"
                             android:onClick="onClick"
@@ -241,8 +244,7 @@
                         android:background="@drawable/sale_start_border"
                         android:text="끝"
                         android:textColor="@color/White"
-                        android:textSize="20sp"
-                        android:textStyle="bold"/>
+                        android:textSize="17sp"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -251,8 +253,8 @@
 
                         <ImageButton
                             android:id="@+id/sales_finish_left_btn"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:background="@color/White"
                             android:onClick="onClick"
@@ -260,17 +262,20 @@
                             android:src="@drawable/left_btn"/>
 
                         <TextView
+                            android:textColor="@color/sales_text_color2"
                             android:id="@+id/sales_finish_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
                             android:text="2017.08.04"
-                            android:textSize="30sp"/>
+                            android:textSize="20sp"/>
 
                         <ImageButton
                             android:id="@+id/sales_finish_right_btn"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:background="@color/White"
                             android:onClick="onClick"
@@ -294,8 +299,7 @@
                         android:background="@color/Key2"
                         android:text="총매출"
                         android:textColor="@color/White"
-                        android:textSize="20sp"
-                        android:textStyle="bold"/>
+                        android:textSize="17sp"/>
 
                     <TextView
                         android:id="@+id/total_sale_tv"
@@ -341,11 +345,14 @@
                             android:padding="10dp">
 
                             <TextView
+                                android:textColor="@color/sales_text_color2"
                                 android:id="@+id/sales_year_tv"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:gravity="left"
                                 android:paddingLeft="30dp"
+                                android:paddingTop="25dp"
                                 android:text="2017"/>
 
                             <LinearLayout
@@ -360,9 +367,10 @@
                                     android:layout_weight="1">
 
                                     <TextView
+                                        android:textColor="@color/sales_text_color2"
                                         android:id="@+id/sales_month_tv"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="wrap_content"
                                         android:layout_marginLeft="30dp"
                                         android:gravity="bottom"
                                         android:text="8"
@@ -370,16 +378,19 @@
                                         android:textStyle="bold"/>
 
                                     <TextView
+                                        android:paddingLeft="10dp"
                                         android:id="@+id/sales_month_tv_2"
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
                                         android:gravity="bottom"
+                                        android:paddingBottom="8dp"
                                         android:text="August"
-                                        android:textColor="@color/DeepGray"/>
+                                        android:textColor="@color/sales_text_color2"/>
 
                                 </LinearLayout>
 
                                 <ImageButton
+                                    android:layout_marginRight="10dp"
                                     android:id="@+id/sales_calendar_left_btn"
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
@@ -406,7 +417,8 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:numColumns="7"
-                                android:overScrollMode="never">
+                                android:overScrollMode="never"
+                                android:paddingTop="10dp">
 
                             </GridView>
                         </LinearLayout>
@@ -424,7 +436,6 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -434,92 +445,65 @@
                             android:orientation="horizontal"
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
-                            android:paddingTop="5dp"
                             >
 
-                            <RelativeLayout
+                            <LinearLayout
+                                android:background="@android:color/transparent"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_weight="1">
 
-                                <ImageButton
-                                    android:id="@+id/sales_all_tv"
-                                    android:layout_width="150dp"
-                                    android:layout_height="60dp"
-                                    android:background="@color/Key"
-                                    android:onClick="onClick"
-                                    android:scaleType="centerCrop"
-                                    android:scaleY="3"
-                                    android:src="@drawable/sales_categol_btn"
-                                    />
 
                                 <TextView
+                                    android:onClick="onClick"
+                                    android:gravity="center"
+                                    android:layout_weight="1"
                                     android:id="@+id/sales_all_tv2"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true"
+                                    android:layout_height="match_parent"
                                     android:background="@android:color/transparent"
                                     android:text="전체매출"
-                                    android:textColor="@color/Key"/>
-                            </RelativeLayout>
+                                    android:textStyle="bold"
+                                    android:textColor="@color/White"/>
 
-                            <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1">
-
-                                <ImageButton
-                                    android:id="@+id/sales_card_tv"
-                                    android:layout_width="150dp"
-                                    android:layout_height="60dp"
-                                    android:background="@color/Key"
-                                    android:onClick="onClick"
-                                    android:scaleType="centerCrop"
-                                    android:scaleY="3"
-                                    />
 
                                 <TextView
+                                    android:onClick="onClick"
+                                    android:gravity="center"
+                                    android:layout_weight="1"
                                     android:id="@+id/sales_card_tv2"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true"
+                                    android:layout_height="match_parent"
                                     android:background="@android:color/transparent"
                                     android:text="카드"
-                                    android:textColor="@color/White"/>
-                            </RelativeLayout>
+                                    android:textColor="@color/sales_text_color"/>
 
-                            <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1">
-
-                                <ImageButton
-                                    android:id="@+id/sales_cash_tv"
-                                    android:layout_width="150dp"
-                                    android:layout_height="60dp"
-                                    android:background="@color/Key"
-                                    android:onClick="onClick"
-                                    android:scaleType="centerCrop"
-                                    android:scaleY="3"
-                                    />
 
                                 <TextView
+                                    android:onClick="onClick"
+                                    android:gravity="center"
+                                    android:layout_weight="1"
                                     android:id="@+id/sales_cash_tv2"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true"
+                                    android:layout_height="match_parent"
                                     android:background="@android:color/transparent"
                                     android:text="현금"
-                                    android:textColor="@color/White"/>
-                            </RelativeLayout>
+                                    android:textColor="@color/sales_text_color"/>
+
+
+                            </LinearLayout>
+
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:background="@color/Key">
+                                android:layout_marginLeft="20dp"
+                                android:background="@color/Key"
+                                android:paddingRight="15dp">
 
                                 <Button
+                                    android:gravity="center"
                                     android:id="@+id/sales_list_day_btn"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
@@ -531,20 +515,24 @@
                                     android:textColor="@color/White"/>
 
                                 <Button
+                                    android:gravity="center"
                                     android:id="@+id/sales_list_month_btn"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:layout_marginRight="5dp"
                                     android:background="@drawable/sale_btn"
                                     android:onClick="sales_list_filter_Click"
+                                    android:textColor="@color/sales_text_color2"
                                     android:text="월"/>
 
                                 <Button
+                                    android:gravity="center"
                                     android:id="@+id/sales_list_year_btn"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:background="@drawable/sale_btn"
                                     android:onClick="sales_list_filter_Click"
+                                    android:textColor="@color/sales_text_color2"
                                     android:text="년"/>
 
                             </LinearLayout>

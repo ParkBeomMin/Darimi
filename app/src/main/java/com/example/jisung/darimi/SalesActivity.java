@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.media.Image;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -91,11 +92,11 @@ public class SalesActivity extends AppCompatActivity {
     void init() {
         realm.init(this);
         realm = Realm.getDefaultInstance();
-//        insertData("201709151113", "박범민", 26000, 1);
-//        insertData("201709151114", "남궁선", 27000, 3);
-//        insertData("201709201115", "문소연", 28000, 2);
-//        insertData("201710091111", "박범민", 20000, 1);
-//        insertData("201710091112", "정지성", 25000, 4);
+        insertData("201709151113", "박범민", 26000, 1);
+        insertData("201709151114", "남궁선", 27000, 3);
+        insertData("201709201115", "문소연", 28000, 2);
+        insertData("201710091111", "박범민", 20000, 1);
+        insertData("201710091112", "정지성", 25000, 4);
 //        insertData("201710111113", "박범민", 26000, true);
 //        insertData("201711121114", "남궁선", 27000, true);
 //        insertData("201712201115", "문소연", 28000, true);
@@ -162,7 +163,7 @@ public class SalesActivity extends AppCompatActivity {
         year.setText(curYearFormat.format(date));
         month.setText(curMonthFormat.format(date));
         for (int i = 0; i < 12; i++) {
-            if (month.getText().toString().equals((i+1) + "")) {
+            if (month.getText().toString().equals((i + 1) + "")) {
                 month2.setText(month_name_list.get(i));
             }
         }
@@ -300,11 +301,11 @@ public class SalesActivity extends AppCompatActivity {
         @Override
         public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
             if (i > Integer.parseInt(finish_tv.getText().toString().substring(0, 4)) || i1 + 1 > Integer.parseInt(finish_tv.getText().toString().substring(5, 7))) {
-setCustomToast(SalesActivity.this, "시작 날짜가 끝나는 날짜보다 클 수는 없습니다");
+                setCustomToast(SalesActivity.this, "시작 날짜가 끝나는 날짜보다 클 수는 없습니다");
 //                Toast.makeText(SalesActivity.this, "시작 날짜가 끝나는 날짜보다 클 수는 없습니다", Toast.LENGTH_LONG).show();
             } else if (i == Integer.parseInt(finish_tv.getText().toString().substring(0, 4)) && i1 + 1 == Integer.parseInt(finish_tv.getText().toString().substring(5, 7))
                     && i2 > Integer.parseInt(finish_tv.getText().toString().substring(8))) {
-setCustomToast(SalesActivity.this, "시작 날짜가 끝나는 날짜보다 클 수는 없습니다");
+                setCustomToast(SalesActivity.this, "시작 날짜가 끝나는 날짜보다 클 수는 없습니다");
 //                Toast.makeText(SalesActivity.this, "시작 날짜가 끝나는 날짜보다 클 수는 없습니다", Toast.LENGTH_LONG).show();
             } else {
                 if (i1 + 1 < 10 && i2 < 10) {
@@ -334,7 +335,7 @@ setCustomToast(SalesActivity.this, "시작 날짜가 끝나는 날짜보다 클 
 //                Toast.makeText(SalesActivity.this, "끝나는 날짜가 시작 날짜보다 작을 수는 없습니다1", Toast.LENGTH_LONG).show();
             } else if ((i == Integer.parseInt(start_tv.getText().toString().substring(0, 4))) && (i1 + 1 == Integer.parseInt(start_tv.getText().toString().substring(5, 7)))
                     && (i2 < Integer.parseInt(start_tv.getText().toString().substring(8)))) {
-setCustomToast(SalesActivity.this, "끝나는 날짜가 시작 날짜보다 작을 수는 없습니다");
+                setCustomToast(SalesActivity.this, "끝나는 날짜가 시작 날짜보다 작을 수는 없습니다");
 //                Toast.makeText(SalesActivity.this, "끝나는 날짜가 시작 날짜보다 작을 수는 없습니다2", Toast.LENGTH_LONG).show();
             } else {
                 if (i1 + 1 < 10 && i2 < 10) {
@@ -358,13 +359,10 @@ setCustomToast(SalesActivity.this, "끝나는 날짜가 시작 날짜보다 작�
     };
 
     public void onClick(View v) {
-        ImageButton b1, b2, b3; TextView t1, t2, t3;
-        b1 = (ImageButton)findViewById(R.id.sales_all_tv);
-        b2 = (ImageButton)findViewById(R.id.sales_card_tv);
-        b3 = (ImageButton)findViewById(R.id.sales_cash_tv);
-        t1 = (TextView)findViewById(R.id.sales_all_tv2);
-        t2 = (TextView)findViewById(R.id.sales_card_tv2);
-        t3 = (TextView)findViewById(R.id.sales_cash_tv2);
+        TextView t1, t2, t3;
+        t1 = (TextView) findViewById(R.id.sales_all_tv2);
+        t2 = (TextView) findViewById(R.id.sales_card_tv2);
+        t3 = (TextView) findViewById(R.id.sales_cash_tv2);
 
         switch (v.getId()) {
             case R.id.manageA:
@@ -453,12 +451,13 @@ setCustomToast(SalesActivity.this, "끝나는 날짜가 시작 날짜보다 작�
                 adapter.getTitleMonth(month.getText().toString());
                 adapter.notifyDataSetChanged();
                 break;
-            case R.id.sales_all_tv:
+            case R.id.sales_all_tv2:
                 CATEGORIZATION = 0;
                 sales_list = (ArrayList<Sales>) getAllSalesList(CATEGORIZATION);
                 set_list(start_tv, finish_tv, FILTER, sales_list);
-setCategolBack(b1,b2,b3, t1, t2, t3);                break;
-            case R.id.sales_card_tv:
+                setCategolBack(t1, t2, t3);
+                break;
+            case R.id.sales_card_tv2:
                 Log.d("BEOM29", "card btn");
                 CATEGORIZATION = 1;
                 ArrayList<Sales> sales_card_list = new ArrayList<>();
@@ -468,14 +467,14 @@ setCategolBack(b1,b2,b3, t1, t2, t3);                break;
                     Log.d("BEOM29", "sales_card_list.get(" + i + ").getDate() : " + sales_card_list.get(i).getDate());
                 }
                 set_list(start_tv, finish_tv, FILTER, sales_card_list);
-setCategolBack(b2,b3,b1, t2, t3, t1);
+                setCategolBack(t2, t3, t1);
                 break;
-            case R.id.sales_cash_tv:
+            case R.id.sales_cash_tv2:
                 CATEGORIZATION = 2;
                 ArrayList<Sales> sales_cash_list = new ArrayList<>();
                 sales_cash_list = (ArrayList<Sales>) getAllSalesList(CATEGORIZATION);
                 set_list(start_tv, finish_tv, FILTER, sales_cash_list);
-                setCategolBack(b3,b2,b1, t3, t2, t1);
+                setCategolBack(t3, t2, t1);
 
                 break;
 
@@ -484,16 +483,13 @@ setCategolBack(b2,b3,b1, t2, t3, t1);
         }
     }
 
-    void setCategolBack(ImageButton b1, ImageButton b2, ImageButton b3, TextView t1, TextView t2, TextView t3) {
-        b1.setImageResource(R.drawable.sales_categol_btn);
-//        b1.setBackgroundResource(R.drawable.sales_categol_btn);
-        t1.setTextColor(getResources().getColor(R.color.Key));
-        b2.setImageResource(R.color.Key);
-//        b2.setBackgroundResource(R.color.Key);
-        t2.setTextColor(getResources().getColor(R.color.White));
-        b3.setImageResource(R.color.Key);
-//        b3.setBackgroundResource(R.color.Key);
-        t3.setTextColor(getResources().getColor(R.color.White));
+    void setCategolBack(TextView t1, TextView t2, TextView t3) {
+        t1.setTextColor(getResources().getColor(R.color.White));
+        t1.setTypeface(null, Typeface.BOLD);
+        t2.setTextColor(getResources().getColor(R.color.sales_text_color));
+        t2.setTypeface(null, Typeface.NORMAL);
+        t3.setTextColor(getResources().getColor(R.color.sales_text_color));
+        t3.setTypeface(null, Typeface.NORMAL);
 
     }
 
@@ -584,9 +580,9 @@ setCategolBack(b2,b3,b1, t2, t3, t1);
         b1.setBackgroundResource(R.drawable.sale_selec_btn);
         b1.setTextColor(Color.WHITE);
         b2.setBackgroundResource(R.drawable.sale_btn);
-        b2.setTextColor(Color.BLACK);
+        b2.setTextColor(getResources().getColor(R.color.sales_text_color2));
         b3.setBackgroundResource(R.drawable.sale_btn);
-        b3.setTextColor(Color.BLACK);
+        b3.setTextColor(getResources().getColor(R.color.sales_text_color2));
     }
 
     void set_list(TextView t1, TextView t2, int op, ArrayList<Sales> all_list) {
@@ -888,6 +884,7 @@ setCategolBack(b2,b3,b1, t2, t3, t1);
             return o1.compareTo(o2);
         }
     }
+
     class AscendingObj implements Comparator<Sales> {
         @Override
         public int compare(Sales sales, Sales t1) {
@@ -1093,7 +1090,7 @@ setCategolBack(b2,b3,b1, t2, t3, t1);
         } else if (categol == 1) {
             try {
                 realm = Realm.getDefaultInstance();
-                Number results = realm.where(Sales.class).contains(table, date).equalTo("pay",1).sum("sum");
+                Number results = realm.where(Sales.class).contains(table, date).equalTo("pay", 1).sum("sum");
                 Number results1 = realm.where(Sales.class).contains(table, date).equalTo("pay", 2).sum("sum");
                 num = (long) results + (long) results1;
             } finally {
