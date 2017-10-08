@@ -22,7 +22,6 @@
 
         <ImageView
             android:id="@+id/logo"
-
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -30,6 +29,9 @@
             android:src="@mipmap/ic_launcher_round"/>
 
         <TextView
+            android:textColor="@color/White"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
             android:id="@+id/orderA"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -41,15 +43,33 @@
         <TextView
             android:id="@+id/manageA"
 
+            android:textColor="@color/White"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.2"
             android:background="@color/Key2"
 
             android:onClick="onClick"
-            android:text="고객관리"/>
+            android:text="고객관리/등록"
+            />
 
         <TextView
+            android:textColor="@color/White"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:id="@+id/settingA"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:background="@android:color/transparent"
+            android:onClick="onClick"
+            android:text="작업"/>
+        <TextView
+            android:textColor="@color/White"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
             android:id="@+id/salesA"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -58,14 +78,6 @@
             android:onClick="onClick"
             android:text="매출"/>
 
-        <TextView
-            android:id="@+id/settingA"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.2"
-            android:background="@android:color/transparent"
-            android:onClick="onClick"
-            android:text="설정"/>
 
 
     </LinearLayout>
