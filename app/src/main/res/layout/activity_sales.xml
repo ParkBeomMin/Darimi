@@ -327,17 +327,17 @@
                             android:padding="10dp">
 
                             <TextView
-                                android:paddingLeft="30dp"
                                 android:id="@+id/sales_year_tv"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="left"
+                                android:paddingLeft="30dp"
                                 android:text="2017"/>
 
                             <LinearLayout
-                                android:layout_marginBottom="20dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="20dp"
                                 android:orientation="horizontal">
 
                                 <LinearLayout
@@ -346,10 +346,10 @@
                                     android:layout_weight="1">
 
                                     <TextView
-    android:layout_marginLeft="30dp"
                                         android:id="@+id/sales_month_tv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
+                                        android:layout_marginLeft="30dp"
                                         android:gravity="bottom"
                                         android:text="8"
                                         android:textSize="35sp"
@@ -424,9 +424,9 @@
                             >
 
                             <RelativeLayout
-                                android:layout_weight="1"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
 
                                 <ImageButton
                                     android:id="@+id/sales_all_tv"
@@ -440,19 +440,19 @@
                                     />
 
                                 <TextView
-                                    android:background="@android:color/transparent"
                                     android:id="@+id/sales_all_tv2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerInParent="true"
+                                    android:background="@android:color/transparent"
                                     android:text="전체매출"
                                     android:textColor="@color/Key"/>
                             </RelativeLayout>
 
                             <RelativeLayout
-                                android:layout_weight="1"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
 
                                 <ImageButton
                                     android:id="@+id/sales_card_tv"
@@ -475,9 +475,9 @@
                             </RelativeLayout>
 
                             <RelativeLayout
-                                android:layout_weight="1"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
 
                                 <ImageButton
                                     android:id="@+id/sales_cash_tv"
@@ -499,40 +499,41 @@
                                     android:textColor="@color/White"/>
                             </RelativeLayout>
 
-<LinearLayout
-    android:layout_gravity="center_vertical"
-    android:background="@color/Key"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-    <Button
-        android:id="@+id/sales_list_day_btn"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/sale_selec_btn"
-        android:onClick="sales_list_filter_Click"
-        android:text="일"
-        android:textColor="@color/White"/>
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:background="@color/Key">
 
-    <Button
-        android:id="@+id/sales_list_month_btn"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/sale_btn"
-        android:onClick="sales_list_filter_Click"
-        android:text="월"/>
+                                <Button
+                                    android:id="@+id/sales_list_day_btn"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginRight="5dp"
+                                    android:background="@drawable/sale_selec_btn"
+                                    android:onClick="sales_list_filter_Click"
+                                    android:text="일"
+                                    android:textColor="@color/White"/>
 
-    <Button
-        android:id="@+id/sales_list_year_btn"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:background="@drawable/sale_btn"
-        android:onClick="sales_list_filter_Click"
-        android:text="년"/>
+                                <Button
+                                    android:id="@+id/sales_list_month_btn"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginRight="5dp"
+                                    android:background="@drawable/sale_btn"
+                                    android:onClick="sales_list_filter_Click"
+                                    android:text="월"/>
 
-</LinearLayout>
+                                <Button
+                                    android:id="@+id/sales_list_year_btn"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:background="@drawable/sale_btn"
+                                    android:onClick="sales_list_filter_Click"
+                                    android:text="년"/>
+
+                            </LinearLayout>
                         </LinearLayout>
 
                         <LinearLayout

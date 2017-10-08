@@ -160,7 +160,7 @@ public class SalesActivity extends AppCompatActivity {
         finish_tv.setText(curYearFormat.format(date) + "." + curMonthFormat.format(date) + "." + curDayFormat.format(date));
 
         year.setText(curYearFormat.format(date));
-        month.setText(curMonthFormat.format(date).substring(1));
+        month.setText(curMonthFormat.format(date));
         for (int i = 0; i < 12; i++) {
             if (month.getText().toString().equals((i+1) + "")) {
                 month2.setText(month_name_list.get(i));
