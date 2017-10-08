@@ -65,12 +65,13 @@ android:layout_gravity="center"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent" />
+
                 <EditText
-                    android:textColor="@color/White"
                     android:id="@+id/edit_name"
                     android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="3"
-                    android:layout_height="match_parent" />
+                    android:textColor="@color/White" />
             </LinearLayout>
             <LinearLayout
                 android:background="@color/darkBack"
@@ -87,14 +88,14 @@ android:layout_gravity="center"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent" />
+
                 <EditText
-                    android:textColor="@color/White"
-                    android:background="@color/darkBack"
-                    android:inputType="number"
                     android:id="@+id/edit_price"
                     android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="3"
-                    android:layout_height="match_parent" />
+                    android:inputType="number"
+                    android:textColor="@color/White" />
             </LinearLayout>
             <LinearLayout
                 android:background="@color/darkBack"
