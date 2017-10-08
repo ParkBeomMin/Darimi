@@ -114,8 +114,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="5.5"
                 android:background="#EAEAEA" />
-
             <Button
+                android:text="추가"
+                android:id="@+id/item_add_btn"
+                android:layout_width="50dp"
+                android:layout_height="match_parent" />
+            <Button
+                android:text="위치"
                 android:id="@+id/item_edit_btn"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"

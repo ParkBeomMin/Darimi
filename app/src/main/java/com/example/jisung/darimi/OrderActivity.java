@@ -25,35 +25,27 @@ import android.widget.ExpandableListView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.woxthebox.draglistview.DragListView;
-import com.woxthebox.draglistview.swipe.ListSwipeHelper;
-import com.woxthebox.draglistview.swipe.ListSwipeItem;
 
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.SimpleTimeZone;
 
 import io.realm.Realm;
-import io.realm.RealmList;
 import it.sephiroth.android.library.widget.HListView;
 
-import static com.example.jisung.darimi.R.integer.ACard;
-import static com.example.jisung.darimi.R.integer.ACash;
-import static com.example.jisung.darimi.R.integer.BCard;
-import static com.example.jisung.darimi.R.integer.BCash;
+
 
 public class OrderActivity extends AppCompatActivity {
     private TextView time_N, total, order_time, item_total_num;
     private EditText client_name, client_num;
-    private Button editActBtn;
+    private Button editActBtn,addBtn;
     private String today_date, today_time;
     private Intent intent;
     int total_Price = 0, total_item;
@@ -79,12 +71,15 @@ public class OrderActivity extends AppCompatActivity {
     private DragListView mDragListView;
     private Button orderBtn;
 
+    private Spinner spinner;
+
     private int payState = 0;
 
     private Custom custom;
 
     int tmp = 0;
-    int cate_tmp;
+    int cate=0;
+    int catmp;
 
 
     Realm realm;
@@ -104,6 +99,8 @@ public class OrderActivity extends AppCompatActivity {
         item_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
+                if(exitEdit())
+                    return;
                 nowTime();
                 order_time.setText(today_date);
                 total_Price += Integer.parseInt(item_list.get(i).getPrice());
@@ -145,7 +142,8 @@ public class OrderActivity extends AppCompatActivity {
         orderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if(exitEdit())
+                    return;
 
                 if (client_num.getText().toString().length() < 10 || client_name.getText().toString().length() < 2) {
                     Toast.makeText(OrderActivity.this, "고객 정보를 확인해주세요", Toast.LENGTH_SHORT).show();
@@ -156,16 +154,92 @@ public class OrderActivity extends AppCompatActivity {
                     return;
                 }
 
-                Log.d("BEOM30", "itemParser.parserList(selectItems_list) : " + itemParser.parserList(selectItems_list));
-                Log.d("BEOM30", "dateKey() : " + dateKey());
-                Log.d("BEOM30", "client_num.getText().toString() : " + client_num.getText().toString());
-                Log.d("BEOM30", "client_name.getText().toString() : " + client_name.getText().toString());
-                Log.d("BEOM30", "payState : " + payState);
-                darimiDataCon.makeOrder(realm, itemParser.parserList(selectItems_list), dateKey(), client_num.getText().toString(), client_name.getText().toString(), payState);
+                 darimiDataCon.makeOrder(realm, itemParser.parserList(selectItems_list), dateKey(), client_num.getText().toString(), client_name.getText().toString(), payState);
 
                 Intent intent = new Intent(OrderActivity.this, SettingActivity.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(exitEdit())
+                    return;
+                View e_view = View.inflate(view.getContext(), R.layout.item_setting, null);   //뷰 가져오기
+                Display display;
+
+                display = ((WindowManager) view.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+                final Dialog dialog = new Dialog(view.getContext()); //대화상자 생성
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(e_view); //대화상자 뷰 설정
+                WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+                params.width = (int) (display.getWidth() * 0.3);
+                params.height = (int) (display.getHeight() * 0.3);
+                dialog.getWindow().setAttributes(params);//대화상자 크기 설정
+                final EditText eitem_name = (EditText) e_view.findViewById(R.id.edit_name);
+                final EditText eitem_price = (EditText) e_view.findViewById(R.id.edit_price);
+                spinner=(Spinner)e_view.findViewById(R.id.cateSpiner);
+                Button comple = (Button) e_view.findViewById(R.id.edit_com);
+                //대화상자 초기화
+                catmp=cate;
+                if(cate!=0)
+                    spinner.setSelection(cate-1);
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        String str = (String)spinner.getSelectedItem();
+                        switch (str){
+                            case "상의":
+                                catmp =1;
+                                break;
+                            case "하의":
+                                catmp =2;
+                                break;
+                            case "겉옷":
+                                catmp=3;
+                                break;
+                            case "정장":
+                                catmp=4;
+                                break;
+                            case "신발":
+                                catmp=5;
+                                break;
+                            case "기타":
+                                catmp=6;
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+                comple.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        darimiDataCon.makeItem(realm,view.getContext(),eitem_name.getText().toString(),eitem_price.getText().toString(),R.drawable.images3,catmp);
+//                        O.setCustomToast(view.getContext(), "항목이 추가되었습니다.");
+
+                        dialog.dismiss();
+                        All_item = new ArrayList<Item>(realm.where(Item.class).findAll().sort("seq"));
+                        item_list.clear();
+                        for (int j = 0; j < All_item.size(); j++) {
+                            if (All_item.get(j).getC_id() == cate_list.get(tmp).getId())
+                                item_list.add(All_item.get(j));
+                        }
+                        //클릭시 아이템 변경
+                            /*
+                            데이터 베이스 전송
+                             */
+
+                    }
+                });
+
+                dialog.show();
+                return;
             }
         });
 
@@ -231,6 +305,7 @@ public class OrderActivity extends AppCompatActivity {
         order_time = (TextView) findViewById(R.id.item_order_time);
         item_total_num = (TextView) findViewById(R.id.item_total_num);
 
+        addBtn = (Button)findViewById(R.id.item_add_btn);
         item_list = new ArrayList<Item>();
         selectItems_list = new ArrayList<Items>();
         cate_list = new ArrayList<Categol>();
@@ -241,8 +316,8 @@ public class OrderActivity extends AppCompatActivity {
         cate_list.add(new Categol("정장", 4, false));
         cate_list.add(new Categol("신발", 5, false));
         cate_list.add(new Categol("기타", 6, false));
-        All_item = new ArrayList<Item>(realm.where(Item.class).findAll().sort("seq"));
 
+        All_item = new ArrayList<Item>(realm.where(Item.class).findAll().sort("seq"));
 
         selected_adapter = new SelectItemAdapter(selectItems_list, this, item_total_num, total);
         cate_adapter = new CateAdapter(cate_list, this);
@@ -267,6 +342,9 @@ public class OrderActivity extends AppCompatActivity {
         cate_view.setOnItemClickListener(new it.sephiroth.android.library.widget.AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(it.sephiroth.android.library.widget.AdapterView<?> adapterView, View view, int i, long l) {
+                if(exitEdit())
+                    return;
+                cate =i;
                 TextView t = (TextView) view.findViewById(R.id.cate_name);
                 t.setBackgroundColor(getResources().getColor(R.color.Gray));
                 cate_list.get(tmp).setChoose(false);
@@ -284,7 +362,7 @@ public class OrderActivity extends AppCompatActivity {
                             item_list.add(All_item.get(j));
                     }
                 }
-
+                Collections.sort(item_list, new sortWorks());
                 cate_adapter.notifyDataSetChanged();
                 item_adapter.notifyDataSetChanged();
                 tmp = i;
@@ -335,19 +413,21 @@ public class OrderActivity extends AppCompatActivity {
 
             @Override
             public void onItemDragStarted(int position) {
-                Log.d("test11", "8");
 
-                Log.d("test11", "9");
 
                 Toast.makeText(OrderActivity.this, "Start - position: " + position, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onItemDragEnded(int fromPosition, int toPosition) {
-                darimiDataCon.updateItemSeq(realm, item_list.get(fromPosition).getName(), item_list.get(toPosition).getName());
+                darimiDataCon.changeItemPostion(realm,item_list,fromPosition,toPosition);
                 Collections.sort(item_list, new sortWorks());
-                item_adapter.notifyDataSetChanged();
-                listAdapter.notifyDataSetChanged();
+                All_item = new ArrayList<Item>(realm.where(Item.class).findAll().sort("seq"));
+                item_list.clear();
+                for (int j = 0; j < All_item.size(); j++) {
+                    if (All_item.get(j).getC_id() == cate_list.get(tmp).getId())
+                        item_list.add(All_item.get(j));
+                }
                 if (fromPosition != toPosition) {
                     Toast.makeText(OrderActivity.this, "End - position: " + toPosition, Toast.LENGTH_SHORT).show();
                 }
@@ -397,27 +477,36 @@ public class OrderActivity extends AppCompatActivity {
 
     public void EonClick(View v) {
         if (v.getId() == R.id.item_edit_btn || v.getId() == R.id.edit_area) {
-            if (!edit_act)
-                item_list.add(new Item(" ", " ", 5, R.drawable.add_tmp, false));
-            edit_act = true;//편집 활성화
+            if(edit_act)
+                if(exitEdit())
+                    return;
             mDragListView.setVisibility(View.VISIBLE);
             item_view.setVisibility(View.INVISIBLE);
             edit_act = true;
-
             DragListSetting();
+            Toast.makeText(this, "편집모드가 설정되었습니다.", Toast.LENGTH_SHORT).show();
 
         } else {
-            if (edit_act)
-                item_list.remove(item_list.size() - 1);
+            if(exitEdit())
+                return;
+        }
+    }
+    public boolean exitEdit(){
+        if(edit_act) {
             mDragListView.setVisibility(View.INVISIBLE);
             item_view.setVisibility(View.VISIBLE);
             item_adapter.notifyDataSetChanged();
-
-            edit_act = false;//그 외의 부분인 경우 비활성화
+            edit_act = false;
+            Toast.makeText(this, "편집모드가 해제되었습니다.", Toast.LENGTH_SHORT).show();
+            return true;
         }
+        else
+            return false;
     }
 
     public void payClick(final View v) {
+        if(exitEdit())
+            return;
         View r_view = View.inflate(this, R.layout.paymethod, null);
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(r_view);

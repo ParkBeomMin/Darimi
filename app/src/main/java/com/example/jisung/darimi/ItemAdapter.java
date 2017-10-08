@@ -90,76 +90,7 @@ public class ItemAdapter extends DragItemAdapter<Item, ItemAdapter.ViewHolder> {
 
         @Override
         public void onItemClicked(View view) {
-            Log.d("test1", getPosition() + "");
-            if (getPosition() == mItemList.size() - 1) {
-                View e_view = View.inflate(view.getContext(), R.layout.item_setting, null);   //뷰 가져오기
-                Display display;
-
-                display = ((WindowManager) view.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-                final Dialog dialog = new Dialog(view.getContext()); //대화상자 생성
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(e_view); //대화상자 뷰 설정
-                WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
-                params.width = (int) (display.getWidth() * 0.3);
-                params.height = (int) (display.getHeight() * 0.3);
-                dialog.getWindow().setAttributes(params);//대화상자 크기 설정
-                final EditText eitem_name = (EditText) e_view.findViewById(R.id.edit_name);
-                final EditText eitem_price = (EditText) e_view.findViewById(R.id.edit_price);
-                spinner=(Spinner)e_view.findViewById(R.id.cateSpiner);
-                Button comple = (Button) e_view.findViewById(R.id.edit_com);
-                //대화상자 초기화
-                spinner.setSelection(cate-1);
-                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                            String str = (String)spinner.getSelectedItem();
-                        switch (str){
-                            case "상의":
-                                cate =1;
-                                break;
-                            case "하의":
-                                cate =2;
-                                break;
-                            case "겉옷":
-                                cate=3;
-                                break;
-                            case "정장":
-                                cate=4;
-                                break;
-                            case "신발":
-                                cate=5;
-                                break;
-                            case "기타":
-                                cate=6;
-                                break;
-                        }
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
-
-                    }
-                });
-                comple.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        darimiDataCon.makeItem(realm,view.getContext(),eitem_name.getText().toString(),eitem_price.getText().toString(),R.drawable.images3,cate);
-                        O.setCustomToast(view.getContext(), "항목이 추가되었습니다.");
-//                        Toast.makeText(view.getContext(), "항목이 추가되었습니다.", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                        notifyDataSetChanged();
-                        //클릭시 아이템 변경
-                            /*
-                            데이터 베이스 전송
-                             */
-
-                    }
-                });
-
-
-                dialog.show();
-                return;
-            }
+            Log.d("testSeq", getItemId() + "");
         }
 
         @Override

@@ -44,6 +44,15 @@ public class Item extends RealmObject {
         this.mark = mark;
     }
 
+    public Item(String name, String price, long seq, int img, boolean mark, int c_id) {
+        this.name = name;
+        this.price = price;
+        this.seq = seq;
+        this.img = img;
+        this.mark = mark;
+        this.c_id = c_id;
+    }
+
     public String getName() {
         return name;
     }
