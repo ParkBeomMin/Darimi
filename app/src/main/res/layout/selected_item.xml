@@ -66,7 +66,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"/>
         <Button
-            android:layout_gravity="right"
+            android:layout_gravity="center"
             android:background="@drawable/exit_btn"
             android:id="@+id/item_cancel"
             android:layout_width="0dp"
@@ -113,7 +113,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1.5"/>
         <Button
-            android:background="#555b66"
+            android:background="@drawable/round_add_sub"
             android:textColor="@color/White"
             android:text="더하기"
             android:id="@+id/item_add_btn"
@@ -130,7 +130,7 @@
         <Button
             android:textColor="@color/White"
             android:textSize="10dp"
-            android:background="#555b66"
+            android:background="@drawable/round_add_sub"
             android:text="빼기"
             android:id="@+id/item_sub_btn"
             android:layout_width="0dp"
@@ -143,6 +143,7 @@
             android:onClick="onClick" />
 
         <Button
+            android:layout_margin="5dp"
             android:background="@drawable/upper"
             android:id="@+id/set_exit_btn"
             android:layout_width="0dp"

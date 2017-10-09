@@ -10,31 +10,35 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@drawable/left_side_bar"
-        android:onClick="EonClick"
         android:orientation="vertical"
-        android:weightSum="9">
-
+        android:layout_weight="1"
+        android:weightSum="9"
+        android:background="@drawable/left_side_bar"
+        android:layout_height="match_parent">
         <ImageView
             android:id="@+id/logo"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:src="@mipmap/ic_launcher_round" />
+            android:src="@drawable/logo" />
 
         <TextView
+            android:textColor="@color/White"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
             android:id="@+id/orderA"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.2"
-            android:background="@android:color/transparent"
+            android:background="@color/Key2"
             android:onClick="onClick"
             android:text="주문" />
 
         <TextView
+            android:textColor="@color/White"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
             android:background="@android:color/transparent"
             android:id="@+id/manageA"
             android:layout_width="match_parent"
@@ -42,8 +46,21 @@
             android:layout_weight="1.2"
             android:onClick="onClick"
             android:text="고객관리" />
-
         <TextView
+            android:textColor="@color/White"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:background="@android:color/transparent"
+            android:id="@+id/settingA"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:onClick="onClick"
+            android:text="작업" />
+        <TextView
+            android:textColor="@color/White"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
             android:background="@android:color/transparent"
             android:id="@+id/salesA"
             android:layout_width="match_parent"
@@ -52,16 +69,51 @@
             android:onClick="onClick"
             android:text="매출" />
 
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="10dp"
+        android:layout_height="match_parent"
+        android:background="@color/Background"
+        android:orientation="vertical"
+        android:weightSum="9">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/White"
+            />
+
         <TextView
-            android:background="@android:color/transparent"
-            android:id="@+id/settingA"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.2"
-            android:onClick="onClick"
-            android:text="설정" />
-    </LinearLayout>
+            android:background="@color/Key2"
+            />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:background="@android:color/transparent"
+
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:background="@android:color/transparent"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:background="@android:color/transparent"
+            />
+    </LinearLayout>
     <LinearLayout
 
         android:layout_width="0dp"
@@ -171,30 +223,29 @@
                 </FrameLayout>
 
                 <LinearLayout
-
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="0.9"
+                    android:orientation="horizontal"
                     android:background="#555b66"
-                    android:padding="19dp"
-                    android:paddingLeft="30dp"
-
-                    android:paddingRight="35dp"
-
-
-                    android:weightSum="4">
-
+                    >
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.5"/>
                     <Button
+                        android:layout_gravity="center"
                         android:id="@+id/item_add_btn"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="20dp"
                         android:layout_weight="1"
                         android:background="@drawable/item_add_btn" />
 
                     <Button
                         android:id="@+id/item_delete_btn"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
                         android:layout_marginLeft="30dp"
                         android:layout_weight="1"
                         android:background="@drawable/item_del_btn"
@@ -203,11 +254,16 @@
                     <Button
                         android:id="@+id/item_edit_btn"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="20dp"
                         android:layout_marginLeft="30dp"
                         android:layout_weight="1"
+                        android:layout_gravity="center"
                         android:background="@drawable/item_swap_btn"
                         android:onClick="EonClick" />
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="2.5"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -241,9 +297,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:orientation="horizontal"
-                            android:paddingBottom="5dp"
                             android:paddingLeft="20dp"
-                            android:paddingTop="5dp"
 
                             android:weightSum="10">
 
@@ -271,7 +325,6 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/search_icon"
                                 android:onClick="searchBtn"
-                                android:padding="5dp"
                                 android:textColor="@color/White" />
 
 
@@ -282,9 +335,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:orientation="horizontal"
-                            android:paddingBottom="5dp"
                             android:paddingLeft="20dp"
-                            android:paddingTop="5dp"
                             android:weightSum="10">
 
                             <TextView

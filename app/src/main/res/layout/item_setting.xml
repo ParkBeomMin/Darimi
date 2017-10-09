@@ -113,15 +113,16 @@ android:layout_gravity="center"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent" />
+
                 <Spinner
-                    android:textColor="@color/White"
-                    android:background="@color/darkBack"
-                    style="@style/Base.Widget.AppCompat.DropDownItem.Spinner"
-                    android:entries="@array/categoly"
                     android:id="@+id/cateSpiner"
+                    style="@style/Base.Widget.AppCompat.DropDownItem.Spinner"
                     android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="3"
-                    android:layout_height="match_parent"></Spinner>
+                    android:background="@color/darkBack"
+                    android:entries="@array/categoly"
+                    android:textColor="@color/White"></Spinner>
 
             </LinearLayout>
 
