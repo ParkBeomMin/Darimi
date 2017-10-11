@@ -154,6 +154,30 @@ public class darimiDataCon {
         });
         return name[0];
     }
+    public static void insertuserData(Realm realm,final String name, final String call) {
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Custom user = realm.createObject(Custom.class, call);
+                user.setName(name);
+                realm.insert(user);
+            }
+        });
+    }
+    public static boolean searchUsercall(Realm realm,final String call){
+        final Boolean[] result = {false};
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Custom user = realm.where(Custom.class).equalTo("call",call).findFirst();
+                if(user == null)
+                    result[0] =true;
+            }
+        });
+        return result[0];
+    }
+
 
     public static ArrayList<String> findClientCall(Realm realm, final String name) {
         final ArrayList<String> nums = new ArrayList<String>();

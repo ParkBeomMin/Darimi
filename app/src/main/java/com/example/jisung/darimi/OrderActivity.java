@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -59,6 +60,7 @@ public class OrderActivity extends AppCompatActivity {
     private Intent intent;
     int total_Price = 0, total_item;
     Boolean edit_act = false;
+    Boolean deleteMode = false;
 
     private ArrayList<Item> item_list;
     private ArrayList<Items> selectItems_list;
@@ -90,7 +92,7 @@ public class OrderActivity extends AppCompatActivity {
     int tmp = 0;
     int cate = 0;
     int catmp;
-    Boolean deleteMode =false;
+
 
     final int REQ_CODE_SELECT_IMAGE = 100;
     Realm realm;
@@ -209,7 +211,7 @@ public class OrderActivity extends AppCompatActivity {
 
                     }
                 });
-                bit = BitmapFactory.decodeResource(getResources(),R.drawable.item_kg);
+                bit = BitmapFactory.decodeResource(getResources(), R.drawable.item_kg);
                 spinner = (Spinner) e_view.findViewById(R.id.cateSpiner);
                 Button comple = (Button) e_view.findViewById(R.id.edit_com);
                 //대화상자 초기화
@@ -250,23 +252,23 @@ public class OrderActivity extends AppCompatActivity {
                 comple.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(eitem_name.getText().toString().equals("")||eitem_price.getText().toString().equals("")){
+                        if (eitem_name.getText().toString().equals("") || eitem_price.getText().toString().equals("")) {
                             Toast.makeText(OrderActivity.this, "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        boolean used =false;
+                        boolean used = false;
                         realm.beginTransaction();
                         String name;
-                        Item item = realm.where(Item.class).equalTo("name",eitem_name.getText().toString()).findFirst();
+                        Item item = realm.where(Item.class).equalTo("name", eitem_name.getText().toString()).findFirst();
 
-                        if(item!=null)
+                        if (item != null)
                             used = true;
                         realm.commitTransaction();
-                        if(used){
+                        if (used) {
                             Toast.makeText(OrderActivity.this, "동일한 물품명이 있습니다.", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        darimiDataCon.makeItem(realm, view.getContext(), eitem_name.getText().toString(), eitem_price.getText().toString(),ImgConvert.bitmapToByteArray(bit)
+                        darimiDataCon.makeItem(realm, view.getContext(), eitem_name.getText().toString(), eitem_price.getText().toString(), ImgConvert.bitmapToByteArray(bit)
                                 , catmp);
 //                        O.setCustomToast(view.getContext(), "항목이 추가되었습니다.");
 
@@ -379,33 +381,7 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     public void searchBtn(View v) {
-        if (v.getId() == R.id.number_search)
-            client_name.setText(darimiDataCon.findClientName(realm, client_num.getText().toString()));
-        else if (v.getId() == R.id.client_search) {
-            ArrayList<String> nums = new ArrayList<String>();
-            nums = darimiDataCon.findClientCall(realm, client_name.getText().toString());
-            if (nums.size() == 0)
-                return;
-            else if (nums.size() == 1)
-                client_num.setText(nums.get(0));
-            else {
-                View view = View.inflate(this, R.layout.clientnumlist, null);
-                final Dialog dialog = new Dialog(this);
-                dialog.setContentView(view);
-                ListView listView = (ListView) view.findViewById(R.id.numlist);
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, nums);
-                listView.setAdapter(adapter);
-                final ArrayList<String> finalNums = nums;
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        client_num.setText(finalNums.get(i));
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
-            }
-        }
+
     }
 
     private boolean isinitInstall() {
@@ -607,12 +583,62 @@ public class OrderActivity extends AppCompatActivity {
         }//화면 변경
     }
 
-    public void EonClick(View v) {
-        if (v.getId() == R.id.item_edit_btn || v.getId() == R.id.edit_area) {
+    public void EonClick(final View v) {
+        if (exitEdit())
+            return;
+        else if (v.getId() == R.id.new_client) {
+            LayoutInflater inflater = getLayoutInflater();
+            final View add_custom = inflater.inflate(R.layout.add_custom, null);
+            final EditText add_custom_name_edt = (EditText) add_custom.findViewById(R.id.add_custom_name_edt);
+            final EditText add_custom_call_edt = (EditText) add_custom.findViewById(R.id.add_custom_call_edt);
+//                final ImageButton add_custom_cancel_btn = (ImageButton) add_custom.findViewById(R.id.add_custom_close_btn);
+            final Button add_custom_confirm_btn = (Button) add_custom.findViewById(R.id.add_custom_confirm_btn);
+            final AlertDialog dialog = new AlertDialog.Builder(OrderActivity.this).create();
+            dialog.setView(add_custom);
+            dialog.show();
+//                add_custom_cancel_btn.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        dialog.dismiss();
+//                    }
+//                });
+            add_custom_confirm_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String custom_name = add_custom_name_edt.getText().toString();
+                    String custom_call = add_custom_call_edt.getText().toString();
+
+
+                    if (custom_name.length() != 0 && custom_call.length() != 0) {
+                        if (CustomAdapter.isInitialSound(custom_name.charAt(0))) {
+                            setCustomToast(OrderActivity.this, "이름을 제대로 입력해주세요.");
+//                                Toast.makeText(ManageActivity.this, "이름을 제대로 입력해주세요.", Toast.LENGTH_LONG).show();
+                        } else if (custom_call.length() <= 9) {
+                            setCustomToast(OrderActivity.this, "전화번호를 제대로 입력해주세요.");
+//                                Toast.makeText(ManageActivity.this, "전화번호를 제대로 입력해주세요.", Toast.LENGTH_LONG).show();
+                        } else {
+                            Boolean flag = darimiDataCon.searchUsercall(realm, custom_call);
+
+                            if (flag) {
+                                darimiDataCon.insertuserData(realm,custom_name,custom_call);
+                                dialog.dismiss();
+                            } else {
+                                setCustomToast(OrderActivity.this, "이미 존재하는 전화번호 입니다.");
+//                                    Toast.makeText(getApplicationContext(), "이미 존재하는 전화번호 입니다.", Toast.LENGTH_LONG).show();
+
+                            }
+                        }
+                    } else {
+                        setCustomToast(OrderActivity.this, "모든 항목을 입력해주세요.");
+//                            Toast.makeText(ManageActivity.this, "모든 항목을 입력해주세요.", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        } else if (v.getId() == R.id.item_edit_btn) {
             if (edit_act)
                 if (exitEdit())
                     return;
-            if(tmp==0){
+            if (tmp == 0) {
                 Toast.makeText(this, "즐겨찾기 항목에서는 편집모드를 사용할 수 없습니다.", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -622,116 +648,130 @@ public class OrderActivity extends AppCompatActivity {
             DragListSetting();
             Toast.makeText(this, "편집모드가 설정되었습니다.", Toast.LENGTH_SHORT).show();
 
-        } else {
-            if (exitEdit())
-                return;
-        }
-    }
-
-    public void DonClick(View v){
-
-
-    }
-    public boolean exitDeleteMode(){
-        if(!deleteMode) {
+        } else if (v.getId() == R.id.item_delete_btn) {
             deleteMode = true;
-            Toast.makeText(this, "삭제 모드가 설정되었습니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "삭제 모드가 설정되었습니다.\n품목을 길게누르면 삭제됩니다.", Toast.LENGTH_SHORT).show();
             item_view.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                    darimiDataCon.deleteItem(realm,item_list.get(position).getName());
+                    darimiDataCon.deleteItem(realm, item_list.get(position).getName());
+                    All_item = new ArrayList<Item>(realm.where(Item.class).findAll().sort("seq"));
                     item_list.remove(position);
+                    item_adapter.notifyDataSetChanged();
 
                     return false;
                 }
             });
-            return false;
+        } else if (v.getId() == R.id.number_search)
+            client_name.setText(darimiDataCon.findClientName(realm, client_num.getText().toString()));
+        else if (v.getId() == R.id.client_search) {
+            ArrayList<String> nums = new ArrayList<String>();
+            nums = darimiDataCon.findClientCall(realm, client_name.getText().toString());
+            if (nums.size() == 0)
+                return;
+            else if (nums.size() == 1)
+                client_num.setText(nums.get(0));
+            else {
+                View view = View.inflate(this, R.layout.clientnumlist, null);
+                final Dialog dialog = new Dialog(this);
+                dialog.setContentView(view);
+                ListView listView = (ListView) view.findViewById(R.id.numlist);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, nums);
+                listView.setAdapter(adapter);
+                final ArrayList<String> finalNums = nums;
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        client_num.setText(finalNums.get(i));
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+            }
         }
-        else{
-            Toast.makeText(this, "삭제 모드가 해제되었습니다.", Toast.LENGTH_SHORT).show();
-            item_view.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        if (v.getId() == R.id.prepay || v.getId() == R.id.afterpay) {
+            View r_view = View.inflate(this, R.layout.paymethod, null);
+            final Dialog dialog = new Dialog(this);
+            Display display;
+            display = ((WindowManager) this.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+
+
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(r_view); //대화상자 뷰 설정
+            WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+            params.width = (int) (display.getWidth() * 0.43);
+            params.height = (int) (display.getHeight() * 0.3);
+            dialog.getWindow().setAttributes(params);//대화상자 크기 설정
+
+
+            dialog.setContentView(r_view);
+            Button card = (Button) r_view.findViewById(R.id.card);
+            Button cash = (Button) r_view.findViewById(R.id.cash);
+            card.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                    return false;
+                public void onClick(View view) {
+                    if (v.getId() == R.id.prepay) {
+                        payState = 1;
+                        setCustomToast(OrderActivity.this, "카드 결제입니다");
+//                    Toast.makeText(OrderActivity.this, "카드 결제입니다", Toast.LENGTH_SHORT).show();
+                    }
+                    if (v.getId() == R.id.afterpay) {
+                        payState = 2;
+                        setCustomToast(OrderActivity.this, "카드 결제입니다");
+
+//                    Toast.makeText(OrderActivity.this, "현금 결제입니다", Toast.LENGTH_SHORT).show();
+                    }
+                    Log.d("test111", payState + "");
+                    dialog.dismiss();
                 }
             });
-            deleteMode = false;
-            return true;
-        }
+            cash.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (v.getId() == R.id.prepay) {
+                        payState = 3;
+                        setCustomToast(OrderActivity.this, "현금 결제입니다");
 
+//                    Toast.makeText(OrderActivity.this, "카드 결제입니다", Toast.LENGTH_SHORT).show();
+                    }
+                    if (v.getId() == R.id.afterpay) {
+                        payState = 4;
+                        setCustomToast(OrderActivity.this, "현금 결제입니다");
+
+//                    Toast.makeText(OrderActivity.this, "현금 결제입니다", Toast.LENGTH_SHORT).show();
+                    }
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+        }
     }
+
+
     public boolean exitEdit() {
         if (edit_act) {
             mDragListView.setVisibility(View.INVISIBLE);
             item_view.setVisibility(View.VISIBLE);
             item_adapter.notifyDataSetChanged();
             edit_act = false;
+            return true;
+        } else if (deleteMode) {
+            item_view.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    return false;
+                }
+            });
             Toast.makeText(this, "편집모드가 해제되었습니다.", Toast.LENGTH_SHORT).show();
+            deleteMode = false;
             return true;
         } else
             return false;
     }
 
     public void payClick(final View v) {
-        if (exitEdit())
-            return;
-        View r_view = View.inflate(this, R.layout.paymethod, null);
-        final Dialog dialog = new Dialog(this);
-        Display display;
-        display = ((WindowManager) this.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 
 
-
-
-
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(r_view); //대화상자 뷰 설정
-        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
-        params.width = (int) (display.getWidth() * 0.43);
-        params.height = (int) (display.getHeight() * 0.3);
-        dialog.getWindow().setAttributes(params);//대화상자 크기 설정
-
-
-        dialog.setContentView(r_view);
-        Button card = (Button) r_view.findViewById(R.id.card);
-        Button cash = (Button) r_view.findViewById(R.id.cash);
-        card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (v.getId() == R.id.prepay) {
-                    payState = 1;
-                    setCustomToast(OrderActivity.this, "카드 결제입니다");
-//                    Toast.makeText(OrderActivity.this, "카드 결제입니다", Toast.LENGTH_SHORT).show();
-                }
-                if (v.getId() == R.id.afterpay) {
-                    payState = 2;
-                    setCustomToast(OrderActivity.this, "카드 결제입니다");
-
-//                    Toast.makeText(OrderActivity.this, "현금 결제입니다", Toast.LENGTH_SHORT).show();
-                }
-                Log.d("test111", payState + "");
-                dialog.dismiss();
-            }
-        });
-        cash.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (v.getId() == R.id.prepay) {
-                    payState = 3;
-                    setCustomToast(OrderActivity.this, "현금 결제입니다");
-
-//                    Toast.makeText(OrderActivity.this, "카드 결제입니다", Toast.LENGTH_SHORT).show();
-                }
-                if (v.getId() == R.id.afterpay) {
-                    payState = 4;
-                    setCustomToast(OrderActivity.this, "현금 결제입니다");
-
-//                    Toast.makeText(OrderActivity.this, "현금 결제입니다", Toast.LENGTH_SHORT).show();
-                }
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
     }
 
     void nowTime() {
