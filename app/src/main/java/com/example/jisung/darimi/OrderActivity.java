@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -208,7 +209,7 @@ public class OrderActivity extends AppCompatActivity {
 
                     }
                 });
-
+                bit = BitmapFactory.decodeResource(getResources(),R.drawable.item_kg);
                 spinner = (Spinner) e_view.findViewById(R.id.cateSpiner);
                 Button comple = (Button) e_view.findViewById(R.id.edit_com);
                 //대화상자 초기화
@@ -249,6 +250,22 @@ public class OrderActivity extends AppCompatActivity {
                 comple.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        if(eitem_name.getText().toString().equals("")||eitem_price.getText().toString().equals("")){
+                            Toast.makeText(OrderActivity.this, "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        boolean used =false;
+                        realm.beginTransaction();
+                        String name;
+                        Item item = realm.where(Item.class).equalTo("name",eitem_name.getText().toString()).findFirst();
+
+                        if(item!=null)
+                            used = true;
+                        realm.commitTransaction();
+                        if(used){
+                            Toast.makeText(OrderActivity.this, "동일한 물품명이 있습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         darimiDataCon.makeItem(realm, view.getContext(), eitem_name.getText().toString(), eitem_price.getText().toString(),ImgConvert.bitmapToByteArray(bit)
                                 , catmp);
 //                        O.setCustomToast(view.getContext(), "항목이 추가되었습니다.");

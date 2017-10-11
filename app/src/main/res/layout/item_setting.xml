@@ -29,6 +29,8 @@ android:layout_gravity="center"
         android:layout_weight="7">
 
         <ImageView
+            android:background="@color/itemBack"
+            android:src="@drawable/item_kg"
             android:id="@+id/item_img"
             android:layout_width="0dp"
             android:layout_height="match_parent"
