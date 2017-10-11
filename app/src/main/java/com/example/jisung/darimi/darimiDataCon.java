@@ -177,7 +177,7 @@ public class darimiDataCon {
         });
         return result[0];
     }
-
+//
 
     public static ArrayList<String> findClientCall(Realm realm, final String name) {
         final ArrayList<String> nums = new ArrayList<String>();
