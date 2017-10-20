@@ -11,7 +11,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -38,6 +40,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tsengvn.typekit.Typekit;
 import com.woxthebox.draglistview.DragListView;
 
 import java.io.FileNotFoundException;
@@ -53,7 +56,7 @@ import it.sephiroth.android.library.widget.HListView;
 
 
 public class OrderActivity extends AppCompatActivity {
-    private TextView time_N, total, order_time, item_total_num;
+    private TextView time_N, total, order_time, item_total_num, clock;
     private EditText client_name, client_num;
     private Button editActBtn, addBtn;
     private String today_date, today_time;
@@ -61,7 +64,9 @@ public class OrderActivity extends AppCompatActivity {
     int total_Price = 0, total_item;
     Boolean edit_act = false;
     Boolean deleteMode = false;
+    String clockdate;
 
+    Handler mHandler = new Handler();
     private ArrayList<Item> item_list;
     private ArrayList<Items> selectItems_list;
     private ArrayList<Categol> cate_list;
@@ -98,13 +103,42 @@ public class OrderActivity extends AppCompatActivity {
     Realm realm;
     ImageView img;
     Bitmap bit;
+    Handler mhandler;
 
+    ManageActivity m = new ManageActivity();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
+        Typekit.getInstance()
+                .addNormal(Typekit.createFromAsset(this, "rix.ttf"))
+                .addBold(Typekit.createFromAsset(this, "rixb.TTF"));
         init();
+        mhandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                SimpleDateFormat sdfNow = new SimpleDateFormat("HH:mm:ss");
+                clockdate = sdfNow.format(date);
+                clock.setText(clockdate);
+            } };
+        Thread mThread = new Thread(){
+            @Override
+            public void run() {
 
+                try {
+                    while(true) {
+                        mhandler.sendEmptyMessage(0);
+                        Thread.sleep(1000);
+                    }
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }};
+        mThread.start();
         item_adapter.notifyDataSetChanged();
         cate_adapter.notifyDataSetChanged();
 //        mDragListView.setDragEnabled(true);
@@ -122,35 +156,27 @@ public class OrderActivity extends AppCompatActivity {
                 total.setText(total_Price + "");
                 item_total_num.setText(++total_item + "벌");
 
-                Log.d("testset", "1");
                 for (int j = 0; j < selectItems_list.size(); j++) {
-                    Log.d("testset", "2");
+
                     if (selectItems_list.get(j).getItem().getName().equals(item_list.get(i).getName())) {
                         selectItems_list.get(j).setItem_num(selectItems_list.get(j).getItem_num() + 1);
                         selected_adapter.notifyDataSetChanged();//변동사항 보여줌
-                        Log.d("testset", "3");
+
                         return;//주문 품목에 동일한 아이템이 있는 경우 숫자를 하나 증가한다
                     }
                 }
-                Log.d("testset", "4");
+
                 selectItems_list.add(new Items(item_list.get(i), 1));//없는 경우 새로추가한다
                 selected_adapter.notifyDataSetChanged();//변동사항 보여줌
-                Log.d("testset", "5");
+
             }
 
         });
 
 
-//        sele_view.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(OrderActivity.this, "test", Toast.LENGTH_SHORT).show();
-//            }
-//        });
         sele_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(OrderActivity.this, "this", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -162,6 +188,7 @@ public class OrderActivity extends AppCompatActivity {
 
                 if (client_num.getText().toString().length() < 10 || client_name.getText().toString().length() < 2) {
                     Toast.makeText(OrderActivity.this, "고객 정보를 확인해주세요", Toast.LENGTH_SHORT).show();
+//                    m.setCustomToast(this, "고객 정보를 확인해주세요");
                     return;
                 }
                 if (payState == 0) {
@@ -283,7 +310,6 @@ public class OrderActivity extends AppCompatActivity {
                             /*
                             데이터 베이스 전송
                              */
-
                     }
                 });
 
@@ -359,7 +385,6 @@ public class OrderActivity extends AppCompatActivity {
 
 
     public String getImageNameToUri(Uri data)
-
     {
 
         String[] proj = {MediaStore.Images.Media.DATA};
@@ -380,9 +405,6 @@ public class OrderActivity extends AppCompatActivity {
 
     }
 
-    public void searchBtn(View v) {
-
-    }
 
     private boolean isinitInstall() {
         SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
@@ -407,7 +429,7 @@ public class OrderActivity extends AppCompatActivity {
         client_num = (EditText) findViewById(R.id.client_number_E);
 
         display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-
+        clock = (TextView) findViewById(R.id.clock);
         time_N = (TextView) findViewById(R.id.time);
         total = (TextView) findViewById(R.id.selected_total);
         order_time = (TextView) findViewById(R.id.item_order_time);
@@ -521,9 +543,6 @@ public class OrderActivity extends AppCompatActivity {
 
             @Override
             public void onItemDragStarted(int position) {
-
-
-                Toast.makeText(OrderActivity.this, "Start - position: " + position, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -537,7 +556,6 @@ public class OrderActivity extends AppCompatActivity {
                         item_list.add(All_item.get(j));
                 }
                 if (fromPosition != toPosition) {
-                    Toast.makeText(OrderActivity.this, "End - position: " + toPosition, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -561,6 +579,7 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     void onClick(View v) {
+
         Log.d("orderid", v.getId() + "");
         switch (v.getId()) {
             case R.id.manageA:
@@ -620,7 +639,7 @@ public class OrderActivity extends AppCompatActivity {
                             Boolean flag = darimiDataCon.searchUsercall(realm, custom_call);
 
                             if (flag) {
-                                darimiDataCon.insertuserData(realm,custom_name,custom_call);
+                                darimiDataCon.insertuserData(realm, custom_name, custom_call);
                                 dialog.dismiss();
                             } else {
                                 setCustomToast(OrderActivity.this, "이미 존재하는 전화번호 입니다.");
@@ -690,6 +709,12 @@ public class OrderActivity extends AppCompatActivity {
             }
         }
         if (v.getId() == R.id.prepay || v.getId() == R.id.afterpay) {
+            if (v.getId() == R.id.afterpay) {
+                payState = 4;
+                setCustomToast(OrderActivity.this, "후불 결제입니다");
+                return;
+            }//후불 결재 기능 재설정
+
             View r_view = View.inflate(this, R.layout.paymethod, null);
             final Dialog dialog = new Dialog(this);
             Display display;
@@ -728,17 +753,14 @@ public class OrderActivity extends AppCompatActivity {
             cash.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     if (v.getId() == R.id.prepay) {
                         payState = 3;
                         setCustomToast(OrderActivity.this, "현금 결제입니다");
-
-//                    Toast.makeText(OrderActivity.this, "카드 결제입니다", Toast.LENGTH_SHORT).show();
                     }
                     if (v.getId() == R.id.afterpay) {
                         payState = 4;
                         setCustomToast(OrderActivity.this, "현금 결제입니다");
-
-//                    Toast.makeText(OrderActivity.this, "현금 결제입니다", Toast.LENGTH_SHORT).show();
                     }
                     dialog.dismiss();
                 }
@@ -769,10 +791,6 @@ public class OrderActivity extends AppCompatActivity {
             return false;
     }
 
-    public void payClick(final View v) {
-
-
-    }
 
     void nowTime() {
         long now = System.currentTimeMillis();
@@ -782,6 +800,7 @@ public class OrderActivity extends AppCompatActivity {
         today_date = formatDate.substring(0, 4) + "." + formatDate.substring(5, 7) + "." + formatDate.substring(8, 10) + "";
         today_time = formatDate.substring(11, 13) + ":" + formatDate.substring(14, 16);
     }//날짜와 시간 문자열로 받아옴
+
 
     String dateKey() {
         long now = System.currentTimeMillis();

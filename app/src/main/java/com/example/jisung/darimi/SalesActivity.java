@@ -7,7 +7,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.Image;
+import android.os.AsyncTask;
+import android.os.Environment;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -52,8 +55,10 @@ public class SalesActivity extends AppCompatActivity {
     Button b1, b2, b3;
 
     Intent intent;
-    TextView time_N;
+    TextView time_N,clock;
     String time;
+    String clockdate;
+
 
     TextView start_tv, finish_tv, total_tv;
     TextView year, month, month2;
@@ -74,14 +79,66 @@ public class SalesActivity extends AppCompatActivity {
     int FILTER = 0;
 
     int CATEGORIZATION = 0; // 0 : all, 1 : card, 2 : cash
-
+    public String getExternalPath(){
+        String sdPath = "";
+        String ext = Environment.getExternalStorageState();
+        if(ext.equals(Environment.MEDIA_MOUNTED)) {
+            sdPath =
+                    Environment.getExternalStorageDirectory ().getAbsolutePath() + "/Excelfile/";
+        }else
+            sdPath = getFilesDir() + "";
+        return sdPath;
+    }
+    Handler mhandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sales);
+        Typekit.getInstance()
+                .addNormal(Typekit.createFromAsset(this, "rix.ttf"))
+                .addBold(Typekit.createFromAsset(this, "rixb.TTF"));
         init();
-        open_calendar();
+        mhandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                SimpleDateFormat sdfNow = new SimpleDateFormat("HH:mm:ss");
+                clockdate = sdfNow.format(date);
+                clock.setText(clockdate);
+            } };
+        Thread mThread = new Thread(){
+            @Override
+            public void run() {
 
+                try {
+                    while(true) {
+                        mhandler.sendEmptyMessage(0);
+                        Thread.sleep(1000);
+                    }
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }};
+        mThread.start();
+
+
+
+        open_calendar();
+        ImageButton btn = (ImageButton)findViewById(R.id.refresh);
+        for(int i=0;i<sales_list.size();i++)
+            Log.d("check2",sales_list.get(i).getName());
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                String path =getExternalPath();
+
+                Excel.saveExcel(getExternalPath(),"ttt.xls",sales_list);
+                Toast.makeText(SalesActivity.this, "sending!!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -100,6 +157,8 @@ public class SalesActivity extends AppCompatActivity {
 //        insertData("201811121114", "남궁선", 27000, true);
 //        insertData("201812201115", "문소연", 28000, true);
         sales_list = (ArrayList<Sales>) getAllSalesList(CATEGORIZATION);
+        clock = (TextView)findViewById(R.id.clock);
+
 
 
         total_tv = (TextView) findViewById(R.id.total_sale_tv);
@@ -1129,4 +1188,7 @@ public class SalesActivity extends AppCompatActivity {
             }
         }, 1000);
     }
+
+
 }
+

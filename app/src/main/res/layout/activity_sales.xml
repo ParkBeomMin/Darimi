@@ -140,23 +140,44 @@
             android:weightSum="15">
 
             <TextView
+                android:layout_marginLeft="30dp"
+                android:gravity="center_vertical"
+                android:textSize="40dp"
+                android:id="@+id/time"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:text="시간" />
+
+            <TextView
+                android:gravity="center_vertical"
+                android:textSize="30dp"
+                android:id="@+id/clock"
+                android:layout_weight="4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+
+            <TextView
                 android:id="@+id/calcul"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.5"
-                android:text="계산기"/>
+                />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="11.5"/>
+                android:layout_weight="4" />
 
-            <TextView
-                android:id="@+id/time"
+
+            <ImageButton
+                android:background="@drawable/refresh"
+                android:id="@+id/refresh"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:text="시간"/>
+                android:layout_weight="1.5"
+ />
+
         </LinearLayout>
 
         <LinearLayout

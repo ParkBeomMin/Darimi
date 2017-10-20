@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,9 +37,9 @@ import io.realm.RealmResults;
 public class ManageActivity extends AppCompatActivity {
     // basis// basis
     Intent intent;
-    String time;
-    TextView time_N;
-    //
+    String time,clockdate;
+    TextView time_N,clock;
+
     EditText custom_search_edt;
     ListView custom_list;
     static ArrayList<Custom> arrayList;// = new ArrayList<Custom>();
@@ -50,15 +51,41 @@ public class ManageActivity extends AppCompatActivity {
 
     private static Realm realm;
 
+    Handler mhandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage);
         Typekit.getInstance()
-
                 .addNormal(Typekit.createFromAsset(this, "rix.ttf"))
                 .addBold(Typekit.createFromAsset(this, "rixb.TTF"));
         init();
+        clock = (TextView)findViewById(R.id.clock);
+        mhandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                SimpleDateFormat sdfNow = new SimpleDateFormat("HH:mm:ss");
+                clockdate = sdfNow.format(date);
+                clock.setText(clockdate);
+            } };
+        Thread mThread = new Thread(){
+            @Override
+            public void run() {
+
+                try {
+                    while(true) {
+                        mhandler.sendEmptyMessage(0);
+                        Thread.sleep(1000);
+                    }
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }};
+        mThread.start();
         adapter.filter("");
     }
 

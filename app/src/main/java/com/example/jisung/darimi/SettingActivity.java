@@ -1,6 +1,8 @@
 package com.example.jisung.darimi;
 
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,16 +14,20 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.tsengvn.typekit.Typekit;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 
 import io.realm.Realm;
 
 public class SettingActivity extends AppCompatActivity {
     String time;
-    TextView time_N,c_num,p_num;
+    TextView time_N,c_num,p_num,clock;
     Intent intent;
     Button searchBtn;
     EditText nameE;
@@ -32,14 +38,43 @@ public class SettingActivity extends AppCompatActivity {
     ArrayList<Order> Bworks,Aworks;
     work_itemAdapter work_adapter,Awork_adapter;
     work_nameAdapter nameAdapter;
-
+    String clockdate;
     Realm realm;
-
+    Handler mhandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+        Typekit.getInstance()
+                .addNormal(Typekit.createFromAsset(this, "rix.ttf"))
+                .addBold(Typekit.createFromAsset(this, "rixb.TTF"));
         init();
+        clock = (TextView)findViewById(R.id.clock);
+        mhandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                SimpleDateFormat sdfNow = new SimpleDateFormat("HH:mm:ss");
+                clockdate = sdfNow.format(date);
+                clock.setText(clockdate);
+            } };
+        Thread mThread = new Thread(){
+            @Override
+            public void run() {
+
+                try {
+                    while(true) {
+                        mhandler.sendEmptyMessage(0);
+                        Thread.sleep(1000);
+                    }
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }};
+        mThread.start();
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

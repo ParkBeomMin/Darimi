@@ -10,67 +10,77 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:weightSum="9"
         android:background="@drawable/left_side_bar"
-        android:layout_height="match_parent">
+        android:orientation="vertical"
+        android:weightSum="9">
+
+
         <ImageView
             android:id="@+id/logo"
+
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:src="@drawable/logo" />
+            android:src="@drawable/logo"/>
 
         <TextView
-            android:textColor="@color/White"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
             android:id="@+id/orderA"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.2"
             android:background="@color/Key2"
+            android:gravity="center_vertical"
             android:onClick="onClick"
-            android:text="주문" />
+            android:paddingLeft="10dp"
+            android:text="주문"
+
+            android:textColor="@color/White"/>
 
         <TextView
-            android:textColor="@color/White"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:background="@android:color/transparent"
             android:id="@+id/manageA"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.2"
-            android:onClick="onClick"
-            android:text="고객관리" />
-        <TextView
-            android:textColor="@color/White"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
+
             android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:onClick="onClick"
+            android:paddingLeft="10dp"
+            android:text="고객관리/등록"
+            android:textColor="@color/White"
+            />
+
+        <TextView
             android:id="@+id/settingA"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.2"
-            android:onClick="onClick"
-            android:text="작업" />
-        <TextView
-            android:textColor="@color/White"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
+
             android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:onClick="onClick"
+            android:paddingLeft="10dp"
+            android:text="작업"
+            android:textColor="@color/White"/>
+
+        <TextView
             android:id="@+id/salesA"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.2"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
             android:onClick="onClick"
-            android:text="매출" />
+            android:paddingLeft="10dp"
+            android:text="매출"
+            android:textColor="@color/White"/>
 
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="10dp"
         android:layout_height="match_parent"
@@ -90,13 +100,6 @@
             android:layout_height="0dp"
             android:layout_weight="1.2"
             android:background="@color/Key2"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.2"
-            android:background="@android:color/transparent"
 
             />
 
@@ -112,8 +115,17 @@
             android:layout_height="0dp"
             android:layout_weight="1.2"
             android:background="@android:color/transparent"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:background="@android:color/transparent"
+
             />
     </LinearLayout>
+
     <LinearLayout
 
         android:layout_width="0dp"
@@ -132,24 +144,36 @@
             android:orientation="horizontal"
             android:weightSum="15">
 
+
+            <TextView
+                android:layout_marginLeft="30dp"
+                android:id="@+id/time"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="center_vertical"
+                android:text="시간"
+                android:textSize="40dp" />
+
+            <TextView
+                android:id="@+id/clock"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="center_vertical"
+                android:textSize="30dp" />
+
             <TextView
                 android:id="@+id/calcul"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.5"
-                android:text="계산기" />
+                android:layout_weight="1.5" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="11.5" />
+                android:layout_weight="5.5" />
 
-            <TextView
-                android:id="@+id/time"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:text="시간" />
         </LinearLayout>
 
         <LinearLayout
@@ -203,7 +227,7 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="8.1">
+                    android:layout_weight="7.7">
 
                     <GridView
                         android:id="@+id/item_list"
@@ -223,45 +247,47 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="0.9"
-                    android:orientation="horizontal"
+                    android:layout_weight="1.3"
                     android:background="#555b66"
-                    >
+                    android:orientation="horizontal">
+
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:layout_weight="0.5"/>
+                        android:layout_weight="0.5" />
+
                     <Button
-                        android:layout_gravity="center"
                         android:id="@+id/item_add_btn"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
-                        android:layout_weight="1"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.6"
                         android:background="@drawable/item_add_btn" />
 
                     <Button
                         android:id="@+id/item_delete_btn"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:layout_marginLeft="30dp"
-                        android:layout_weight="1"
+                        android:layout_weight="1.6"
                         android:background="@drawable/item_del_btn"
                         android:onClick="EonClick" />
 
                     <Button
                         android:id="@+id/item_edit_btn"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
-                        android:layout_marginLeft="30dp"
-                        android:layout_weight="1"
+                        android:layout_height="30dp"
                         android:layout_gravity="center"
+                        android:layout_marginLeft="30dp"
+                        android:layout_weight="1.6"
                         android:background="@drawable/item_swap_btn"
                         android:onClick="EonClick" />
+
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:layout_weight="2.5"/>
+                        android:layout_weight="2.5" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -376,8 +402,8 @@
                         android:layout_marginBottom="7dp"
                         android:layout_marginTop="7dp"
                         android:layout_weight="1.3"
-                        android:onClick="EonClick"
-                        android:background="@drawable/client_regit" />
+                        android:background="@drawable/client_regit"
+                        android:onClick="EonClick" />
                 </LinearLayout>
 
 
@@ -484,8 +510,8 @@
                     android:layout_marginBottom="15dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:layout_weight="1.2"
                     android:layout_marginTop="15dp"
+                    android:layout_weight="1.2"
                     android:orientation="horizontal"
                     android:weightSum="10">
 
@@ -523,30 +549,30 @@
                     android:weightSum="1">
 
                     <Button
-                        style="?android:attr/borderlessButtonStyle"
-                        android:textColor="#636870"
-                        android:background="@color/White"
                         android:id="@+id/prepay"
+                        style="?android:attr/borderlessButtonStyle"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.5"
-                        android:onClick="EonClick"
-                        android:textSize="18dp"
                         android:layout_margin="5dp"
-                        android:text="선불" />
+                        android:layout_weight="0.5"
+                        android:background="@color/White"
+                        android:onClick="EonClick"
+                        android:text="선불"
+                        android:textColor="#636870"
+                        android:textSize="18dp" />
 
                     <Button
-                        style="?android:attr/borderlessButtonStyle"
-                        android:textSize="18dp"
-                        android:layout_margin="5dp"
-                        android:textColor="#636870"
-                        android:background="@color/White"
                         android:id="@+id/afterpay"
+                        style="?android:attr/borderlessButtonStyle"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:layout_margin="5dp"
                         android:layout_weight="0.5"
+                        android:background="@color/White"
                         android:onClick="EonClick"
-                        android:text="후불" />
+                        android:text="후불"
+                        android:textColor="#636870"
+                        android:textSize="18dp" />
                 </LinearLayout>
 
                 <Button
@@ -562,6 +588,50 @@
 
             </LinearLayout>
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="10dp"
+        android:layout_height="match_parent"
+        android:background="@color/Background"
+        android:orientation="vertical"
+        android:weightSum="9">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/White"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:background="@color/Key2"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:background="@android:color/transparent"
+
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:background="@android:color/transparent"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:background="@android:color/transparent"
+            />
     </LinearLayout>
 
 
