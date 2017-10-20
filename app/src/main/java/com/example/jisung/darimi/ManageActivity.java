@@ -214,17 +214,21 @@ public class ManageActivity extends AppCompatActivity {
             //basis
             case R.id.orderA:
                 intent = new Intent(this, OrderActivity.class);
+                intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                finish();
                 break;
             case R.id.salesA:
                 intent = new Intent(this, SalesActivity.class);
                 intent.putExtra("time", time);
                 startActivity(intent);
+                finish();
                 break;
             case R.id.settingA:
                 intent = new Intent(this, SettingActivity.class);
                 intent.putExtra("time", time);
                 startActivity(intent);
+                finish();
                 break;
             //
             case R.id.add_custom_btn:

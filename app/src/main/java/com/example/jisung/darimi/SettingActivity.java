@@ -1,5 +1,6 @@
 package com.example.jisung.darimi;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tsengvn.typekit.Typekit;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -84,6 +86,10 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
+    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 
     void init() {
@@ -175,15 +181,19 @@ public class SettingActivity extends AppCompatActivity {
                 intent = new Intent(this, ManageActivity.class);
                 intent.putExtra("time", time);
                 startActivity(intent);
+                finish();
                 break;
             case R.id.orderA:
                 intent = new Intent(this, OrderActivity.class);
                 startActivity(intent);
+                intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
+                finish();
                 break;
             case R.id.salesA:
                 intent = new Intent(this, SalesActivity.class);
                 intent.putExtra("time", time);
                 startActivity(intent);
+                finish();
                 break;
 
             default:

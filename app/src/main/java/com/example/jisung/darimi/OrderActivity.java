@@ -41,6 +41,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tsengvn.typekit.Typekit;
+import com.tsengvn.typekit.TypekitContextWrapper;
 import com.woxthebox.draglistview.DragListView;
 
 import java.io.FileNotFoundException;
@@ -76,7 +77,7 @@ public class OrderActivity extends AppCompatActivity {
     private SelectItemAdapter selected_adapter;
     private CateAdapter cate_adapter;
     private ItemBaseAdapter item_adapter;
-
+    private  long lastTimeBackPressed;
     private GridView item_view;
     private ListView sele_view;
     private HListView cate_view;
@@ -511,6 +512,18 @@ public class OrderActivity extends AppCompatActivity {
             }
         });
 
+    }
+    public void onBackPressed() {
+        if(System.currentTimeMillis() - lastTimeBackPressed < 1500) {
+            finishAffinity();
+            return;
+        }
+        setCustomToast(OrderActivity.this, "뒤로 버튼을 한번 더 누르면 종료됩니다.");
+        lastTimeBackPressed = System.currentTimeMillis();
+    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 
     @Override

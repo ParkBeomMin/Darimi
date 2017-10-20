@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.Image;
@@ -90,10 +91,12 @@ public class SalesActivity extends AppCompatActivity {
         return sdPath;
     }
     Handler mhandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sales);
+
         Typekit.getInstance()
                 .addNormal(Typekit.createFromAsset(this, "rix.ttf"))
                 .addBold(Typekit.createFromAsset(this, "rixb.TTF"));
@@ -135,8 +138,16 @@ public class SalesActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                String path =getExternalPath();
 
-                Excel.saveExcel(getExternalPath(),"ttt.xls",sales_list);
-                Toast.makeText(SalesActivity.this, "sending!!", Toast.LENGTH_SHORT).show();
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy");
+                String day = sdfNow.format(date);
+                ArrayList<Sales> inputdata = new ArrayList<Sales>();
+                for(int i=0;i<sales_list.size();i++)
+                    if(sales_list.get(i).getDate().substring(0,4).equals(day))
+                        inputdata.add(sales_list.get(i));
+                Excel.saveExcel(getExternalPath(),day+".xls",inputdata);
+                setCustomToast(SalesActivity.this, "엑셀파일에 자료가 저장되었습니다.");
             }
         });
     }
@@ -424,16 +435,20 @@ public class SalesActivity extends AppCompatActivity {
                 intent = new Intent(this, ManageActivity.class);
                 intent.putExtra("time", time);
                 startActivity(intent);
+                finish();
                 break;
             case R.id.orderA:
                 intent = new Intent(this, OrderActivity.class);
+                intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                finish();
                 break;
 
             case R.id.settingA:
                 intent = new Intent(this, SettingActivity.class);
                 intent.putExtra("time", time);
                 startActivity(intent);
+                finish();
                 break;
 
             case R.id.sales_start_left_btn:

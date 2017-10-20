@@ -261,7 +261,7 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
-                        android:layout_weight="1.6"
+                        android:layout_weight="2"
                         android:background="@drawable/item_add_btn" />
 
                     <Button
@@ -270,7 +270,7 @@
                         android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:layout_marginLeft="30dp"
-                        android:layout_weight="1.6"
+                        android:layout_weight="2"
                         android:background="@drawable/item_del_btn"
                         android:onClick="EonClick" />
 
@@ -280,7 +280,7 @@
                         android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:layout_marginLeft="30dp"
-                        android:layout_weight="1.6"
+                        android:layout_weight="2"
                         android:background="@drawable/item_swap_btn"
                         android:onClick="EonClick" />
 
@@ -590,49 +590,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="10dp"
-        android:layout_height="match_parent"
-        android:background="@color/Background"
-        android:orientation="vertical"
-        android:weightSum="9">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@color/White"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.2"
-            android:background="@color/Key2"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.2"
-            android:background="@android:color/transparent"
-
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.2"
-            android:background="@android:color/transparent"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.2"
-            android:background="@android:color/transparent"
-            />
-    </LinearLayout>
 
 
 </LinearLayout>

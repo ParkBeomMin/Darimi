@@ -61,7 +61,7 @@ public class Excel {
             Row item = sheet1.createRow(i);
 
             c = item.createCell(0);
-            c.setCellValue(salesList.get(i-1).getDate());
+            c.setCellValue(salesList.get(i-1).getDate().substring(4,8));
           //  c.setCellStyle(cs);
 
             c = item.createCell(1);
