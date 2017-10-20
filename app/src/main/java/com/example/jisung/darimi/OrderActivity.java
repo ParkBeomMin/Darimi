@@ -105,7 +105,6 @@ public class OrderActivity extends AppCompatActivity {
     Bitmap bit;
     Handler mhandler;
 
-    ManageActivity m = new ManageActivity();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -183,16 +182,18 @@ public class OrderActivity extends AppCompatActivity {
         orderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(selectItems_list.size()==0)
+                    return;
+
                 if (exitEdit())
                     return;
 
                 if (client_num.getText().toString().length() < 10 || client_name.getText().toString().length() < 2) {
-                    Toast.makeText(OrderActivity.this, "고객 정보를 확인해주세요", Toast.LENGTH_SHORT).show();
-//                    m.setCustomToast(this, "고객 정보를 확인해주세요");
+                    setCustomToast(OrderActivity.this, "고객 정보를 확인해주세요");
                     return;
                 }
                 if (payState == 0) {
-                    Toast.makeText(OrderActivity.this, "결재 방법을 선택해주새요.", Toast.LENGTH_SHORT).show();
+                    setCustomToast(OrderActivity.this, "결재방법을 선택해주세요");
                     return;
                 }
 
@@ -280,7 +281,7 @@ public class OrderActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         if (eitem_name.getText().toString().equals("") || eitem_price.getText().toString().equals("")) {
-                            Toast.makeText(OrderActivity.this, "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                            setCustomToast(OrderActivity.this, "정보를 입력해주세요");
                             return;
                         }
                         boolean used = false;
@@ -292,7 +293,7 @@ public class OrderActivity extends AppCompatActivity {
                             used = true;
                         realm.commitTransaction();
                         if (used) {
-                            Toast.makeText(OrderActivity.this, "동일한 물품명이 있습니다.", Toast.LENGTH_SHORT).show();
+                            setCustomToast(OrderActivity.this, "동일한 물품명이 있습니다.");
                             return;
                         }
                         darimiDataCon.makeItem(realm, view.getContext(), eitem_name.getText().toString(), eitem_price.getText().toString(), ImgConvert.bitmapToByteArray(bit)
@@ -325,9 +326,6 @@ public class OrderActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 
-        Toast.makeText(getBaseContext(), "resultCode : " + resultCode, Toast.LENGTH_SHORT).show();
-
-
         if (requestCode == REQ_CODE_SELECT_IMAGE)
 
         {
@@ -354,7 +352,6 @@ public class OrderActivity extends AppCompatActivity {
                     bit = image_bitmap;
 
 
-                    //Toast.makeText(getBaseContext(), "name_Str : "+name_Str , Toast.LENGTH_SHORT).show();
 
 
                 } catch (FileNotFoundException e) {
@@ -643,13 +640,11 @@ public class OrderActivity extends AppCompatActivity {
                                 dialog.dismiss();
                             } else {
                                 setCustomToast(OrderActivity.this, "이미 존재하는 전화번호 입니다.");
-//                                    Toast.makeText(getApplicationContext(), "이미 존재하는 전화번호 입니다.", Toast.LENGTH_LONG).show();
 
                             }
                         }
                     } else {
                         setCustomToast(OrderActivity.this, "모든 항목을 입력해주세요.");
-//                            Toast.makeText(ManageActivity.this, "모든 항목을 입력해주세요.", Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -658,18 +653,18 @@ public class OrderActivity extends AppCompatActivity {
                 if (exitEdit())
                     return;
             if (tmp == 0) {
-                Toast.makeText(this, "즐겨찾기 항목에서는 편집모드를 사용할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                setCustomToast(OrderActivity.this, "즐겨찾기 항목에서는 편집을 할 수 없습니다.");
                 return;
             }
             mDragListView.setVisibility(View.VISIBLE);
             item_view.setVisibility(View.INVISIBLE);
             edit_act = true;
             DragListSetting();
-            Toast.makeText(this, "편집모드가 설정되었습니다.", Toast.LENGTH_SHORT).show();
+            setCustomToast(OrderActivity.this, "편집모드가 설정되었습니다..");
 
         } else if (v.getId() == R.id.item_delete_btn) {
             deleteMode = true;
-            Toast.makeText(this, "삭제 모드가 설정되었습니다.\n품목을 길게누르면 삭제됩니다.", Toast.LENGTH_SHORT).show();
+            setCustomToast(OrderActivity.this,"삭제 모드가 설정되었습니다.\n품목을 길게누르면 삭제됩니다.");
             item_view.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -784,7 +779,7 @@ public class OrderActivity extends AppCompatActivity {
                     return false;
                 }
             });
-            Toast.makeText(this, "편집모드가 해제되었습니다.", Toast.LENGTH_SHORT).show();
+            setCustomToast(OrderActivity.this, "편집모드가 해제되었습니다.");
             deleteMode = false;
             return true;
         } else
