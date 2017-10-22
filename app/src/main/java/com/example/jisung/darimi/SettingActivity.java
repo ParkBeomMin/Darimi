@@ -141,6 +141,7 @@ public class SettingActivity extends AppCompatActivity {
         nameAdapter.Badapter=work_adapter;
         nameAdapter.Alls =allWork;
         Awork_adapter.noti = nameAdapter;
+        work_adapter.nextAdapter = Awork_adapter;
         work_name_view.setAdapter(nameAdapter);
 
 

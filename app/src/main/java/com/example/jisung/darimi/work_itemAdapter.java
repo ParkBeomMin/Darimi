@@ -42,6 +42,7 @@ public class work_itemAdapter extends BaseAdapter {
     boolean isAll=false;
     TextView txt;
     int payState;
+    work_itemAdapter nextAdapter;
 ManageActivity m = new ManageActivity();
 
     public work_itemAdapter(ArrayList<Order> list, Context context) {
@@ -111,6 +112,7 @@ ManageActivity m = new ManageActivity();
                     darimiDataCon.updateStateOrder(realm,list.get(i).getDate());
                     nextlist.add(list.get(i));
                     list.remove(list.get(i));
+                    nextAdapter.notifyDataSetChanged();
 
                 }
                 else{
@@ -152,6 +154,7 @@ ManageActivity m = new ManageActivity();
                     }
 
                     noti.listChange(list.get(i));
+                    Log.d("test22a",list.get(i).getData());
                     darimiDataCon.makeSales(realm,list.get(i).getDate(),list.get(i).getName(),list.get(i).getOrderPrice(),payState);
                     darimiDataCon.removeOrder(realm,list.get(i).getDate());
                     list.remove(i);

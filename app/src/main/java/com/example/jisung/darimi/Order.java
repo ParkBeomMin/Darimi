@@ -1,5 +1,7 @@
 package com.example.jisung.darimi;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import io.realm.RealmList;
@@ -90,7 +92,8 @@ public class Order extends RealmObject{
         ArrayList<item_basic> d;
         d = itemParser.parserString(data);
         for(int i=0;i<d.size();i++){
-            result+=Integer.parseInt(d.get(i).getPrice());
+            result+=Integer.parseInt(d.get(i).getPrice())*Integer.parseInt(d.get(i).getNum());
+            Log.d("test22",result+"");
         }
         return result;
     }
