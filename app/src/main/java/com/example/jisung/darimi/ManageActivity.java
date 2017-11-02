@@ -431,7 +431,7 @@ public class ManageActivity extends AppCompatActivity {
                 adapter.filter("ㅎ");
 
                 break;
-        }
+        }//
 
     }
 
