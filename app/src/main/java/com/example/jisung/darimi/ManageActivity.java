@@ -3,6 +3,7 @@ package com.example.jisung.darimi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
@@ -487,9 +488,9 @@ public class ManageActivity extends AppCompatActivity {
 
         TextView tvToastMsg = new TextView(context);
         tvToastMsg.setText(msg);
-//        tvToastMsg.setBackgroundResource(Color.WHITE);
-//        tvToastMsg.setTextColor(getResources().getColor(R.color.Key));
-        tvToastMsg.setTextSize(16);
+        tvToastMsg.setBackgroundColor(Color.WHITE);
+        tvToastMsg.setTextColor(getResources().getColor(R.color.gray)); // 진한회색으로 바까주삼삼삼삼삼 이거 확인을 못해서 에러도 나서
+        tvToastMsg.setTextSize(32);
         final Toast toastMsg = Toast.makeText(context, "", Toast.LENGTH_SHORT);
         toastMsg.setView(tvToastMsg);
         toastMsg.show();
@@ -498,6 +499,6 @@ public class ManageActivity extends AppCompatActivity {
             public void run() {
                 toastMsg.cancel();
             }
-        }, 1000);
+        }, 3000);
     }
 }
