@@ -85,13 +85,13 @@ ManageActivity m = new ManageActivity();
                 pay.setText("후불");
                 break;
             case 3:
-                pay.setText("후불");
+                pay.setText("선불");
                 break;
             case 1:
                 pay.setText("선불");
                 break;
             case 2:
-                pay.setText("선불");
+                pay.setText("후불");
                 break;
             default:
                 break;
@@ -108,15 +108,16 @@ ManageActivity m = new ManageActivity();
         state.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                payState=list.get(i).getPay();
                 if(list.get(i).getWork_state()==0){
                     darimiDataCon.updateStateOrder(realm,list.get(i).getDate());
                     nextlist.add(list.get(i));
                     list.remove(list.get(i));
+                    notifyDataSetChanged();
                     nextAdapter.notifyDataSetChanged();
 
                 }
                 else{
-                    payState=list.get(i).getPay();
                     if(payState==4) {
                         View r_view = View.inflate(context, R.layout.paymethod, null);
                         final Dialog dialog = new Dialog(context);
@@ -138,29 +139,46 @@ ManageActivity m = new ManageActivity();
                         card.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-
+                                Log.d("test22a",".card");
                                 payState = 2;
+
+                                noti.listChange(list.get(i));
+                                Log.d("test22a",list.get(i).getData()+"."+payState);
+                                darimiDataCon.makeSales(realm,list.get(i).getDate(),list.get(i).getName(),list.get(i).getOrderPrice(),payState);
+                                darimiDataCon.removeOrder(realm,list.get(i).getDate());
+                                list.remove(i);
+                                notifyDataSetChanged();
                                 dialog.dismiss();
+
                             }
                         });
                         cash.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                Log.d("test22a","cash");
                                 payState = 4;
+                                noti.listChange(list.get(i));
+                                Log.d("test22a",list.get(i).getData()+"."+payState);
+                                darimiDataCon.makeSales(realm,list.get(i).getDate(),list.get(i).getName(),list.get(i).getOrderPrice(),payState);
+                                darimiDataCon.removeOrder(realm,list.get(i).getDate());
+                                list.remove(i);
+                                notifyDataSetChanged();
                                 dialog.dismiss();
                             }
                         });
                         dialog.show();
                     }
+                    else{
+                        noti.listChange(list.get(i));
+                        darimiDataCon.makeSales(realm,list.get(i).getDate(),list.get(i).getName(),list.get(i).getOrderPrice(),payState);
+                        darimiDataCon.removeOrder(realm,list.get(i).getDate());
+                        list.remove(i);
+                        notifyDataSetChanged();
+                    }
 
-                    noti.listChange(list.get(i));
-                    Log.d("test22a",list.get(i).getData());
-                    darimiDataCon.makeSales(realm,list.get(i).getDate(),list.get(i).getName(),list.get(i).getOrderPrice(),payState);
-                    darimiDataCon.removeOrder(realm,list.get(i).getDate());
-                    list.remove(i);
+
                 }
                 txt.setText(list.size()+"건");
-                notifyDataSetChanged();
 
             }
         });
