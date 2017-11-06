@@ -273,6 +273,7 @@ ManageActivity m = new ManageActivity();
             if(list.get(i).getName().equals(name))
                 Collections.swap(list,tmp++,i);
         }
+        notifyDataSetChanged();
     }
 
 
