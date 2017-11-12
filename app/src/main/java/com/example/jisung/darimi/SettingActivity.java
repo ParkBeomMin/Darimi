@@ -85,6 +85,8 @@ public class SettingActivity extends AppCompatActivity {
                 Awork_adapter.sortToName(name);
             }
         });
+        work_adapter.datetext=time;
+        Awork_adapter.datetext=time;
 
     }
     @Override
@@ -170,7 +172,7 @@ public class SettingActivity extends AppCompatActivity {
             }
             data.setOrders(orders);
             date_list.add(data);
-            Log.d("test1", data.getDate());
+//            Log.d("test1", data.getDate());
             if (i == allWork.size())
                 break;
         }

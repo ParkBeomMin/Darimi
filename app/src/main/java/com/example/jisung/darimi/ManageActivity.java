@@ -488,9 +488,11 @@ public class ManageActivity extends AppCompatActivity {
 
         TextView tvToastMsg = new TextView(context);
         tvToastMsg.setText(msg);
-        tvToastMsg.setBackgroundColor(Color.WHITE);
-        tvToastMsg.setTextColor(getResources().getColor(R.color.workfont3)); // 진한회색으로 바까주삼삼삼삼삼 이거 확인을 못해서 에러도 나서
-        tvToastMsg.setTextSize(32);
+        tvToastMsg.setBackgroundResource(R.drawable.round_btn_key4);
+//        tvToastMsg.setBackgroundColor(Color.WHITE);
+        tvToastMsg.setTextColor(Color.WHITE); // 진한회색으로 바까주삼삼삼삼삼 이거 확인을 못해서 에러도 나서
+        tvToastMsg.setPadding(20,10,20,10);
+        tvToastMsg.setTextSize(25);
         final Toast toastMsg = Toast.makeText(context, "", Toast.LENGTH_SHORT);
         toastMsg.setView(tvToastMsg);
         toastMsg.show();

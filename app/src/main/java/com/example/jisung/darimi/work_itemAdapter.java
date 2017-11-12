@@ -1,10 +1,12 @@
 package com.example.jisung.darimi;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.telephony.SmsManager;
@@ -41,6 +43,7 @@ public class work_itemAdapter extends BaseAdapter {
     Realm realm;
     boolean isAll=false;
     TextView txt;
+    String datetext;
     int payState;
     work_itemAdapter nextAdapter;
 ManageActivity m = new ManageActivity();
@@ -78,6 +81,42 @@ ManageActivity m = new ManageActivity();
         ListView work_list=(ListView)view.findViewById(R.id.work_item_list);
         TextView pay = (TextView)view.findViewById(R.id.pay_state);
         Button state = (Button)view.findViewById(R.id.stateBtn);
+        ImageButton delBtn = (ImageButton)view.findViewById(R.id.delBtn);
+        delBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert_confirm = new AlertDialog.Builder(context);
+                alert_confirm.setTitle("삭제하시겠습니까?").setCancelable(false).setPositiveButton("확인",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+//                                if(i!=0)
+//                                    noti.listChange(list.get(i));
+                                String number =list.get(i).getDate();
+                                list.remove(i);
+                                darimiDataCon.removeOrder(realm,number);
+                                Intent intent=  new Intent(context,context.getClass());
+                                intent.putExtra("time",datetext);
+                                context.startActivity(intent);
+                                ((Activity)context).finish();
+//                                notifyDataSetChanged();
+//                                txt.setText(list.size()+"건");
+                            }
+                        }).setNegativeButton("취소",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // 'No'
+                                return;
+                            }
+                        });
+                AlertDialog alert = alert_confirm.create();
+                alert.show();
+
+
+
+            }
+        });
         txt.setText(list.size()+"건");
 
         switch (list.get(i).getPay()){
@@ -169,11 +208,28 @@ ManageActivity m = new ManageActivity();
                         dialog.show();
                     }
                     else{
-                        noti.listChange(list.get(i));
-                        darimiDataCon.makeSales(realm,list.get(i).getDate(),list.get(i).getName(),list.get(i).getOrderPrice(),payState);
-                        darimiDataCon.removeOrder(realm,list.get(i).getDate());
-                        list.remove(i);
-                        notifyDataSetChanged();
+                        AlertDialog.Builder alert_confirm = new AlertDialog.Builder(context);
+                        alert_confirm.setTitle("수령이 완료되었습니까?").setCancelable(false).setPositiveButton("확인",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        noti.listChange(list.get(i));
+                                        darimiDataCon.makeSales(realm,list.get(i).getDate(),list.get(i).getName(),list.get(i).getOrderPrice(),payState);
+                                        darimiDataCon.removeOrder(realm,list.get(i).getDate());
+                                        list.remove(i);
+                                        notifyDataSetChanged();
+                                    }
+                                }).setNegativeButton("취소",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // 'No'
+                                        return;
+                                    }
+                                });
+                        AlertDialog alert = alert_confirm.create();
+                        alert.show();
+
                     }
 
 
@@ -223,13 +279,15 @@ ManageActivity m = new ManageActivity();
                 switch(getResultCode()){
                     case Activity.RESULT_OK:
                         // 전송 성공
-                        m.setCustomToast(context, "문자가 전송되었습니다.");
+                        Toast.makeText(context, "문자가 전송되었습니다.", Toast.LENGTH_SHORT).show();
+
                         msgBtn.setBackgroundResource(R.drawable.msg_3);
                         darimiDataCon.updateMsgOrder(realm,list.get(j).getDate());
                         break;
                     case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
                         // 전송 실패
-                        m.setCustomToast(context, "문자가 전송에 실패했습니다.");break;
+                        Toast.makeText(context, "전송에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                        break;
                     case SmsManager.RESULT_ERROR_NO_SERVICE:
                         // 서비스 지역 아님
                         Toast.makeText(context, "서비스 지역이 아닙니다", Toast.LENGTH_SHORT).show();

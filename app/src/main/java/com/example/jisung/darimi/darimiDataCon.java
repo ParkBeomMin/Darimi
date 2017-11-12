@@ -222,6 +222,15 @@ public class darimiDataCon {
             }
         });
     }
+    public static void DeleteAllWork(Realm realm){
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<Order> results = realm.where(Order.class).findAll();
+                results.deleteAllFromRealm();
+            }
+        });
+    }
 
     public static void makeSales(Realm realm, final String date, final String name, final int price, final int pay) {
         realm.executeTransaction(new Realm.Transaction() {

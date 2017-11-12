@@ -1,5 +1,6 @@
 package com.example.jisung.darimi;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -349,6 +350,7 @@ public class SalesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(SalesActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, listener,
+//                        AlertDialog.THEME_HOLO_DARK, listener,
                         Integer.parseInt(start_tv.getText().toString().substring(0, 4)), Integer.parseInt(start_tv.getText().toString().substring(5, 7)) - 1, Integer.parseInt(start_tv.getText().toString().substring(8)));
                 datePickerDialog.show();
             }
@@ -357,6 +359,8 @@ public class SalesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(SalesActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, listener2,
+//                        AlertDialog.THEME_HOLO_DARK, listener2,
+
                         Integer.parseInt(finish_tv.getText().toString().substring(0, 4)), Integer.parseInt(finish_tv.getText().toString().substring(5, 7)) - 1, Integer.parseInt(finish_tv.getText().toString().substring(8)));
                 datePickerDialog.show();
             }
@@ -1190,9 +1194,11 @@ public class SalesActivity extends AppCompatActivity {
 
         TextView tvToastMsg = new TextView(context);
         tvToastMsg.setText(msg);
-        tvToastMsg.setBackgroundColor(Color.WHITE);
-        tvToastMsg.setTextColor(getResources().getColor(R.color.workfont3)); // 진한회색으로 바까주삼삼삼삼삼 이거 확인을 못해서 에러도 나서
-        tvToastMsg.setTextSize(32);
+        tvToastMsg.setBackgroundResource(R.drawable.round_btn_key4);
+//        tvToastMsg.setBackgroundColor(Color.WHITE);
+        tvToastMsg.setTextColor(Color.WHITE); // 진한회색으로 바까주삼삼삼삼삼 이거 확인을 못해서 에러도 나서
+        tvToastMsg.setPadding(20,10,20,10);
+        tvToastMsg.setTextSize(25);
         final Toast toastMsg = Toast.makeText(context, "", Toast.LENGTH_SHORT);
         toastMsg.setView(tvToastMsg);
         toastMsg.show();

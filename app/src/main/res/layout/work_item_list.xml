@@ -33,6 +33,12 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/msg_1" />
+            <ImageButton
+                android:id="@+id/delBtn"
+                android:layout_marginLeft="5dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/delbtn" />
         </LinearLayout>
 
         <TextView

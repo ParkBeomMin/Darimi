@@ -13,10 +13,15 @@
         <item name="android:background">@color/White</item>
         <item name="android:textColor">@color/Black</item>
         <item name="android:textColorHint">@color/Gray</item>
+        <!--<item name="android:textColorHint">@color/Red</item>-->
         <item name="android:editTextColor">@color/Black</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/Gray</item>
     </style>
 
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">#efefef</item>
+        <item name="android:headerBackground">#efefef</item>
+    </style>
 </resources>

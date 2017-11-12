@@ -96,8 +96,8 @@ public class CustomAdapter extends BaseAdapter {
                 realm.cancelTransaction();
                 CustomAdapter.this.notifyDataSetChanged();
                 filter(charText);
-                m.setCustomToast(c, "삭제되었습니다.");
-//                Toast.makeText(c, "삭제되었습니다.", Toast.LENGTH_LONG).show();
+//                m.setCustomToast(c, "삭제되었습니다.");
+                Toast.makeText(c, "삭제되었습니다.", Toast.LENGTH_LONG).show();
             }
         });
         custom_list_modify_btn.setOnClickListener(new View.OnClickListener() {
